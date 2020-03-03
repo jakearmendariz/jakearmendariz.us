@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Linear Algebra Tutor</title>
+    <link rel="stylesheet" href="../public/css/linear.css" />
+    <script src="../public/js/linear.js"></script>
+    <script src="../public/js/searching.js"></script>
+    <script src="../public/js/mult.js"></script>
+
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+    </script>
+
+    </script>
+
+</head>
+
+<body onload="numInput()">
+    <h1>Linear Algebra Tutor</h1>
+
+    <p>The search bar can explain concepts and the buttons solve matrix problems<br><input id="searchbar" type="text"
+            class="search" placeholder="What do you need help with?" size="100" onkeydown="searchE(this)"><button
+            class="sub" onClick="searchBar()">Search</button><br><button onClick="openR()">RREF</button><button
+            onClick="openD()">Determinant</button><button onClick="openI()">Inverse</button><button
+            onClick="openM(); numInput2()">Matrix
+            Multiplication</button><button onClick="openG()">General Solution</button>
+    </p>
+    <p id="information" class="information"></p>
+
+    <div class="matrix" id="matrix">
+        <div class="menu">
+            <select id="Size" onChange="numInput()">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            ×
+            <select id="xSize" onChange="numInput()">
+                <option value="x2">2</option>
+                <option value="x3">3</option>
+                <option value="x4">4</option>
+                <option value="x5">5</option>
+                <option value="x6">6</option>
+            </select>
+            <button onclick="clearMatrix()">Clear Matrix</button>
+        </div>
+        <br>
+        <input type="text" id="00" value="" type="number">
+        <input type="text" id="01" value="">
+        <input type="text" id="02" value="">
+        <input type="text" id="03" value="">
+        <input type="text" id="04" value="">
+        <input type="text" id="05" value="">
+        <br>
+        <input type="text" id="10" value="">
+        <input type="text" id="11" value="">
+        <input type="text" id="12" value="">
+        <input type="text" id="13" value="">
+        <input type="text" id="14" value="">
+        <input type="text" id="15" value="">
+        <br>
+        <input type="text" id="20" value="">
+        <input type="text" id="21" value="">
+        <input type="text" id="22" value="">
+        <input type="text" id="23" value="">
+        <input type="text" id="24" value="">
+        <input type="text" id="25" value="">
+        <br>
+        <input type="text" id="30" value="">
+        <input type="text" id="31" value="">
+        <input type="text" id="32" value="">
+        <input type="text" id="33" value="">
+        <input type="text" id="34" value="">
+        <input type="text" id="35" value="">
+        <br>
+        <input type="text" id="40" value="">
+        <input type="text" id="41" value="">
+        <input type="text" id="42" value="">
+        <input type="text" id="43" value="">
+        <input type="text" id="44" value="">
+        <input type="text" id="45" value="">
+        <br>
+        <input type="text" id="50" value="">
+        <input type="text" id="51" value="">
+        <input type="text" id="52" value="">
+        <input type="text" id="53" value="">
+        <input type="text" id="54" value="">
+        <input type="text" id="55" value="">
+        <br>
+    </div>
+
+    <div class="rModal" id="rModal">
+        <button onclick="rref()">Find RREF</button>
+    </div>
+
+    <div class="dModal" id="dModal">
+        <button onclick="calc()">Find Determinant</button>
+    </div>
+
+    <div class="iModal" id="iModal">
+        <button onclick="inverse()">Find Inverse</button>
+    </div>
+
+    <div class="gModal" id="gModal">
+        <button onclick="">Find General Solution</button>
+    </div>
+
+
+    <div class="multi" id="mModal">
+
+        <div class="matrix" id="0matrix">
+            <div class="menu">
+                <select id="0Size" onChange="numInput2()">
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                ×
+                <select id="0xSize" onChange="numInput2()">
+                    <option value="x2">2</option>
+                    <option value="x3">3</option>
+                    <option value="x4">4</option>
+                    <option value="x5">5</option>
+                    <option value="x6">6</option>
+                </select>
+                <button onclick="clearMatrix2()">Clear Matrix</button>
+            </div>
+            <br>
+            <input type="text" id="000" value="">
+            <input type="text" id="001" value="">
+            <input type="text" id="002" value="">
+            <input type="text" id="003" value="">
+            <input type="text" id="004" value="">
+            <input type="text" id="005" value="">
+            <br>
+            <input type="text" id="010" value="">
+            <input type="text" id="011" value="">
+            <input type="text" id="012" value="">
+            <input type="text" id="013" value="">
+            <input type="text" id="014" value="">
+            <input type="text" id="015" value="">
+            <br>
+            <input type="text" id="020" value="">
+            <input type="text" id="021" value="">
+            <input type="text" id="022" value="">
+            <input type="text" id="023" value="">
+            <input type="text" id="024" value="">
+            <input type="text" id="025" value="">
+            <br>
+            <input type="text" id="030" value="">
+            <input type="text" id="031" value="">
+            <input type="text" id="032" value="">
+            <input type="text" id="033" value="">
+            <input type="text" id="034" value="">
+            <input type="text" id="035" value="">
+            <br>
+            <input type="text" id="040" value="">
+            <input type="text" id="041" value="">
+            <input type="text" id="042" value="">
+            <input type="text" id="043" value="">
+            <input type="text" id="044" value="">
+            <input type="text" id="045" value="">
+            <br>
+            <input type="text" id="050" value="">
+            <input type="text" id="051" value="">
+            <input type="text" id="052" value="">
+            <input type="text" id="053" value="">
+            <input type="text" id="054" value="">
+            <input type="text" id="055" value="">
+            <br>
+        </div>
+        <button onClick="multiply()">Multiply</button>
+    </div>
+    <p class="answer" id="answer"></p>
+
+
+    <div class="info" id="info">
+        <h2>An Introduction to Linear Algebra</h2>
+        <p class="explain">
+            Linear algebra is the study of linear sets of transformations and their properties. Numerically, linear
+            algebra can be represented in the form of vectors and matrices, however there exists a geometric
+            component
+            as well. A vector has different meanings depending on
+            its context in math, computer science, and physics, but my favorite definition is: <u>lists of numbers
+                that
+                you can add and scale.</u> Matrices are rectangular arrays of numbers (lists of vectors). Thus,
+            linear
+            algebra
+            calculations consist of changing, reducing and understanding rectangular arrays of numbers from size 1
+            to
+            'n'. Along with using this calculator, definitions, and assistance, I strongly recommend 3Blue1Brown’s
+            (youtuber/Mathematician) series "<a
+                href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" target="_blank">Essence
+                of Linear Algebra</a>" which explains the conceptual parts very clearly
+            and can add to a more complete understanding of linear algebra.
+        </p>
+    </div>
+
+    <div id="vectors" class="Vectors" style="display:none">
+        <h2>Vectors</h2>
+        <p class="explain">
+            Vectors are lists of numbers that you can add and scale.<br><br>
+            <img class="vector" src="../public/images/vectorProp.png">
+        </p>
+        <h3>Dot Product</h3>
+        <p class="explain">
+            The dot product of vectors is the pairing up every coordinant in two equally size coordiants,
+            multiplying
+            them and finding the sum of every product. Geometrically the dot product represents placing or
+            projecting
+            one vector onto another. Thus if two vectors are orthagonal their dot product is 0. Its
+            fairly hard to visualize and I recommend clicking <a
+                href="https://www.youtube.com/watch?v=LyGKycYT2v0&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab&index=10&t=677s"
+                target="blank">here</a> for a deeper understanding.<br>
+            <img class="dot" src="../public/images/dotproduct.png">
+        </p>
+
+    </div>
+    <div id="matricies" style="display:none">
+        <h2>Matricies</h2>
+        <p class="explain">
+            Matricies mantain vector properties. They exist in size <i>n × m</i>, n represent the # of rows and
+            m
+            the #
+            columns.<br>
+            <img class="vector" src="../public/images/matrix.png">
+        </p>
+        <h3>Matrix Multiplication</h3>
+        <p class="explain">
+            Matricies add and scale exactly like vectors, however multiplication requires a very different
+            process.
+            It
+            involves finding the dot product between each of the rows of Matrix A by each of the columns of
+            Matrix
+            B. It
+            is non communative, meaning AB does not equal BA (except in rare cases).
+            <br><br>
+            <img class="vector" src="../public/images/matrixMult.png">
+        </p>
+
+    </div>
+    <div style="display:none" id="identity">
+        <h3>Identity Matrix</h3>
+        <p class="explain">
+            The idenity matrix is a square (<i>n × n</i>) matrix that when multiplied by any matrix equals that
+            matrix.
+            In this way it is similar to the number 1.
+            <br><br>
+            <img class="vector" src="../public/images/identity.png">
+        </p>
+    </div>
+
+    <div style="display:none" id="help">
+        <h3>Key Phrases</h3>
+        <p class="explain">
+            There's a lot to know. If you would like to start from the beginning search 'everything'.<br>
+            Other key words and phrases to click.<br>
+            <ul>
+                <li onclick="intro()">intro</li>
+                <li onclick="vec()">vector</li>
+                <li onclick="vec()">dot product</li>
+                <li onclick="mat()">matrix</li>
+                <li onclick="mat()">matrix multiplication</li>
+                <li onclick="identity()">identity matrix</li>
+                <li onclick="rref()">rref</li>
+                <li onclick="free()">free variables</li>
+                <li onclick="free()">general soltuion</li>
+                <li onclick="basis()">basis</li>
+                <li onclick="row()">row space</li>
+                <li onclick="col()">column space</li>
+                <li onclick="range()">range</li>
+                <li onclick="bij()">bijective</li>
+                <li onclick="sur()">surjective</li>
+                <li onclick="inj()">injective</li>
+                <li onclick="eigen()">eigen</li>
+                <li onclick="diag()">diagnolization</li>
+
+            </ul>
+        </p>
+    </div>
+
+    <div style="display:none" id="reduce">
+        <h3>Reduced Row Echelon Form</h3>
+        <p class="explain">
+            A matrix is in RREF form if 4 requirements are met:<br>
+            &emsp;If there is a row where every entry is zero, then this row lies below any other row that contains a
+            nonzero
+            entry.<br>
+            &emsp;The leftmost nonzero entry of a row is equal to 1.<br>
+            &emsp;The leftmost nonzero entry of a row is the only nonzero entry in its column.<br>
+            &emsp;Consider any two different leftmost nonzero entries, one located in row<br>
+
+            <span class=math>
+                \begin{bmatrix}1 & 0 & 0 & 0\\0 & 1 & 0 & 0\\0 & 0 & 1 & 0\\0 & 0 & 0 & 1\end{bmatrix}
+                \begin{bmatrix}1 & 0 & 0 & 3\\0 & 1 & 0 & 4\\0 & 0 & 1 & 7\end{bmatrix}
+            </span>
+            <br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+            <strong>Algorithm for RREF</strong><br>
+            (Pivot positions are the (i, i) positions of the matrix, AKA the diagnol of the matrix)<br>
+            &emsp;1. Divide row by the value of pivot position to make the pivot value = 1<br>
+            &emsp;2. Subtract a (scalar value * row 'i') from each row to make every other value in the pivot column =
+            0<br>
+            &emsp;3. Continue diagnolly across the matrix, increasing 'i' each time.<br>
+            &emsp;4. If there is a '0' in the pivot position and there is a non zero number in a row beneath it swap
+            the
+            rows.<br>
+            &emsp;If there are only '0' values in the column beneath pivot positon move on to next pivot
+            position.
+            <br>
+            Example:<br>
+            <span class="math">
+                \begin{bmatrix}2 & 6 & 2\\1 & 1 & 5\\5 & 2 & 6\end{bmatrix}
+
+                <br style="line-height:0">
+                R<sub>1</sub> = R<sub>1</sub>/2
+                \begin{bmatrix}1 & 3 & 1\\1 & 1 & 5\\5 & 2 & 6\end{bmatrix}
+
+                R<sub>2</sub> = R<sub>2</sub> - R<sub>1</sub>
+                \begin{bmatrix}1 & 3 & 1\\0 & -2 & 4\\5 & 2 & 6\end{bmatrix}
+
+                R<sub>3</sub> = R<sub>3</sub> - 5R<sub>1</sub>
+                \begin{bmatrix}1 & 3 & 1\\0 & -2 & 4\\0 & -13 & 1\end{bmatrix}
+
+                R<sub>2</sub> = R<sub>2</sub>/(-2)
+                \begin{bmatrix}1 & 3 & 1\\0 & 1 & -2\\0 & -13 & 1\end{bmatrix}
+
+                R<sub>1</sub> = R<sub>1</sub> - 3R<sub>2</sub>
+                \begin{bmatrix}1 & 0 & 7\\0 & 1 & -2\\0 & -13 & 1\end{bmatrix}
+
+                R<sub>3</sub> = R<sub>3</sub> + 13R<sub>2</sub>
+                \begin{bmatrix}1 & 0 & 7\\0 & 1 & -2\\0 & 0 & -25\end{bmatrix}
+
+                R<sub>3</sub> = R<sub>3</sub>/(-25)
+                \begin{bmatrix}1 & 0 & 7\\0 & 1 & -2\\0 & 0 & 1\end{bmatrix}
+
+                R<sub>2</sub> = R<sub>2</sub> + 2R<sub>3</sub>
+                \begin{bmatrix}1 & 0 & 7\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}
+
+                R<sub>1</sub> = R<sub>1</sub> - 7R<sub>3</sub>
+                \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}The Matrix is now in RREF.
+
+
+            </span>
+            <br style="line-height:73">
+
+        </p>
+    </div>
+
+    <div id="dependence" style="display:none">
+        <h3>Linearally Independence vs Dependence</h3>
+        <p class="explain">
+            Linear Independence tells us that a group of vectors are geometrically indpendent of each other. This can be
+            represented as vectors all pointing in different directions. In a 3x3 matrix this can represented in the
+            i,j, k vectors. i = (1, 0, 0), j = (0, 1, 0) and k = (0, 0, 1). The three vectors multiplied and added upon
+            each other occupy the entire 3D plane. If we switched vector j to say (2, 0, 0) it would point in the same
+            direction as i. Thus it would no longer be linearlly independent and the vectors would not span 3D space and
+            instead they would represent a 2D plane. Once we put matricies in reduced row echelon form it simplifies
+            them to show if they are dependent on each other. If the pivot entries all have the value of '1' and every
+            where else in the matrix is equal to 0 the matrix is linearlly independent. If there exists non-zero values
+            in non-pivot entries then the matrix is dependent. This works for all matricies from size 2x2 to nxm<br><br>
+            <span class="math">
+                Examples of Linearlly Dependent<br>
+                \begin{bmatrix}0 & 0 & 0\\0 & 0 & 0\\0 & 0 & 0\end{bmatrix}\begin{bmatrix}1 & 0 & 2\\0 & 1 & 3\\0 & 0 &
+                0\end{bmatrix}
+                Examples of Linearlly independent<br>
+                \begin{bmatrix}1 & 0 & 0\\0 & 1 & 0\\0 & 0 & 1\end{bmatrix}\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}
+            </span>
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </p>
+    </div>
+
+    <div id="freeVar" style="display:none">
+        <h3>Free Variables and General Solution</h3>
+        <p class="explain">
+            If a vectors space is linearlly dependent, it will have 'free variables' in non-pivot columns. These can be
+            represented as spanning or covering a certain amount of space dependent on the other vectors.
+            <span class="math">
+                Example, here is a matrix in RREF form with free variable c<br>
+                \begin{bmatrix}a & b & c & d\\1 & 0 & -2 & 0\\0 & 1 & 3 &
+                0\\0 & 0 & 4 &
+                1\end{bmatrix}
+                \begin{bmatrix}2c\\-3c\\c\\-4c\end{bmatrix} This creates the general solution for the matrix or the
+                formula for
+                when this matrix will equal the 0 vector.
+            </span>
+        </p>
+    </div>
+
+    <div id="inverse" style="display:none">
+        <h3>Inverse Matrix- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="coordinant" style="display:none">
+        <h3>Cooridnant vectors- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="basis" style="display:none">
+        <h3>Basis- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="rowcolspace" style="display:none">
+        <h3>Row and Column space- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="image" style="display:none">
+        <h3>pre image and image- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="Range" style="display:none">
+        <h3>Range and kernel- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="bijective" style="display:none">
+        <h3>bijective- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="injective" style="display:none">
+        <h3>injective- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="surjective" style="display:none">
+        <h3>surjective- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="eigen" style="display:none">
+        <h3>Eigen Stuff- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+    <div id="diagnol" style="display:none">
+        <h3>Diagnolization- Coming soon</h3>
+        <p class="explain">
+        </p>
+    </div>
+
+
+
+</body>
+
+</html>

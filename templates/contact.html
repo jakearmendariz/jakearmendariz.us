@@ -1,0 +1,103 @@
+<head>
+
+
+    <link rel="stylesheet" href="../static/css/contact.css" />
+    <meta charset="utf-8">
+    <link rel="icon" type="x-icon" href="../static/images/icon2D.ico" />
+    <title>Jake Armendariz - Contact</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div class="navbar">
+        <a href="/">
+            <li>Home</li>
+        </a>
+        <a href="../static/ArmendarizResume.pdf" target="_blank">
+            <li>Resume</li>
+        </a>
+        <a href="/projects">
+            <li>Projects</li>
+        </a>
+        <a href="/contact">
+            <li>Contact</li>
+        </a>
+    </div>
+
+    <section class="grid-1">
+        <div class="item-1">
+            <img src="../static/images/smile.jpg" class="prof">
+        </div>
+        <div class="item-2">
+            <h3>Hi,</h3>
+            <p>
+                I am a computer science student at UC Santa Cruz who’s going to change the world one line of code at a
+                time :)
+            </p>
+            <p>
+                I’ve been in love with software engineering for a couple years now and I want to get involved
+                in
+                as
+                many projects as possible, so please email me below.
+            </p>
+
+            <button class='emailme' id="scroll_down">Email Me</button>
+
+
+        </div>
+
+    </section>
+
+    <section class="grid-2">
+        <div class="item-3"></div>
+        <div class="item-4">
+            <div class="con">
+                <h3 class="a">Contact Me</h3>
+                <p>If you have any comments, project ideas or would just like to chat.</p>
+            </div>
+            <p>
+                <form method="POST" action="">
+
+                    <input type="text" placeHolder="Your Name" class="name" name="name"><br>
+
+                    <input type="text" class="email" placeHolder="Your Email" name="email">
+                    <br>
+
+                    <textarea class="message" placeHolder="Your Message" rows="10" cols="121" name="message"></textarea>
+                    <br>
+                    <button type="submit" class="send" onClick=notice()>Send</button>
+                </form>
+            </p>
+        </div>
+
+
+    </section>
+
+    <footer>
+
+        <img src="../static/images/icon.jpg" class="icon" />
+
+        <a href=" https://www.instagram.com/jake.armendariz/" target="_blank"><img src="../static/images/insta.png"
+                class="app"></a>
+        <a href="https://github.com/jakearmendariz" target="_blank"><img src="../static/images/github.png"
+                class="app"></a>
+
+        <a href="https://www.linkedin.com/in/jake-armendariz/" target="_blank"><img src="../static/images/linkedin.png"
+                class="app"></a>
+        <a href="https://open.spotify.com/user/svirl3jiigsae2f476alnlfgm" target="_blank"><img
+                src="../static/images/spotify.png" class="app"></a>
+    </footer>
+
+    <script>
+        $('.emailme').click(function () {
+            $('html, body').animate({
+                scrollTop: $(document).height()
+            }, 'slow');
+            return false;
+        });
+    </script>
+</body>

@@ -1,0 +1,100 @@
+html,
+body {
+  background-color: rgb(25, 54, 67);
+  background-color: rgb(30, 30, 30);
+  color: rgb(220);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-family: "Gilda Display";
+}
+
+li {
+  padding: 1.25vw;
+}
+
+a:link {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+h1 {
+  color: whitesmoke;
+  margin-left: 4vw;
+}
+
+.navbar {
+  position: absolute;
+  top: .1%;
+  left: 65%;
+  list-style-type: none;
+  color: whitesmoke;
+  font-size: 1vw;
+  display: flex;
+  list-style: none;
+  float: right;
+  padding: 1vw;
+  margin-right: 2vw;
+
+  box-sizing: border-box;
+  border-radius: 1vw;
+  padding: .01vw;
+
+  background-color: rgb(25, 54, 67, .6);
+  background-color: rgb(30, 30, 30, .6);
+}
+
+a:visited {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+a:hover {
+  text-decoration: none;
+  color: gray;
+}
+
+.back {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+a:active {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+canvas {
+  display: block;
+  float: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.buttons {
+  display: none;
+}
+
+
+@media only screen and (max-device-width : 640px) {
+
+  .buttons {
+    display: block;
+    position: absolute;
+    top: 100vw;
+    left: 40%;
+    background: white;
+  }
+
+  button {
+    width: 60px;
+    margin: 10px;
+    font-size: 30px;
+    text-align: center;
+
+  }
+
+  .area {}
+}

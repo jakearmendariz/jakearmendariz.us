@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <style>
+      body {
+        padding: 40vmin;
+        padding-top: 35vmin;
+        float: center;
+        text-align: center;
+      }
+      form {
+      }
+      input {
+        font-size: 1vmin;
+        width: 20vmin;
+        height: 2vmin;
+      }
+      label {
+        font-size: 3vmin;
+        font-style: bold;
+      }
+      button {
+        background-color: #000000; /* Green */
+        border: none;
+        color: white;
+        padding: 12px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Twitter Approval Rating</h1>
+    <form action="" method="POST">
+      <label>Find the twitter approval rating of name or subject</label>
+      <br /><br />
+      <input name="search" />
+      <br /><br />
+
+      <button>submit</button>
+    </form>
+    <h1>{{answer}}% approval rating</h1>
+  </body>
+</html>

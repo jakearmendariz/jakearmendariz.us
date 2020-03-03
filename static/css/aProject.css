@@ -1,0 +1,317 @@
+@import url("https://fonts.googleapis.com/css?family=Average+Sans|Source+Sans+Pro&display=swap");
+
+.projectHead {
+    text-align: left;
+    margin: 5vmax;
+    margin-top: 2vmax;
+    margin-bottom: 0vmax;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background: rgb(240, 240, 240);
+    background: rgb(30, 30, 30);
+    font-family: 'Average Sans', sans-serif;
+    color: gray;
+    color: rgb(50, 90, 180);
+    color: rgb(13, 71, 113, 0.6);
+    color: whitesmoke;
+    background: repeating-linear-gradient(-45deg,
+            #222,
+            #222 2px,
+            #333 2px,
+            #333 4px);
+
+    background: rgb(240, 240, 240);
+    color: black;
+
+
+
+}
+
+.navbar {
+    -webkit-animation: fadein 0s;
+}
+
+h1 {
+    color: rgb(13, 71, 113);
+}
+
+h2 {
+    font-family: 'Average Sans', sans-serif;
+
+    margin-top: 1vw;
+    font-size: 75px;
+
+    margin-bottom: 0vmax;
+    padding-left: 20px;
+
+    color: rgb(13, 71, 113);
+}
+
+h3 {
+    font-size: 4vmax;
+    font-size: 22px;
+}
+
+
+.Blank1 {
+    height: 8vh;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+
+
+.projects {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: 5vmax;
+    margin-top: 0;
+}
+
+.grid-item {
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.0);
+}
+
+hr {
+    width: 90%;
+}
+
+
+footer {
+    vertical-align: middle;
+    position: relative;
+    background-color: rgb(230, 230, 230);
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+    height: 2.7vmax;
+    padding: 0;
+}
+
+footer a {
+    float: right;
+}
+
+footer {
+    width: 200%;
+}
+
+
+
+
+
+.navbar {
+    position: absolute;
+    top: 0.1%;
+    right: 3vw;
+    list-style-type: none;
+    color: whitesmoke;
+    color: black;
+    font-size: 18px;
+    display: flex;
+    list-style: none;
+    float: right;
+    margin-right: 0vw;
+
+    box-sizing: border-box;
+    border-radius: 1vw;
+    margin-top: 1px;
+
+    background-color: rgb(25, 54, 67, 0.6);
+    background-color: rgb(30, 30, 30, 0.0);
+
+}
+
+/**
+  This is for my navagation bar
+  */
+li {
+
+    padding: 17px;
+    padding-top: 10px;
+    padding-bottom: 14px;
+}
+
+a:link {
+    text-decoration: none;
+    color: whitesmoke;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+    color: whitesmoke;
+    color: black;
+
+}
+
+.navbar a:hover {
+    text-decoration: none;
+    color: gray;
+    color: rgb(13, 71, 113);
+
+}
+
+h1:hover {
+    color: orange;
+}
+
+.title:hover {
+    color: orange;
+}
+
+a:hover {
+    color: orange;
+}
+
+.unedited {
+    text-decoration: underline;
+    color: rgb(13, 71, 113);
+}
+
+
+a:active {
+    text-decoration: none;
+    color: whitesmoke;
+}
+
+.back {
+    position: relative;
+    width: 100%;
+    max-height: 105%;
+}
+
+
+
+footer {
+    vertical-align: middle;
+    position: relative;
+    background-color: rgb(250, 250, 250);
+    background-color: rgb(50, 50, 50);
+    background-color: rgb(250, 250, 250);
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    padding: 0;
+}
+
+footer a {
+    float: right;
+}
+
+.icon {
+    padding-top: 0.19vmax;
+    width: 45px;
+    height: 44px;
+    margin-left: 28px;
+    margin-right: auto;
+    transition: 0.3s;
+    opacity: 1;
+    text-align: left;
+    float: left;
+    box-shadow: 4px 4px 2px grey;
+
+}
+
+.icon:hover {
+    opacity: .6;
+}
+
+.app {
+    vertical-align: top;
+    width: 25px;
+    height: 25px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 14px;
+    opacity: .8;
+    transition: 0.4s;
+}
+
+.app:hover {
+    opacity: 0.3;
+}
+
+.a {
+    color: orange;
+}
+
+
+
+@media only screen and (max-device-width : 640px) {
+    .navbar {
+        font-size: 40px;
+        right: 15%;
+    }
+
+    .proj1 p {
+        font-size: .5vmax
+    }
+
+    h3 {
+        font-size: 1vmax;
+    }
+
+    .des {
+        display: none;
+        font-size: .6vmax
+    }
+
+    p {
+        display: none;
+    }
+
+    h1 {
+        font-size: 60px;
+    }
+
+    h2 {
+        font-size: 100px;
+    }
+
+    footer {
+        height: 70px;
+        position: bottom;
+        vertical-align: middle;
+        line-height: normal;
+        margin: 0;
+        position: fixed;
+        bottom: 0px;
+    }
+
+    .grid-item {
+        padding: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.0);
+    }
+
+
+    .icon {
+        padding-top: 0.19vmax;
+        width: 60px;
+        height: 60px;
+    }
+
+    .app {
+        width: 40px;
+        height: 40px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+
+
+
+}
