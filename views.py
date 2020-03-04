@@ -250,22 +250,6 @@ def index():
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
- #   if page_name == 'probability':
- #       if request.method == 'POST':
- #           result = request.form
- #           a = result.get('probability')
- #           b = result.get('trials')
- #           obj = Binomial(float(a))
- #           _answer = obj.probablityofsuccess(int(b), 1)
- #           return render_template('probability.html', answer=_answer)
- #       else:
- #           _answer = ""
- #           return render_template('probability.html', answer=_answer)
-    if page_name == 'answer':
-        result = request.form
-        a = 'nick'
-        a += ' is gay'
-        return render_template('answer.html', answer=a)
     if page_name == 'contact':
         if request.method == 'POST':
             mail = Mail(app)
