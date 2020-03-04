@@ -6,17 +6,18 @@ from util import *
 class User():
     data = {}
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, profile_img):
         self.data['name'] = name
         self.data['email'] = email
         self.data['password'] = password
         self.data['id'] = sha224(email.encode('utf-8')).hexdigest()
+        self.data['profile_img'] = profile_img
         print('new user:', self.data['name'],
               self.data['email'], self.data['password'])
 
     @staticmethod
     def signup(data):
-        return User(data['name'], data['email'], data['password'])
+        return User(data['name'], data['email'], data['password'], data['profile_img'])
 
     @staticmethod
     def login(dict):
@@ -37,7 +38,8 @@ class User():
             '_id': self.data['id'],
             'name': self.data['name'],
             'email': self.data['email'],
-            'password': self.data['password']
+            'password': self.data['password'],
+            'profile_img': self.data['profile_img']
         })
 
      # read in the response

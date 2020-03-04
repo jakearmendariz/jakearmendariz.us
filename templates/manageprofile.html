@@ -4,47 +4,6 @@
     <title>Login</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/png" href="../images/icons/favicon.ico" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/bootstrap/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/loginfonts/font-awesome-4.7.0/css/font-awesome.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/loginfonts/Linearicons-Free-v1.0.0/icon-font.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/animate/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/css-hamburgers/hamburgers.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/animsition/css/animsition.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/select2/select2.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/daterangepicker/daterangepicker.css"
-    />
     <link rel="stylesheet" type="text/css" href="../static/logincss/util.css" />
     <link rel="stylesheet" type="text/css" href="../static/logincss/main.css" />
     <link
@@ -62,6 +21,30 @@
         float: center;
         text-align: center;
       }
+      .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+      .custom-file-input::before {
+        content: "Change Profile Picture";
+        display: inline-block;
+        background: linear-gradient(top, #f9f9f9, #e3e3e3);
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        text-shadow: 1px 1px #fff;
+        font-weight: 700;
+        font-size: 10pt;
+      }
+      .custom-file-input:hover::before {
+        border-color: black;
+      }
+      .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+      }
     </style>
   </head>
 
@@ -75,6 +58,7 @@
             class="login100-form validate-form flex-sb flex-w"
             action=""
             method="POST"
+            enctype="multipart/form-data"
           >
             <span
               class="login100-form-title p-b-51"
@@ -82,9 +66,9 @@
             >
               Manage Profile
             </span>
-            img src="../static/profile_images/{{email}}" />
-            <!--<img src="{{src}}" />-->
-            <input type="file" / name = 'profile_img'>
+            <!--{profile_img}}-->
+            <img src="{{src}}" name="img" alt="{{src}}" />
+            <input type="file" name="profile_img" id="profile_img" title="" />
             <p style="text-align:center;">{{ exception }}</p>
             <div class="wrap-input100 validate-input m-b-16">
               <input
@@ -110,7 +94,7 @@
             <div class="container-login100-form-btn m-t-17">
               <button
                 class="login100-form-btn"
-                href="/index"
+                type="submit"
                 style="font-family:'Ubuntu', sans-serif;"
               >
                 Update
@@ -120,16 +104,5 @@
         </div>
       </div>
     </div>
-
-    <div id="dropDownSelect1"></div>
-    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="vendor/animsition/js/animsition.min.js"></script>
-    <script src="vendor/bootstrap/js/popper.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/select2/select2.min.js"></script>
-    <script src="vendor/daterangepicker/moment.min.js"></script>
-    <script src="vendor/daterangepicker/daterangepicker.js"></script>
-    <script src="vendor/countdowntime/countdowntime.js"></script>
-    <script src="js/main.js"></script>
   </body>
 </html>

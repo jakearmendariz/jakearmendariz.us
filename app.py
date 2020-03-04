@@ -1,6 +1,5 @@
 # Main file
 
-from binomial import Binomial
 from flask_wtf import Form
 import os
 from flask import Flask, render_template, request

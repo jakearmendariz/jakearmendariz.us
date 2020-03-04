@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
-from app import app
+from app import app, mongo
 from models import *
 from flask_mail import Message, Mail
 from tweet import *
@@ -10,10 +10,11 @@ import urllib.request
 import sys
 from pymongo import MongoClient
 import gridfs
+from util import *
 
 app.secret_key = APP_SECRET_KEY
-db = MongoClient().userdb
-fs = gridfs.GridFS(db)
+#db = MongoClient().userdb
+#fs = gridfs.GridFS(db)
 
 
 @app.route('/tweet/', methods=['POST'])
@@ -64,7 +65,8 @@ def login():
         if user == None:
             print('Did not find email')
             return render_template('login.html', exception='Email does not exist, please sign up')
-        if user['password'] == result['password']:
+        # Did not include this file for security reasons
+        if verify_password(user['password'], result['password']):
             print('Password did not match')
             session['email'] = result['email']
             return redirect(url_for('index'))
@@ -108,6 +110,13 @@ def savefile():
             return redirect(url_for('index'))
 
 
+def nameImage(filename, email):
+    index = email.find('@')
+    newname = email[:index] + filename
+    print('naming image', )
+    return newname
+
+
 @app.route('/signup/', methods=['POST'])
 def signup():
     if request.method == 'POST':
@@ -124,6 +133,7 @@ def signup():
             return render_template('signup.html', exception='email is already in use, please login')
         file = ''
         image = ''
+        filename = ''
         if 'file' not in request.files:
             print("FILE WAS NOT FOUND")
             flash('No file part')
@@ -131,7 +141,8 @@ def signup():
         try:
             file = request.files["file"]
             print('Found the file!!!')
-            #mongo.save_file(email, file)
+            filename = nameImage(file.filename, email)
+            mongo.save_file(filename, file)
             print('Saved the file!!!')
         except:
             print('could not find the file name', sys.exc_info()[0])
@@ -140,58 +151,17 @@ def signup():
         image = ''
         if file.filename == '':
             print('No selected file')
-        else:  # Saves the file,
-            filename = secure_filename(file.filename)
-            path = os.path.join(
-                '/Users/jakearmendariz/Desktop/flaskapp/static/profile_images', email)
-            file.save(path)
-        user = User(name, email, password)
+        # else:  # Saves the file,
+        #    filename = secure_filename(file.filename)
+        #    path = os.path.join(
+        #        '/Users/jakearmendariz/Desktop/flaskapp/static/profile_images', email)
+        #    file.save(path)
+        user = User(name, email, hash_password(password), filename)
         user.dbInsert()
         print("User insert successful!")
         session['email'] = result['email']
         return redirect(url_for('index'))
     pass
-
-
-def create_user():
-    if request.method == 'POST':
-        print('request.form', request.form)
-        print('request.files', request.files)
-        print("post request, creating user in signup page")
-        result = request.form
-        name = result.get('name')
-        email = result.get('email')
-        password = result.get('password')
-        exists = mongo.db.users.find_one({'email': result['email']})
-        if(exists != None):
-            print('email already exists, cannot create')
-            return render_template('signup.html', exception='email is already in use, please login')
-        file = ''
-        image = ''
-        if 'file' not in request.files:
-            print("FILE WAS NOT FOUND")
-            flash('No file part')
-            return redirect(request.url)
-        try:
-            file = request.files.get("file")
-            print('Found the file!!!')
-        except:
-            print('could not find the file name', sys.exc_info()[0])
-            # return redirect(url_for('/signup/'), exception='did not find file')
-            return render_template('signup.html', exception='did not find file')
-        image = ''
-        if file.filename == '':
-            print('No selected file')
-        else:  # Saves the file,
-            filename = secure_filename(file.filename)
-            path = os.path.join(
-                '/Users/jakearmendariz/Desktop/flaskapp/static/profile_images', email)
-            file.save(path)
-        user = User(name, email, password)
-        user.dbInsert()
-        print("User insert successful!")
-        session['email'] = result['email']
-        return redirect(url_for('index'))
 
 
 @app.route('/file/<filename>/')
@@ -200,36 +170,69 @@ def file(filename):
     return mongo.send_file(filename)
 
 
-@app.route('/manageprofile/', methods=['GET', 'POST'])
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/manageprofile/', methods=['GET', 'PUT', 'POST'])
 def manageprofile():
     if request.method == 'GET':
-        print('manage profile')
+        print('GET: manage profile')
         user = mongo.db.users.find_one({'email': session['email']})
         if user == None:
+            print('Cannot find current user')
             return render_template('manageprofile.html')
         else:
-            print('manage profile, wth info')
             try:
-                return render_template('manageprofile.html', name=user['name'], email=user['email'])
+                #filename = 'jarmendariz3mom.jpg'
+                _src = url_for('file', filename=user['profile_img'])
+                #_src = url_for('file', filename=filename)
+                # profile_img=mongo.send_file(user['profile_img']).data
+                return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src)
             except:
                 print('Error:', sys.exc_info()[0])
                 return render_template('manageprofile.html', name=user['name'], email=user['email'])
-
-    else:
-        print('Post request, going to update user')
+    elif request.method == 'POST':
+        print('POST: manage profile')
+        filename = ''
         update = request.form
+        print('new user:', update)
+        print('new file:', request.files)
+        if 'profile_img' in request.files:
+            file = request.files['profile_img']
+            if allowed_file(file.filename):
+                print("updating profile image")
+                filename = file.filename
+                filename = nameImage(filename, session['email'])
+                mongo.save_file(filename, file)
+                update = update.copy()
+                update['profile_img'] = filename
+                print("updated profile image:", filename)
+            else:
+                print('no file submitted or unacceptable file')
+        else:
+            update = update.copy()
+            del update['profile_img']
+            print('no file submitted')
+        print('Post request, going to update user')
         mongo.db.users.update_one(
             {'email': session['email']}, {"$set": update})
         print('User updated')
-        print('manage profile')
         user = mongo.db.users.find_one({'email': update['email']})
         if user == None:
+            print("Error could not find new user")
             return render_template('manageprofile.html')
         else:
             print('manage profile, wth info')
-            _src = url_for('file', filename=user['email'])
+            _src = url_for('file', filename=user['profile_img'])
             print(_src)
             return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src)
+    else:
+        print("Error:", request.method)
 
 
 @app.route('/logout')
@@ -247,17 +250,17 @@ def index():
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
-    if page_name == 'probability':
-        if request.method == 'POST':
-            result = request.form
-            a = result.get('probability')
-            b = result.get('trials')
-            obj = Binomial(float(a))
-            _answer = obj.probablityofsuccess(int(b), 1)
-            return render_template('probability.html', answer=_answer)
-        else:
-            _answer = ""
-            return render_template('probability.html', answer=_answer)
+ #   if page_name == 'probability':
+ #       if request.method == 'POST':
+ #           result = request.form
+ #           a = result.get('probability')
+ #           b = result.get('trials')
+ #           obj = Binomial(float(a))
+ #           _answer = obj.probablityofsuccess(int(b), 1)
+ #           return render_template('probability.html', answer=_answer)
+ #       else:
+ #           _answer = ""
+ #           return render_template('probability.html', answer=_answer)
     if page_name == 'answer':
         result = request.form
         a = 'nick'
