@@ -11,13 +11,15 @@ import sys
 from pymongo import MongoClient
 import gridfs
 from util import *
+import time
+
 
 app.secret_key = APP_SECRET_KEY
-#db = MongoClient().userdb
-#fs = gridfs.GridFS(db)
+# db = MongoClient().userdb
+# fs = gridfs.GridFS(db)
 
 
-@app.route('/tweet/', methods=['POST'])
+@app.route('/tweet/', methods=['POST', 'GET'])
 def search():
     print('tweeeet')
     if request.method == 'POST':
@@ -25,7 +27,13 @@ def search():
         tweepy = TwitterApi(API_KEY, API_SECRET_KEY,
                             ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
         approval = tweepy.searchSediment(request.form.get('search'))
-        return render_template('tweet.html', answer=approval)
+        if 'email' in session:
+            return render_template('tweet.html', loggedin=True, answer=approval)
+        return render_template('tweet.html', loggedin=False, answer=approval)
+        # return render_template('tweet.html', answer=approval)
+    if 'email' in session:
+        return render_template('tweet.html', loggedin=True)
+    return render_template('tweet.html', loggedin=False)
 
 
 def is_spam(name, msg):
@@ -58,6 +66,11 @@ def render_games(page_name):
 @app.route('/login/', methods=['POST'])
 def login():
     if request.method == 'POST':
+        if(session.get('delay') != None):
+            diff = time.time()-session['delay']
+            if diff < 30:
+                print(diff, '/30 waited')
+                return render_template('login.html', exception='You must wait 30 seconds before trying again')
         print("post request, logging user in signup page")
         result = request.form
         print('email is:', result['email'])
@@ -67,47 +80,23 @@ def login():
             return render_template('login.html', exception='Email does not exist, please sign up')
         # Did not include this file for security reasons
         if verify_password(user['password'], result['password']):
-            print('Password did not match')
+            print('Password match!')
             session['email'] = result['email']
             return redirect(url_for('index'))
         else:
             print('Invalid password')
+            if session.get('attempts') == None:
+                print('first wrong attempt')
+                session['attempts'] = 0
+            else:
+                session['attempts'] += 1
+                print(session['attempts'], ' wrong attempt')
+            if(session.get('attempts') > 5):
+                session['attempts'] = 0
+                session['delay'] = time.time()
+                print('time delay start')
+                return render_template('login.html', exception='You must wait 30 seconds before trying again')
             return render_template('login.html', exception='Invalid password')
-
-
-@app.route('/file/', methods=['POST'])
-def savefile():
-    print('save file')
-    if request.method == 'POST':
-        name = request.form['name']
-        print("post request, creating user in signup page")
-        print('request.form', request.form)
-        print('request.files', request.files)
-        if 'file' not in request.files:
-            print("FILE WAS NOT FOUND")
-            flash('No file part')
-            return redirect(request.url)
-        try:
-            file = request.files.get("file")
-            print('Found the file!!!')
-        except:
-            print('could not find the file name', sys.exc_info()[0])
-            # return redirect(url_for('/signup/'), exception='did not find file')
-            return render_template('signup.html', exception='did not find file')
-        image = ''
-        if file.filename == '':
-            print('No selected file')
-            return redirect(request.url)
-        else:
-            print('Creating path to file')
-            filename = secure_filename(file.filename)
-            path = os.path.join(
-                '/Users/jakearmendariz/Desktop/flaskapp/static/profile_images/', name)
-            file.save(path)
-            print('Saved:', filename)
-            image = filename
-            session['email'] = 'fuckyes'
-            return redirect(url_for('index'))
 
 
 def nameImage(filename, email):
@@ -151,11 +140,6 @@ def signup():
         image = ''
         if file.filename == '':
             print('No selected file')
-        # else:  # Saves the file,
-        #    filename = secure_filename(file.filename)
-        #    path = os.path.join(
-        #        '/Users/jakearmendariz/Desktop/flaskapp/static/profile_images', email)
-        #    file.save(path)
         user = User(name, email, hash_password(password), filename)
         user.dbInsert()
         print("User insert successful!")
@@ -188,10 +172,7 @@ def manageprofile():
             return render_template('manageprofile.html')
         else:
             try:
-                #filename = 'jarmendariz3mom.jpg'
                 _src = url_for('file', filename=user['profile_img'])
-                #_src = url_for('file', filename=filename)
-                # profile_img=mongo.send_file(user['profile_img']).data
                 return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src)
             except:
                 print('Error:', sys.exc_info()[0])
@@ -264,6 +245,10 @@ def render_static(page_name):
             msg.body = email + "\n" + message
             if not is_spam(name, msg):
                 mail.send(msg)
+        elif request.method == 'GET':
+            if(session.get('email') != None):
+                user = mongo.db.users.find_one({'email': session['email']})
+                return render_template('contact.html', name=user['name'], email=user['email'])
     if(page_name == 'games'):
         print("Games page!!!")
         return render_template('/games/games.html')

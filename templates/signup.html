@@ -8,11 +8,7 @@
       href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/bootstrap/css/bootstrap.min.css"
-    />
+
     <link
       rel="stylesheet"
       type="text/css"
@@ -22,31 +18,6 @@
       rel="stylesheet"
       type="text/css"
       href="../static/loginfonts/Linearicons-Free-v1.0.0/icon-font.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/animate/animate.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/css-hamburgers/hamburgers.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/animsition/css/animsition.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/select2/select2.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../static/vendor/daterangepicker/daterangepicker.css"
     />
     <link rel="stylesheet" type="text/css" href="../static/logincss/util.css" />
     <link rel="stylesheet" type="text/css" href="../static/logincss/main.css" />
@@ -93,7 +64,7 @@
 
             <div
               class="wrap-input100 validate-input m-b-16"
-              data-validate="Username is required"
+              data-validate="Email is required"
             >
               <input
                 class="input100"
@@ -101,6 +72,9 @@
                 name="email"
                 placeholder="Email"
                 style="font-family:'Ubuntu', sans-serif;"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
+                title="Must be a valid email, idiot"
+                required
               />
 
               <span class="focus-input100"></span>
@@ -108,7 +82,7 @@
 
             <div
               class="wrap-input100 validate-input m-b-16"
-              data-validate="Password is required"
+              data-validate="Password is required, idiot"
             >
               <input
                 class="input100"
@@ -116,6 +90,9 @@
                 name="password"
                 placeholder="Password"
                 style="font-family:'Ubuntu', sans-serif;"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Password must contain a number, uppercase and lowercase letters, and 8 or more characters"
+                required
               />
               <span class="focus-input100"></span>
             </div>
@@ -148,14 +125,5 @@
       </div>
     </div>
     <div id="dropDownSelect1"></div>
-    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="vendor/animsition/js/animsition.min.js"></script>
-    <script src="vendor/bootstrap/js/popper.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="vendor/select2/select2.min.js"></script>
-    <script src="vendor/daterangepicker/moment.min.js"></script>
-    <script src="vendor/daterangepicker/daterangepicker.js"></script>
-    <script src="vendor/countdowntime/countdowntime.js"></script>
-    <script src="js/main.js"></script>
   </body>
 </html>
