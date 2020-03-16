@@ -1,30 +1,71 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <script src="../../static/js/p5.min.js"></script>
+    <script src="../../static/js/p5.dom.min.js"></script>
 
-<head>
-  <script src="../../public/js/p5.min.js"></script>
-  <script src="../../public/js/p5.dom.min.js"></script>
-
-
-  <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
-  <meta charset="utf-8">
-  <title>LightSpeed</title>
-
-</head>
-
-<body>
-  <script src="../../public/js/light.js"></script>
-  <div style="display:none">
-    <button onClick="up()">up</button>
-    <br>
-    <button onClick="left()">left</button>
-    <button onClick="right()">right</button>
-    <br>
-    <button onClick="down()">down</button>
-  </div>
-
-
-
-</body>
-
+    <link rel="stylesheet" type="text/css" href="../../static/css/style.css" />
+    <meta charset="utf-8" />
+    <title>LightSpeed</title>
+  </head>
+  <script>
+    function norefresh() {
+      return false;
+    }
+  </script>
+  <style>
+    p {
+      white-space: pre;
+      color: white;
+    }
+    a {
+      color: white;
+    }
+    a :visited {
+      color: white;
+      text-decoration: none;
+    }
+    a :hover {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+  <body>
+    <a style="text-decoration:none;" href="/">&emsp;<u>back</u></a>
+    {% if loggedin %}
+    <div class="login"></div>
+    {% else %}
+    <br />
+    <a href="login" class="login" style="text-decoration: none;">
+      If you want to save your scores, you have to login
+    </a>
+    {% endif %}
+    <script src="../../static/js/light.js"></script>
+    <p>
+      World Record: {{record}} &emsp; &emsp; Personal Record: {{highscore}}
+    </p>
+    <form id="lightspeed" method="POST">
+      <input
+        value="{{highscore}}"
+        type="number"
+        id="highscore"
+        name="highscore"
+        style="display:none;"
+      />
+      <input
+        value="{{record}}"
+        type="number"
+        id="record"
+        name="record"
+        style="display:none;"
+      />
+      <button
+        id="save"
+        style="display:none; background-color:green; width:30%; height:10%;"
+        type="submit"
+      >
+        Save Scores
+      </button>
+    </form>
+  </body>
 </html>

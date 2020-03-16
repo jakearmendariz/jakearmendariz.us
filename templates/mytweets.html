@@ -1,0 +1,201 @@
+<html>
+  <head>
+    <style>
+      .body {
+        padding: 40vmin;
+        padding-top: 35vmin;
+        float: center;
+        text-align: center;
+      }
+      input {
+        font-size: 1vmin;
+        width: 20vmin;
+        height: 2vmin;
+      }
+      label {
+        font-size: 3vmin;
+        font-style: bold;
+      }
+      button {
+        background-color: #000000; /* Green */
+        border: none;
+        color: white;
+        padding: 12px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+
+      .dropbtn {
+        background-color: rgb(0, 0, 0, 0);
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+      }
+
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        right: 0;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown:hover .dropbtn {
+        background-color: rgb(0, 0, 0, 0);
+      }
+
+      .login {
+        position: absolute;
+        top: 0.1%;
+        right: 3vw;
+        list-style-type: none;
+        color: black;
+        font-size: 18px;
+        display: flex;
+        list-style: none;
+        float: right;
+        margin-right: 0vw;
+
+        box-sizing: border-box;
+        border-radius: 0vw;
+        margin-top: 2px;
+
+        background-color: rgb(25, 54, 67, 0.6);
+        background-color: rgb(30, 30, 30, 0);
+
+        -webkit-animation: fadein 3s;
+      }
+
+      input {
+        font-size: 15px;
+      }
+
+      a {
+        color: black;
+      }
+      a :visited {
+        color: black;
+        text-decoration: none;
+      }
+      a :hover {
+        color: black;
+        text-decoration: underline;
+      }
+      .count {
+      }
+    </style>
+
+    <script>
+      function updateHTML() {
+        var value = document.getElementById("selectbar").value;
+        console.log("update html from select bar");
+        console.log(value);
+        if (value === "All") {
+          document.getElementById("count").style.display = "inline";
+        } else {
+          document.getElementById("count").style.display = "none";
+        }
+        if (value === "Sentiment") {
+          document.getElementById("input").placeholder = "Topic or Name";
+        } else {
+          document.getElementById("input").placeholder = "Username";
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <a style="text-decoration:none;" href="/">&emsp;<u>back</u></a>
+    <div class="body">
+      {% if loggedin %}
+      <div class="login">
+        <div class="dropdown" style="float:right;">
+          <button class="dropbtn" style="color:black;">Profile</button>
+          <div class="dropdown-content">
+            <a href="/manageprofile">Manage Profile</a>
+            <a href="/tweet">Twitter Analysis</a>
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <a href="/login" class="login">
+        <li>login</li>
+      </a>
+      {% endif %}
+      <h1>Twitter Approval Rating</h1>
+      <form action="" method="POST">
+        <label>Get my Twitter Account Analysis</label>
+        <br />
+        <br />
+        <select
+          style=" float:center"
+          name="query"
+          width="300"
+          height="50"
+          id="selectbar"
+          onchange="updateHTML()"
+        >
+          <option value="All">All posts</option>
+          <option value="Wrapped">Twitter Wrapped</option>
+          <option value="Other">Other User</option>
+          <option value="Sentiment">Topic Sentiment Analysis</option>
+        </select>
+        <br /><br />
+        <input
+          name="input"
+          placeholder="Username"
+          width="300"
+          height="50"
+          id="input"
+        /><br />
+        <input
+          name="count"
+          type="number"
+          class="count"
+          placeholder="Retrieve how many tweets?"
+          width="300"
+          height="50"
+          id="count"
+        />
+        <br /><br />
+
+        <button>submit</button>
+      </form>
+
+      {% for tweet, img in tweets %}
+      <h2>@{{username}}: {{ tweet }}</h2>
+      <img src = "{{img}}" / > <br /><br />
+      {% endfor %}
+      <h1>{{answer}}</h1>
+    </div>
+  </body>
+</html>

@@ -2,7 +2,12 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 @import url("https://fonts.googleapis.com/css?family=Average+Sans|Source+Sans+Pro&display=swap");
-
+::selection {
+  background: rgb(13, 71, 113); /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: rgb(13, 71, 113); /* Gecko Browsers */
+}
 body {
   background-color: rgb(25, 54, 67);
   background-color: rgb(30, 30, 30);

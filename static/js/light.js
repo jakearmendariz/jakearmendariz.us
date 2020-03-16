@@ -33,7 +33,7 @@ var keys;
 var moving = false;
 //Where to add images and fonts
 function preload() {}
-setup = function () {
+setup = function() {
   keys = 1;
   createCanvas(900, 900);
   background(0, 0, 0);
@@ -53,12 +53,13 @@ setup = function () {
     starsY[i] = random(0, height);
   }
   bullets = [];
-  bullet = function (x, y) {
+  bullet = function(x, y) {
     this.x = x;
     this.y = y;
   };
 
-  spaceObjects = [{
+  spaceObjects = [
+    {
       x: random(1, width - 20),
       y: random(-1, -100),
       size: random(0.075 * width, 0.175 * width),
@@ -93,9 +94,8 @@ setup = function () {
     hitCounter[i] = 0;
   }
 
-  keyPressed = function () {
+  keyPressed = function() {
     if (!gameStarted) {
-
       gameStarted = true;
       startTime = millis();
       aHeight = 0.085 * ave;
@@ -106,7 +106,6 @@ setup = function () {
     }
     if (keyCode === 32) {
       addShot();
-
     }
     if (keyCode == 191) {
       addShot();
@@ -127,10 +126,8 @@ setup = function () {
       direction = 2;
       moving = true;
     }
-
   };
 };
-
 
 function drawAst(xloc, yloc, size, num) {
   const grayvalues = 180 / num;
@@ -141,8 +138,6 @@ function drawAst(xloc, yloc, size, num) {
   }
 }
 
-
-
 function drawPlanet(xloc, yloc, size, num) {
   const grayvalues = 180 / num;
   const steps = size / num;
@@ -152,44 +147,42 @@ function drawPlanet(xloc, yloc, size, num) {
   }
 }
 
-
-
 function drawSun(xloc, yloc, size, num) {
   const grayvalues = 180 / num;
   const steps = size / num;
   for (let i = 20; i < num; i++) {
-    fill(205 + i * i * grayvalues / 2, 205 + i * grayvalues / 2, i * grayvalues);
+    fill(
+      205 + (i * i * grayvalues) / 2,
+      205 + (i * grayvalues) / 2,
+      i * grayvalues
+    );
     ellipse(xloc, yloc, size - i * steps, size - i * steps);
   }
 }
-
-
 
 function mouseClicked() {
   addShot();
 }
 
-var up = function () {
+var up = function() {
   console.log("pls");
   direction = 3;
-}
+};
 
-
-var left = function () {
+var left = function() {
   direction = 1;
-}
+};
 
-var right = function () {
+var right = function() {
   direction = 2;
-}
+};
 
-var down = function () {
+var down = function() {
   direction = 0;
-}
-
+};
 
 //This is all for fun
-var drawRocket = function () {
+var drawRocket = function() {
   noStroke();
   if (counter % 10) {
     bigFlame = !bigFlame;
@@ -283,41 +276,50 @@ var drawRocket = function () {
   }
 };
 
-var addShot = function () {
+var addShot = function() {
   var b = new bullet(xPos + aWidth / 2, yPos - aHeight * (1 / 2));
   bullets.push(b);
 };
-var displayBullets = function () {
+var displayBullets = function() {
   fill(255, 238, 0);
   for (var i = 0; i < bullets.length; i++) {
     rect(bullets[i].x, bullets[i].y, 0.0075 * height, aHeight / 5);
   }
 };
 //Move up continously unless they contact a asteroid
-var updateBullets = function () {
+var updateBullets = function() {
   for (var i = 0; i < bullets.length; i++) {
     bullets[i].y -= gameSpeed;
   }
 };
 
 //Draws all asteroids at their updated positions. When destroyed they will be shot out of view
-var drawObjects = function () {
+var drawObjects = function() {
   for (var i = 0; i < spaceObjects.length; i++) {
     if (spaceObjects[i].size > 0.1425 * width) {
       fill(255, 238, 0);
-      drawSun(spaceObjects[i].x,
+      drawSun(
+        spaceObjects[i].x,
         spaceObjects[i].y,
-        spaceObjects[i].size * 1.2, 50);
+        spaceObjects[i].size * 1.2,
+        50
+      );
     } else if (spaceObjects[i].size < 0.1125 * width) {
       fill(140, 138, 140);
-      drawAst(spaceObjects[i].x,
+      drawAst(
+        spaceObjects[i].x,
         spaceObjects[i].y,
-        spaceObjects[i].size * 1.2, 50);
+        spaceObjects[i].size * 1.2,
+        50
+      );
     } else {
       fill(65, 72, 163);
-      drawPlanet(spaceObjects[i].x,
+      drawPlanet(
+        spaceObjects[i].x,
         spaceObjects[i].y,
-        spaceObjects[i].size * 1.2, 50);
+        spaceObjects[i].size * 1.2,
+        50
+      );
     }
     /*
         ellipse(
@@ -334,7 +336,7 @@ var drawObjects = function () {
 };
 
 //Problem here
-var intersection = function () {
+var intersection = function() {
   var place = -1;
   var aPlace = -1;
   var bigHit = false;
@@ -388,7 +390,7 @@ var intersection = function () {
 //leftArrow = 37 //TopArrow = 38 //rightArrow = 39 //leftArrow = 40
 //= 0 north, 1= east, 2 = south, 3 = west
 
-drawAsteroid = function (x, y, w, h) {
+drawAsteroid = function(x, y, w, h) {
   stroke(2);
   fill(140, 138, 140);
   ellipse(x, y, w, h);
@@ -396,18 +398,63 @@ drawAsteroid = function (x, y, w, h) {
   ellipse(x + w * 0.3, y + h * 0.3, w * 0.2, h * 0.2);
 };
 
-drawEndingScreen = function () {
+drawEndingScreen = function() {
   fill(255, 180, 0);
   textAlign(CENTER);
-  textSize(0.1 * width);
+  textSize(0.035 * width);
   fill(0, 0, 0);
-  text("Score: " + counter, width / 2, Math.round(0.3 * height));
+  var best = document.getElementById("highscore").value;
+  var record = document.getElementById("record").value;
+  if (counter >= record) {
+    console.log("World record");
+    text(
+      "Congratulations! You set a World Record: " + counter,
+      width / 2,
+      Math.round(0.3 * height)
+    );
+    document.getElementById("highscore").value = counter;
+    document.getElementById("record").value = counter;
+    document.getElementById("save").style.display = "block";
+
+    /*
+    document.getElementById("lightspeed").submit();
+
+    document.getElementById("highscore").value = counter;
+    document.getElementById("record").value = counter;
+    */
+  } else if (counter >= best) {
+    console.log("Personal record");
+    text(
+      "Nice! You set a Personal Record: " + counter,
+      width / 2,
+      Math.round(0.3 * height)
+    );
+    text("World Record: " + record, width / 2, Math.round(0.4 * height));
+    document.getElementById("highscore").value = counter;
+    document.getElementById("save").style.display = "block";
+    /*
+    document.getElementById("lightspeed").submit();
+
+    document.getElementById("highscore").value = counter;
+    document.getElementById("record").value = record;
+    */
+  } else {
+    console.log("No record");
+    text("Lame, you got: " + counter, width / 2, Math.round(0.3 * height));
+    text(
+      "Your best is : " + best + " the world record is " + record,
+      width / 2,
+      Math.round(0.4 * height)
+    );
+  }
+
+  //text("Score: " + counter, width / 2, Math.round(0.3 * height));
   if (counter > highScore) {
     highScore = counter;
   }
-  textSize(Math.round(0.06 * width));
+  textSize(Math.round(0.03 * width));
   textFont("Georgia");
-  text("High score: " + highScore, width / 2, 0.4275 * height);
+  //text("High score: " + highScore, width / 2, 0.4275 * height);
   text(
     "Asteroids Destroyed: " + astDestroyed,
     width / 2,
@@ -420,7 +467,7 @@ drawEndingScreen = function () {
  *
  * Depending on the direction it will increase the speed
  */
-var updateRocket = function () {
+var updateRocket = function() {
   if (keyIsPressed) {
     if (moving) {
       if (direction === 0) {
@@ -431,7 +478,8 @@ var updateRocket = function () {
         yPos += gameSpeed;
       } else if (direction === 3) {
         xPos -= gameSpeed;
-      } else {}
+      } else {
+      }
     }
   } else {
     keys = 0;
@@ -451,7 +499,7 @@ var updateRocket = function () {
   }
 };
 
-var updateObjects = function () {
+var updateObjects = function() {
   for (var i = 0; i < spaceObjects.length; i++) {
     spaceObjects[i].y += spaceObjects[i].speed;
     if (spaceObjects[i].y > height * 1.15) {
@@ -489,7 +537,7 @@ var updateObjects = function () {
     });
   }
 };
-var restart = function () {
+var restart = function() {
   explosionSize = 10;
   explosion = false;
   gameStarted = true;
@@ -508,7 +556,7 @@ var restart = function () {
 };
 
 //Main method of the program
-draw = function () {
+draw = function() {
   // console.log(direction);
   background(0, 0, 0);
   fill(255, 245, 92);

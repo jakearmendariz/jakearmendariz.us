@@ -1,57 +1,63 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <link rel="stylesheet" href="../../public/css/snake_ai.css" />
+  <head>
+    <link rel="stylesheet" href="../../static/css/snake_ai.css" />
     <title>Snake AI</title>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="but">
-        <button onClick="showA()" id="b">
-            See second video
-        </button>
-        <button onClick="showB()" style="display:none" id="a">
-            See Snake Vision
-        </button>
+      <button onClick="showA()" id="b">
+        See second video
+      </button>
+      <button onClick="showB()" style="display:none" id="a">
+        See Snake Vision
+      </button>
     </div>
     <div class="but">
-        <br>
-        <iframe id="aa" style="display:none" width="800" height="800" src="https://www.youtube.com/embed/WHmGpHlfLmM"
-            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+      <br />
+      <iframe
+        id="aa"
+        style="display:none"
+        width="800"
+        height="800"
+        src="https://www.youtube.com/embed/WHmGpHlfLmM"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
 
-
-        <iframe id="bb" width="800" height="800" src="https://www.youtube.com/embed/KwwsWMAdZwA?controls=0"
-            frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
+      <iframe
+        id="bb"
+        width="800"
+        height="800"
+        src="https://www.youtube.com/embed/KwwsWMAdZwA?controls=0"
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
     </div>
     <div class="but">
-        <button>
-            View Code
-        </button>
+      <button>
+        View Code
+      </button>
     </div>
     <script>
-        function showA() {
-            document.getElementById("a").style.display = "block";
-            document.getElementById("aa").style.display = "block";
+      function showA() {
+        document.getElementById("a").style.display = "block";
+        document.getElementById("aa").style.display = "block";
 
-            document.getElementById("b").style.display = "none";
-            document.getElementById("bb").style.display = "none";
+        document.getElementById("b").style.display = "none";
+        document.getElementById("bb").style.display = "none";
+      }
 
-        }
+      function showB() {
+        document.getElementById("b").style.display = "block";
+        document.getElementById("bb").style.display = "block";
 
-        function showB() {
-            document.getElementById("b").style.display = "block";
-            document.getElementById("bb").style.display = "block";
-
-            document.getElementById("a").style.display = "none";
-            document.getElementById("aa").style.display = "none";
-
-        }
+        document.getElementById("a").style.display = "none";
+        document.getElementById("aa").style.display = "none";
+      }
     </script>
-
-</body>
-
+  </body>
 </html>

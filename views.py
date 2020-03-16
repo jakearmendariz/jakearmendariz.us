@@ -12,11 +12,18 @@ from pymongo import MongoClient
 import gridfs
 from util import *
 import time
+from http import cookies
+from datetime import timedelta
 
 
 app.secret_key = APP_SECRET_KEY
-# db = MongoClient().userdb
-# fs = gridfs.GridFS(db)
+cookie = cookies.SimpleCookie()
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(days=30)
 
 
 @app.route('/tweet/', methods=['POST', 'GET'])
@@ -36,6 +43,26 @@ def search():
     return render_template('tweet.html', loggedin=False)
 
 
+@app.route('/mytweets/', methods=['POST', 'GET'])
+def viewTweets():
+    isloggedin = 'email' in session
+    if request.method == 'POST':
+        # True if logged in, false if not
+        print('finding tweets')
+        tweepy = TwitterApi(API_KEY, API_SECRET_KEY,
+                            ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        query = request.form.get("query")
+        print('query:', query)
+        if(query == "Sentiment"):
+            approval = tweepy.searchSediment(request.form.get('input'))
+            result = str(approval) + '% approval rating'
+            return render_template('tweet.html', loggedin=isloggedin, answer=result)
+        tweets = tweepy.getTweets(request.form.get('input'))
+        return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  tweets=tweets)
+        # return render_template('tweet.html', answer=approval)
+    return render_template('mytweets.html', loggedin=isloggedin)
+
+
 def is_spam(name, msg):
     banned = ['sex', 'drugs', 'money', 'USD', '$',
               'singles', 'passive', 'adult', 'dating', '18']
@@ -49,13 +76,41 @@ def is_spam(name, msg):
             return True
     return False
 
+# Fill in the best score, and the world record score
+@app.route('/games/lightspeed/', methods=['GET'])
+def play():
+    if 'email' in session:
+        return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=True)
+    return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=False)
 
-@app.route('/games/<string:page_name>/', methods=['GET', 'POST'])
+
+@app.route('/games/lightspeed/', methods=['POST'])
+def submitScore():
+    print("Updating light speed scores")
+    prev_best = request.form['highscore']
+    print('request form[highscore]', prev_best)
+    if 'email' in session:
+        print('previous best:', prev_best)
+        Score.update(session['email'], prev_best)
+    else:
+        print("USER NOT LOGGED IN, CANNOT SUBMIT HIGH SCORE!!!!")
+    if 'email' in session:
+        return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=True)
+    return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=False)
+
+
+@app.route('/games/', methods=['GET', 'POST'])
+def showGames():
+    print("Display playable games")
+    return render_template('/games.html')
+
+
+@app.route('/games/<string:page_name>/', methods=['GET'])
 def render_games(page_name):
     if page_name == 'lightspeed':
         return render_template('/games/light.html')
-    if page_name == 'snake':
-        return render_template('/games/snake.html')
+    if page_name == 'snakers':
+        return render_template('/games/snakers.html')
     if page_name == 'basic':
         return render_template('/games/basic.html')
     if page_name == 'flappy':
@@ -63,8 +118,14 @@ def render_games(page_name):
     return render_template('/games/index.html')
 
 
-@app.route('/login/', methods=['POST'])
+@app.route('/login/', methods=['POST', 'GET'])
 def login():
+    if request.method == 'GET':
+        if session.get('email') != None:
+            print("user already logged in, redirect")
+            return redirect(url_for('viewTweets'))
+        else:
+            return render_template('login.html')
     if request.method == 'POST':
         if(session.get('delay') != None):
             diff = time.time()-session['delay']
@@ -78,11 +139,15 @@ def login():
         if user == None:
             print('Did not find email')
             return render_template('login.html', exception='Email does not exist, please sign up')
-        # Did not include this file for security reasons
+        # IF USER PASSWORD IS ACCEPTED, CREATE SESSION
         if verify_password(user['password'], result['password']):
             print('Password match!')
             session['email'] = result['email']
-            return redirect(url_for('index'))
+            resp = make_response(render_template(
+                "mytweets.html", loggedin=True))
+            resp.set_cookie('email', result['email'], secure=True)
+            return resp
+            # return redirect(url_for('viewTweets'))
         else:
             print('Invalid password')
             if session.get('attempts') == None:
@@ -106,8 +171,13 @@ def nameImage(filename, email):
     return newname
 
 
-@app.route('/signup/', methods=['POST'])
+@app.route('/signup/', methods=['POST', 'GET'])
 def signup():
+    if request.method == 'GET':
+        if 'email' in session:
+            return redirect(url_for('viewTweets'))
+        else:
+            return render_template('signup.html')
     if request.method == 'POST':
         print('request.form', request.form)
         print('request.files', request.files)
@@ -144,7 +214,7 @@ def signup():
         user.dbInsert()
         print("User insert successful!")
         session['email'] = result['email']
-        return redirect(url_for('index'))
+        return redirect(url_for('viewTweets'))
     pass
 
 
@@ -224,6 +294,7 @@ def logout():
 
 @app.route('/')
 def index():
+    # print(session)
     if 'email' in session:
         return render_template('index.html', loggedin=True)
     return render_template('index.html', loggedin=False)
