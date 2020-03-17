@@ -166,7 +166,6 @@
         >
           <option value="All">All posts</option>
           <option value="Wrapped">Twitter Wrapped</option>
-          <option value="Other">Other User</option>
           <option value="Sentiment">Topic Sentiment Analysis</option>
         </select>
         <br /><br />
@@ -196,6 +195,21 @@
       <img src = "{{img}}" / > <br /><br />
       {% endfor %}
       <h1>{{answer}}</h1>
+
+      {% if wrapped %}
+      <h1>{{name}}'s Twitter Wrapped</h1>
+      <img src="{{profile_img}}" style="width: 20vw;" />
+      <h2>{{description}}</h2>
+      <h3>followers: {{followers}} friends: {{friends}}</h3>
+      <h3>Created Account on {{date}}</h3>
+      <h4>Most Popular Tweet:</h4>
+      <h3>{{popular_text}}</h3>
+      <img src="{{popular_img}}" style="width: 20vw;" />
+      <h4>
+        Your tweets have a an {{tweet_sentiment}} sentiment rating, and you like
+        tweets with a {{liked_sentiment}} sentiment rating
+      </h4>
+      {% endif %}
     </div>
   </body>
 </html>

@@ -13,7 +13,7 @@ import gridfs
 from util import *
 import time
 from http import cookies
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 
 app.secret_key = APP_SECRET_KEY
@@ -57,8 +57,20 @@ def viewTweets():
             approval = tweepy.searchSediment(request.form.get('input'))
             result = str(approval) + '% approval rating'
             return render_template('tweet.html', loggedin=isloggedin, answer=result)
-        tweets = tweepy.getTweets(request.form.get('input'))
-        return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  tweets=tweets)
+        if(query == 'All'):
+            count = request.form.get('count')
+            tweets = tweepy.getTweets(request.form.get('input'), count)
+            return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  tweets=tweets)
+        if(query == 'Wrapped'):
+            userdict = tweepy.wrapped(request.form.get('input'))
+            # return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  wrapped=True, profile_img='https://jakearmendariz.com/public/images/smile.jpg',
+            #                       description='I like to eat cake', followers='followers', friends='friends',
+            #                       date='October 11, 1999', popular_text='Corona virus is a fucking bummer',
+            #                       popular_img='https://jakearmendariz.com/public/images/smile.jpg', tweet_sentiment=7, liked_sentiment=2)
+            return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'), name=userdict['name'],  wrapped=True, profile_img=userdict['profile_img'],
+                                   description=userdict['description'], followers=userdict['followers'], friends=userdict['friends'],
+                                   date=datetime.strptime(userdict['created_at'], "%M %d, %Y"), popular_text=userdict['popular_tweet'][0],
+                                   popular_img=userdict['popular_img'][1], tweet_sentiment=userdict['tweet_sentiment'], liked_sentiment=userdict['liked_sentiment'])
         # return render_template('tweet.html', answer=approval)
     return render_template('mytweets.html', loggedin=isloggedin)
 
