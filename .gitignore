@@ -7,4 +7,9 @@ images/
 logincss/
 loginfonts/
 loginjs/
-
+SnakeAI.js
+p5.sound.min.js
+space.js
+Gallery.js
+Sphere.js
+physics.html
