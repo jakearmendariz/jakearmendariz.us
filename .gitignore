@@ -2,4 +2,9 @@ config.py
 old.py
 favicon.ico.html
 answer.py
-_pycache
+__pycache__
+images/
+logincss/
+loginfonts/
+loginjs/
+
