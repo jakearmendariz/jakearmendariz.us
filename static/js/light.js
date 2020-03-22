@@ -454,6 +454,7 @@ drawEndingScreen = function() {
   }
   textSize(Math.round(0.03 * width));
   textFont("Georgia");
+  textFont("Ubuntu");
   //text("High score: " + highScore, width / 2, 0.4275 * height);
   text(
     "Asteroids Destroyed: " + astDestroyed,
@@ -571,7 +572,8 @@ draw = function() {
     fill(255, 255, 100);
     textSize(0.1075 * width);
     textFont("Helvetica");
-    textFont("Times new Roman");
+    textFont("Ubuntu");
+    //textFont("Times new Roman");
     text("LIGHTSPEED", 0.5 * width, 0.3 * height);
     textSize(0.05 * width);
     text("Press any button to begin", 0.5 * width, 0.4 * height);
@@ -587,9 +589,9 @@ draw = function() {
     drawRocket();
     drawObjects();
     intersection();
-    textSize(width * 0.05);
+    textSize(width * 0.03);
     fill(255, 0, 0);
-    text(counter, 0.875 * width, 0.08 * height);
+    text(counter, 0.9 * width, 0.08 * height);
   } else if (explosionSize < ave * 2) {
     drawRocket();
     drawObjects();

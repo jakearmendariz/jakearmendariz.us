@@ -2,6 +2,12 @@ from app import mongo
 from hashlib import sha224
 from util import *
 from flask_pymongo import pymongo
+from tweet import *
+from datetime import datetime
+import matplotlib.pyplot as plt
+import mpld3
+import numpy as np
+import pandas as pd
 
 
 class User():
@@ -116,3 +122,162 @@ class Score():
         if record == None:
             return 0
         return record['score']
+
+
+class Score():
+    data = {}
+
+    def __init__(self, email, score):
+        self.data['email'] = email
+        self.data['score'] = score
+        print('New Score:',
+              self.data['email'], self.data['score'])
+
+    @staticmethod
+    def update(email, new_score):
+        score = Score(
+            email,
+            new_score)
+        exists = score.dbRead()
+        if exists == None:
+            print("No score for", email, "existed")
+            score.dbInsert()
+            print("Inserted score of", score)
+        else:
+            print('exisiting score:', exists.get('score'))
+            print('updated score:', new_score)
+            if int(exists['score']) <= int(new_score):
+                update = {}
+                update['email'] = email
+                update['score'] = new_score
+                mongo.db.scores.update_one(
+                    {'email': email}, {"$set": update})
+                print("Updated ", email, " top score to ", new_score)
+            else:
+                print('Not a highscore, not updating database')
+        return
+
+    # simply return the response of the created login
+
+    def dbInsert(self):
+        print('dbinsert:', self.data['email'], self.data['score'])
+        return mongo.db.scores.insert_one({
+            'email': self.data['email'],
+            'score': self.data['score'],
+        })
+
+     # read in the response
+    def dbRead(self):
+        document = mongo.db.scores.find_one(
+            {"email": self.data['email']})
+        print("Found the score")
+        print(document)
+        return document
+
+    @staticmethod
+    def worldRecord():
+        # record = mongo.db.scores.find().sort(
+        #   {"score": -1}, pymongo.DESCENDING)
+        record = mongo.db.scores.find_one(sort=[("score", pymongo.ASCENDING)])
+        return record['score']
+
+    @staticmethod
+    def userScore(email):
+        record = mongo.db.scores.find_one({"email": email})
+        if record == None:
+            return 0
+        return record['score']
+
+
+class Politician():
+    people = ['Donald Trump', 'Hillary Clinton', 'Joe Biden',
+              'Bernie Sanders', 'Nancy Pelosi', 'Mitch McConnell']
+
+    def __init__(self, name):
+        index = name.index(' ')
+        self.name = name
+        self.first = name[:index]
+        self.last = name[index+1:]
+        #print('politician:', self.first, self.last)
+        pass
+
+    def addPoll(self, twitter):
+        politician = mongo.db.politics.find_one({"lastName": self.last})
+        if politician == None:
+            print("Could not find politician")
+            return None
+        rating = twitter.searchSediment(self.last)
+        at = datetime.now().strftime("%B %d, %Y")
+        politician['rating'].append((rating, at))
+        mongo.db.politics.update_one(
+            {'lastName': self.last}, {"$set": politician})
+        print("Added rating to politician")
+
+    def deleteAll(self):
+        politician = mongo.db.politics.find_one({"lastName": self.last})
+        if politician == None:
+            print("Could not find politician")
+            return None
+        politician['rating'] = []
+        mongo.db.politics.update_one(
+            {'lastName': self.last}, {"$set": politician})
+        print("Added rating to politician")
+
+    @staticmethod
+    def updateGraph():
+        twitter = TwitterApi(API_KEY, API_SECRET_KEY,
+                             ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+        people = ['Donald Trump', 'Hillary Clinton', 'Joe Biden',
+                  'Bernie Sanders', 'Nancy Pelosi', 'Mitch McConnell']
+        for person in people:
+            user = Politician(person)
+            if user == None:
+                return
+            user.addPoll(twitter)
+        print('all users updated')
+
+    @staticmethod
+    def zeroGraph():
+        people = Politician.people
+        for person in people:
+            user = Politician(person)
+            if user == None:
+                return
+            user.deleteAll()
+        print('all users updated')
+
+    @staticmethod
+    def graph_politicians():
+        plt.switch_backend('Agg')
+        fig = plt.figure(figsize=(10, 7))
+        for person in Politician.people:
+            index = person.index(' ')
+            last = person[index+1:]
+            politician = mongo.db.politics.find_one({"lastName": last})
+            polls = []
+            dates = []
+            for poll in politician['rating']:
+                polls.append(poll[0])
+                dates.append(poll[1])
+            polls = np.asarray(polls)
+            dates = np.asarray(dates)
+            #polls = np.array(poll[0] for poll in polls)
+            #dates = np.array(poll[1] for poll in dates)
+            line = pd.Series(data=polls, index=dates)
+            line.plot(label=person, legend=True, linewidth=4.0)
+        plt.ylabel('polling')
+        plt.xlabel('date')
+        plt.title("Twitter Approval Rating Over Time")
+        return mpld3.fig_to_html(fig)
+
+# Calls once a day to record politicans ratings. Cannot record with a static graph
+
+
+def save_politician_ratings():
+    Politician.updateGraph()
+    pass
+
+
+# Politician.updateGraph()
+# Politician.zeroGraph()
+# Politician.graph_politicians()

@@ -14,10 +14,28 @@ from util import *
 import time
 from http import cookies
 from datetime import timedelta, datetime
-
+from test import *
+import matplotlib.pyplot as plt
+import mpld3
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app.secret_key = APP_SECRET_KEY
 cookie = cookies.SimpleCookie()
+# export FLASK_RUN_PORT=8000
+
+# Check models, this will save the politicians score twice a day at 12pm and 5pm. Then it will store in database
+scheduler = BackgroundScheduler({'apscheduler.timezone': 'UTC'})
+# 12pm
+scheduler.add_job(func=save_politician_ratings,
+                  trigger="cron", hour=19, minute=0, second=0)
+# 5p,
+scheduler.add_job(func=save_politician_ratings,
+                  trigger="cron", hour=0, minute=0, second=0)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 
 @app.before_request
@@ -28,6 +46,7 @@ def make_session_permanent():
 
 @app.route('/tweet/', methods=['POST', 'GET'])
 def search():
+    return redirect(url_for('viewTweets'))
     print('tweeeet')
     if request.method == 'POST':
         print('finding tweets')
@@ -55,24 +74,32 @@ def viewTweets():
         print('query:', query)
         if(query == "Sentiment"):
             approval = tweepy.searchSediment(request.form.get('input'))
-            result = str(approval) + '% approval rating'
-            return render_template('tweet.html', loggedin=isloggedin, answer=result)
-        if(query == 'All'):
+            result = ' has a '+str(approval) + '% twitter approval rating'
+            return render_template('mytweets.html', topic=request.form.get('input'), loggedin=isloggedin, answer=result, selectValue=3)
+        elif(query == 'All'):
             count = request.form.get('count')
-            tweets = tweepy.getTweets(request.form.get('input'), count)
-            return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  tweets=tweets)
-        if(query == 'Wrapped'):
+            tweets = tweepy.getTweets(request.form.get('input'), count=count)
+            return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  tweets=tweets, count=count, all=True, selectValue=1)
+        elif(query == 'Wrapped'):
             userdict = tweepy.wrapped(request.form.get('input'))
-            # return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'),  wrapped=True, profile_img='https://jakearmendariz.com/public/images/smile.jpg',
-            #                       description='I like to eat cake', followers='followers', friends='friends',
-            #                       date='October 11, 1999', popular_text='Corona virus is a fucking bummer',
-            #                       popular_img='https://jakearmendariz.com/public/images/smile.jpg', tweet_sentiment=7, liked_sentiment=2)
+            if userdict == None:
+                return render_template('mytweets.html', loggedin=isloggedin, answer='Does not Exists', selectValue=2)
+            renderImage = True
+            if userdict['popular_tweet'][1] == '':
+                renderImage = False
             return render_template('mytweets.html', loggedin=isloggedin, username=request.form.get('input'), name=userdict['name'],  wrapped=True, profile_img=userdict['profile_img'],
                                    description=userdict['description'], followers=userdict['followers'], friends=userdict['friends'],
-                                   date=datetime.strptime(userdict['created_at'], "%M %d, %Y"), popular_text=userdict['popular_tweet'][0],
-                                   popular_img=userdict['popular_img'][1], tweet_sentiment=userdict['tweet_sentiment'], liked_sentiment=userdict['liked_sentiment'])
-        # return render_template('tweet.html', answer=approval)
-    return render_template('mytweets.html', loggedin=isloggedin)
+                                   date=userdict['created_at'].strftime("%B %d, %Y"), popular_text=userdict['popular_tweet'][0],
+                                   popular_img=userdict['popular_tweet'][1], tweet_sentiment=userdict[
+                                       'tweet_sentiment'], liked_sentiment=userdict['liked_sentiment'],
+                                   bestfriend=userdict['bestfriend'], pop_likes=userdict['pop_likes'], pop_retweets=userdict[
+                                       'pop_retweets'], renderImage=renderImage, selectValue=2,
+                                   graph=userdict['graph'], sentiment=userdict['sentiment'])
+        elif(query == 'Politics'):
+            # Politician.updateGraph()
+            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), politics=True)
+        # return render_template('tweet.html', answer=approval)   datetime.strptime(userdict['created_at'], "%M %d, %Y")
+    return render_template('mytweets.html', loggedin=isloggedin, selectValue=0)
 
 
 def is_spam(name, msg):
@@ -143,7 +170,9 @@ def login():
             diff = time.time()-session['delay']
             if diff < 30:
                 print(diff, '/30 waited')
-                return render_template('login.html', exception='You must wait 30 seconds before trying again')
+                left = round(30 - diff)
+                exception = str(left)+' seconds left'
+                return render_template('login.html', exception=exception)
         print("post request, logging user in signup page")
         result = request.form
         print('email is:', result['email'])
@@ -155,8 +184,9 @@ def login():
         if verify_password(user['password'], result['password']):
             print('Password match!')
             session['email'] = result['email']
-            resp = make_response(render_template(
-                "mytweets.html", loggedin=True))
+            # resp = make_response(render_template(
+            #   "mytweets.html", loggedin=True))
+            resp = make_response(redirect(url_for('viewTweets')))
             resp.set_cookie('email', result['email'], secure=True)
             return resp
             # return redirect(url_for('viewTweets'))
@@ -169,7 +199,7 @@ def login():
                 session['attempts'] += 1
                 print(session['attempts'], ' wrong attempt')
             if(session.get('attempts') > 5):
-                session['attempts'] = 0
+                #session['attempts'] = 0
                 session['delay'] = time.time()
                 print('time delay start')
                 return render_template('login.html', exception='You must wait 30 seconds before trying again')
@@ -181,6 +211,28 @@ def nameImage(filename, email):
     newname = email[:index] + filename
     print('naming image', )
     return newname
+
+
+def graphit():
+    plt.switch_backend('Agg')
+    fig = plt.figure(figsize=(10, 5))
+    plt.plot([3, 1, 4, 1, 5], 'ks-', mec='w', mew=5, ms=20)
+    a = mpld3.fig_to_html(fig)
+    return a
+    # mpld3.show()
+    # return
+
+
+@app.route('/test/', methods=['POST', 'GET'])
+def test():
+    # return """Hello World """ + graphit()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=print_date_time, trigger="interval", seconds=10)
+    scheduler.start()
+
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
+    return render_template('test.html')
 
 
 @app.route('/signup/', methods=['POST', 'GET'])
@@ -246,6 +298,7 @@ def allowed_file(filename):
 
 @app.route('/manageprofile/', methods=['GET', 'PUT', 'POST'])
 def manageprofile():
+    loggedin = 'email' in session
     if request.method == 'GET':
         print('GET: manage profile')
         user = mongo.db.users.find_one({'email': session['email']})
@@ -255,10 +308,10 @@ def manageprofile():
         else:
             try:
                 _src = url_for('file', filename=user['profile_img'])
-                return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src)
+                return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src, loggedin=loggedin)
             except:
                 print('Error:', sys.exc_info()[0])
-                return render_template('manageprofile.html', name=user['name'], email=user['email'])
+                return render_template('manageprofile.html', name=user['name'], email=user['email'],  loggedin=loggedin)
     elif request.method == 'POST':
         print('POST: manage profile')
         filename = ''
@@ -293,7 +346,7 @@ def manageprofile():
             print('manage profile, wth info')
             _src = url_for('file', filename=user['profile_img'])
             print(_src)
-            return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src)
+            return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src,  loggedin=loggedin)
     else:
         print("Error:", request.method)
 
@@ -301,15 +354,15 @@ def manageprofile():
 @app.route('/logout')
 def logout():
     session.pop('email', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/')
 def index():
     # print(session)
     if 'email' in session:
-        return render_template('index.html', loggedin=True)
-    return render_template('index.html', loggedin=False)
+        return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])

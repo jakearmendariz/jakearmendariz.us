@@ -75,10 +75,10 @@
       <div class="landing">
         <img id="background" class="back" />
         <div class="navbar">
-          <a href="index.html">
+          <a href="/">
             <li>Home</li>
           </a>
-          <a href="../static/ArmendarizResume.pdf" target="_blank">
+          <a href="resume">
             <li>Resume</li>
           </a>
           <a href="projects">
@@ -89,22 +89,6 @@
             <li>Contact</li>
           </a>
         </div>
-        {% if loggedin %}
-        <div class="login">
-          <div class="dropdown" style="float:right;">
-            <button class="dropbtn">Profile</button>
-            <div class="dropdown-content">
-              <a href="manageprofile">Manage Profile</a>
-              <a href="tweet">Twitter Analysis</a>
-              <a href="logout">Logout</a>
-            </div>
-          </div>
-        </div>
-        {% else %}
-        <a href="login" class="login">
-          <li>login</li>
-        </a>
-        {% endif %}
         <h1>Jake Armendariz</h1>
       </div>
     </div>

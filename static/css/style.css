@@ -25,7 +25,7 @@ h1 {
 
 .navbar {
   position: absolute;
-  top: .1%;
+  top: 0.1%;
   left: 65%;
   list-style-type: none;
   color: whitesmoke;
@@ -38,10 +38,10 @@ h1 {
 
   box-sizing: border-box;
   border-radius: 1vw;
-  padding: .01vw;
+  padding: 0.01vw;
 
-  background-color: rgb(25, 54, 67, .6);
-  background-color: rgb(30, 30, 30, .6);
+  background-color: rgb(25, 54, 67, 0.6);
+  background-color: rgb(30, 30, 30, 0.6);
 }
 
 a:visited {
@@ -70,16 +70,16 @@ canvas {
   float: center;
   margin-left: auto;
   margin-right: auto;
+  position: absolute;
+  top: 0;
+  left: 25%;
 }
-
 
 .buttons {
   display: none;
 }
 
-
-@media only screen and (max-device-width : 640px) {
-
+@media only screen and (max-device-width: 640px) {
   .buttons {
     display: block;
     position: absolute;
@@ -93,8 +93,8 @@ canvas {
     margin: 10px;
     font-size: 30px;
     text-align: center;
-
   }
 
-  .area {}
+  .area {
+  }
 }
