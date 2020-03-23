@@ -44,25 +44,7 @@ def make_session_permanent():
     app.permanent_session_lifetime = timedelta(days=30)
 
 
-@app.route('/tweet/', methods=['POST', 'GET'])
-def search():
-    return redirect(url_for('viewTweets'))
-    print('tweeeet')
-    if request.method == 'POST':
-        print('finding tweets')
-        tweepy = TwitterApi(API_KEY, API_SECRET_KEY,
-                            ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-        approval = tweepy.searchSediment(request.form.get('search'))
-        if 'email' in session:
-            return render_template('tweet.html', loggedin=True, answer=approval)
-        return render_template('tweet.html', loggedin=False, answer=approval)
-        # return render_template('tweet.html', answer=approval)
-    if 'email' in session:
-        return render_template('tweet.html', loggedin=True)
-    return render_template('tweet.html', loggedin=False)
-
-
-@app.route('/mytweets/', methods=['POST', 'GET'])
+@app.route('/twitteranalysis/', methods=['POST', 'GET'])
 def viewTweets():
     isloggedin = 'email' in session
     if request.method == 'POST':
@@ -97,7 +79,7 @@ def viewTweets():
                                    graph=userdict['graph'], sentiment=userdict['sentiment'])
         elif(query == 'Politics'):
             # Politician.updateGraph()
-            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), politics=True)
+            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), politics=True, selectValue=4)
         # return render_template('tweet.html', answer=approval)   datetime.strptime(userdict['created_at'], "%M %d, %Y")
     return render_template('mytweets.html', loggedin=isloggedin, selectValue=0)
 
