@@ -22,7 +22,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 app.secret_key = APP_SECRET_KEY
 cookie = cookies.SimpleCookie()
-# export FLASK_RUN_PORT=8000
+#
 
 # Check models, this will save the politicians score twice a day at 12pm and 5pm. Then it will store in database
 scheduler = BackgroundScheduler({'apscheduler.timezone': 'UTC'})
