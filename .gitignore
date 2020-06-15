@@ -3,10 +3,6 @@ old.py
 favicon.ico.html
 answer.py
 __pycache__
-images/
-logincss/
-loginfonts/
-loginjs/
 SnakeAI.js
 p5.sound.min.js
 space.js
@@ -15,4 +11,3 @@ Sphere.js
 physics.html
 Resume.html
 file.html
-css/
