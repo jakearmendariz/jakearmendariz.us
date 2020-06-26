@@ -35,8 +35,6 @@
         <div class="wrap-login100 p-t-50 p-b-90">
           <form
             class="login100-form validate-form flex-sb flex-w"
-            action=""
-            method="POST"
           >
             <span
               class="login100-form-title p-b-51"
@@ -50,50 +48,14 @@
             <div
               class="wrap-input100 validate-input m-b-16"
               data-validate="Username is required"
-            >
-              <input
-                class="input100"
-                type="text"
-                name="email"
-                placeholder="Email"
-                style="font-family:'Ubuntu', sans-serif;"
-              />
-              <span class="focus-input100"></span>
-            </div>
-            <div
-              class="wrap-input100 validate-input m-b-16"
-              data-validate="Password is required"
-            >
-              <input
-                class="input100"
-                type="password"
-                name="password"
-                placeholder="Password"
-                style="font-family:'Ubuntu', sans-serif;"
-              />
-              <span class="focus-input100"></span>
-            </div>
-
-            <div class="flex-sb-m w-full p-t-3 p-b-24">
-              <div style="font-family:'Ubuntu', sans-serif;">
-                Not a member yet?
-                <a
-                  href="/signup"
-                  class="txt1"
-                  style="font-family:'Ubuntu', sans-serif;"
-                >
-                  Sign up
-                </a>
-              </div>
-            </div>
-
+            >     
             <div class="container-login100-form-btn m-t-17">
               <button
                 class="login100-form-btn"
-                href="/index"
+                href="{{strava_auth_link}}"
                 style="font-family:'Ubuntu', sans-serif;"
               >
-                Login
+                Connect My Strava
               </button>
             <!--
             <div class="container-login100-form-btn m-t-17">
@@ -108,6 +70,7 @@
             </div>
             -->
           </form>
+          <a href = "{{strava_auth_link}}">login in with strava!</a>
         </div>
       </div>
     </div>

@@ -18,11 +18,50 @@ from test import *
 import matplotlib.pyplot as plt
 import mpld3
 import atexit
+import requests
+import werkzeug
+import urllib3
 from apscheduler.schedulers.background import BackgroundScheduler
+from urllib.parse import urlencode #Allows me to encode url for strava oatuh
+# from stravalib import Client
 
 app.secret_key = APP_SECRET_KEY
 cookie = cookies.SimpleCookie()
-#
+
+strava_payload = {
+    'client_id': STRAVA_CLIENT_ID,
+    'client_secret':STRAVA_CLIENT_SECRET,
+    'refresh_token':STRAVA_REFRESH_TOKEN,
+    'grant_type':'refresh_token',
+    'f':'json',
+    'scope':'read'
+}
+strava_oauth_payload = {
+    'client_id': STRAVA_CLIENT_ID,
+    'redirect_uri':'https://localhost:5000/strava',
+    'response_type':'code',
+    'scope':'read',
+    'approval_prompt':'force'
+}
+strava_base_url = "https://www.strava.com/oauth/authorize";
+
+def get_strava_oauth_url():
+    strava_oath_url =  strava_base_url + '?' + urlencode(strava_oauth_payload)
+    print("strava_uoath_url:", strava_oath_url)
+    return strava_oath_url
+
+
+# client = Client()
+# url = client.authorization_url(client_id=STRAVA_CLIENT_ID,
+#                                redirect_uri='http://localhost:5000/strava_connect')
+# code = request.args.get('code') # e.g.
+# client = Client()
+# access_token = client.exchange_code_for_token(client_id=STRAVA_CLIENT_ID,
+#                                               client_secret=STRAVA_CLIENT_SECRET,
+#                                               code=code)
+# client = Client(access_token=ACCESS_TOKEN)
+# client.get_athlete() # Get current athlete details
+# 
 
 # Check models, this will save the politicians score twice a day at 12pm and 5pm. Then it will store in database
 scheduler = BackgroundScheduler({'apscheduler.timezone': 'UTC'})
@@ -42,6 +81,26 @@ atexit.register(lambda: scheduler.shutdown())
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=30)
+    
+    
+@app.route('/strava-connect/', methods = ['GET', 'POST'])
+def strava_connect():
+    if(request.method == 'GET'):
+        return render_template('/strava_connect.html', strava_auth_link = get_strava_oauth_url())
+    print(request)
+    # got = requests.get("https://www.strava.com/oauth/authorize", data=strava_oauth_payload);
+    # print(got);
+    # return render_template('strava_connect.html')
+    print("post request to strava_connect")
+    return render_template('/strava_connect.html');
+
+
+@app.route('/strava/', methods = ['GET, POST'])
+def strava():
+    if(request.method == 'GET'):
+        return render_template('/strava.html')
+    print(request)
+    return render_template('strava_connect.html')
 
 
 @app.route('/twitteranalysis/', methods=['POST', 'GET'])
@@ -118,6 +177,10 @@ def submitScore():
     if 'email' in session:
         return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=True)
     return render_template('/games/light.html', record=Score.worldRecord(), highscore=Score.userScore(session.get('email')), loggedin=False)
+
+
+
+
 
 
 @app.route('/games/', methods=['GET', 'POST'])
@@ -338,7 +401,7 @@ def logout():
     session.pop('email', None)
     return redirect(url_for('login'))
 
-
+@app.route('/index')
 @app.route('/')
 def index():
     # print(session)
@@ -346,9 +409,29 @@ def index():
         return render_template('index.html')
     return render_template('index.html')
 
+@app.errorhandler(werkzeug.exceptions.BadRequest)
+def bad_request():
+    print("400 error:",request)
+    return render_template('400.html')
+
+@app.errorhandler(404)
+def bad_request():
+    print("404 error:",request)
+    return render_template('400.html')
+
+@app.errorhandler(werkzeug.exceptions.InternalServerError)
+def bad_request():
+    print("500 error:", request)
+    return render_template('500.html')
+
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
+    print("EXTRA PAGE CLASSES!!!", page_name)
+    if("strava" in page_name and "code=" in page_name):
+        print("FOUND STRAVA AND CODE IN LINK: PARSING NOW\n")
+        end_of_url = page_name[page_name.index("code=")+5:]
+        session['strava_access_token'] = end_of_url[:end_of_url.index("&")]
     if page_name == 'contact':
         if request.method == 'POST':
             mail = Mail(app)
