@@ -23,5 +23,7 @@ class Strava():
 # client = Client (access_token = '63a4ca6ee769c485b550437d2a3d7a25802fd592')
 # print(client.())
 
-strava = Strava('8c6dcda89f6a3e12acafeeae4dc6a8220ae08aa1')
+
+
+# strava = Strava('8c6dcda89f6a3e12acafeeae4dc6a8220ae08aa1')
 

@@ -24,7 +24,7 @@ import werkzeug
 import urllib3
 from apscheduler.schedulers.background import BackgroundScheduler
 from urllib.parse import urlencode #Allows me to encode url for strava oatuh
-# from stravalib import Client
+from stravalib import Client
 
 app.secret_key = APP_SECRET_KEY
 cookie = cookies.SimpleCookie()
@@ -32,20 +32,28 @@ cookie = cookies.SimpleCookie()
 strava_payload = {
     'client_id': STRAVA_CLIENT_ID,
     'client_secret':STRAVA_CLIENT_SECRET,
-    'refresh_token':STRAVA_REFRESH_TOKEN,
-    'grant_type':'refresh_token',
+    #'refresh_token':STRAVA_REFRESH_TOKEN,
+    #'grant_type':'refresh_token',
+    'grant_type': 'authorization_code',
     'f':'json',
-    'scope':'read'
 }
 
 strava_oauth_payload = {
     'client_id': STRAVA_CLIENT_ID,
     'redirect_uri':'https://localhost:5000/strava/',
     'response_type':'code',
-    'scope':'profile:profile:read_all',
+    'grant_type': 'authorization_code',
+    'scope':'profile:read_all,read',
     'approval_prompt':'force'
 }
-strava_base_url = "https://www.strava.com/oauth/authorize";
+strava_base_url = "https://www.strava.com/oauth/authorize"
+
+strava_post_url = "https://www.strava.com/api/v3/oauth/token"
+
+def get_strava_post_url():
+    strava_post_url =  strava_post_url + '?' + urlencode(strava_payload)
+    print("strava_post_url:", strava_post_url)
+    return strava_post_url
 
 def get_strava_oauth_url():
     strava_oath_url =  strava_base_url + '?' + urlencode(strava_oauth_payload)
@@ -68,6 +76,10 @@ scheduler.start()
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
 
+def getCode(url):
+    end_of_url = url[url.index("code=")+5:]
+    return end_of_url[:end_of_url.index("&")]
+
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -83,8 +95,8 @@ def strava_connect():
 
 @app.route('/strava/<string:url>/', methods = ['GET'])
 def loginStrava(url):
-    end_of_url = url[url.index("code=")+5:]
-    session['strava_access_token'] = end_of_url[:end_of_url.index("&")]
+    strava_payload['code'] = getCode(url)
+    response = requests.post(strava_post_url, data = strava_payload)
     print("logged into strava\n\naccess_token = ", session['strava_access_token'])
     stravaObj = Strava(session['strava_access_token'])
     return render_template('/strava.html', full_name = "got access token, created object!")
@@ -141,12 +153,21 @@ def viewTweets():
         # return render_template('tweet.html', answer=approval)   datetime.strptime(userdict['created_at'], "%M %d, %Y")
     return render_template('mytweets.html', loggedin=isloggedin, selectValue=0)
 
+
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
     # print("render_static",request.full_path, " page_name" + page_name)
     if("strava" in request.full_path ):
-        redirect(url_for(loginStrava(request.full_path)))
         print("strava in render_static")
+        code = request.args.get('code')
+        client = Client()
+        access_token = client.exchange_code_for_token(client_id=STRAVA_CLIENT_ID,
+                                              client_secret=STRAVA_CLIENT_SECRET,
+                                              code=code)
+        print("got the real access_token!!!")
+        client = Client(access_token = access_token)
+        render_template("/strava.html", full_name = client.get_athlete())
+        
     if page_name == 'contact':
         if request.method == 'POST':
             mail = Mail(app)
