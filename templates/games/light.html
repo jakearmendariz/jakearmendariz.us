@@ -51,7 +51,11 @@
     <p>
       World Record: {{record}} &emsp; &emsp; Personal Record: {{highscore}}
     </p>
+    {% if loggedin %}
     <form id="lightspeed" method="POST">
+    {% else %}
+    <form id="lightspeed" action="/login">
+    {% endif %}
       <input
         value="{{highscore}}"
         type="number"
@@ -66,6 +70,7 @@
         name="record"
         style="display:none;"
       />
+      {% if loggedin %}
       <button
         id="save"
         style="display:none; background-color:green; padding:5px 10px; border: none; color:white; border-radius:4px; display: flex;
@@ -74,6 +79,16 @@
       >
         Save Scores
       </button>
+      {% else %}
+      <button
+        style="display:none; background-color:green; padding:5px 10px; border: none; color:white; border-radius:4px; display: flex;
+        justify-content: center;"
+        href="/login"
+        type="submit"
+      >
+        Login
+      </button>
+      {% endif %}
     </form>
   </body>
 </html>

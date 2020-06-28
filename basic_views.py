@@ -15,7 +15,6 @@ from util import *
 import time
 from http import cookies
 from datetime import timedelta, datetime
-from test import *
 import matplotlib.pyplot as plt
 import mpld3
 import atexit

@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
 from app import app, mongo
 from models import *
-from flask_mail import Message, Mail
-from tweet import *
 from strava import *
 from config import *
 from werkzeug.utils import secure_filename
@@ -15,19 +13,16 @@ from util import *
 import time
 from http import cookies
 from datetime import timedelta, datetime
-from test import *
 import matplotlib.pyplot as plt
 import mpld3
 import atexit
 import requests
 import werkzeug
 import urllib3
-from apscheduler.schedulers.background import BackgroundScheduler
 from urllib.parse import urlencode #Allows me to encode url for strava oatuh
 from stravalib import Client
 
 app.secret_key = APP_SECRET_KEY
-cookie = cookies.SimpleCookie()
     
 
 def get_auth_url():
@@ -41,13 +36,13 @@ def get_auth_url():
 def strava_connect():
     if('access_token' in session):
         strava = Strava(session['access_token'])
-        return redirect(url_for('displayStrava'))
-    return render_template('/strava_connect.html', strava_auth_link = get_auth_url())
+        return redirect(url_for('display_strava'))
+    return redirect(get_auth_url())
 
 
 @app.route('/strava/', methods = ['GET, POST'])
 def display_strava():
-    print("displayStrava")
+    print("display_strava")
     if('access_token' in session):
         try:
             strava = Strava(session['access_token'])
@@ -58,7 +53,7 @@ def display_strava():
         name = strava.get_name()
         return render_template('strava.html', full_name = name)
     
-    return render_template('strava_connect.html', url = get_auth_url())
+    return strava_connect()
 
 def strava_authorization(code):
     client = Client()
