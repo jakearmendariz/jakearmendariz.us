@@ -11,6 +11,17 @@ import time
 # mpld3.show()
 
 
+@app.route('/test/', methods=['POST', 'GET'])
+def test():
+    # return """Hello World """ + graphit()
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=print_date_time, trigger="interval", seconds=10)
+    scheduler.start()
+
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
+    return render_template('test.html')
+
 def graphit():
     # plt.switch_backend('Agg')
     fig = plt.figure(figsize=(10, 5))

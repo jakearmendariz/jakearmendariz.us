@@ -109,7 +109,7 @@ def login():
             print("user already logged in, redirect")
             return redirect(url_for('viewTweets'))
         else:
-            return render_template('login.html')
+            return render_template('user/login.html')
     if request.method == 'POST':
         if(session.get('delay') != None):
             diff = time.time()-session['delay']
@@ -124,7 +124,7 @@ def login():
         user = mongo.db.users.find_one({'email': result['email']})
         if user == None:
             print('Did not find email')
-            return render_template('login.html', exception='Email does not exist, please sign up')
+            return render_template('user/login.html', exception='Email does not exist, please sign up')
         # IF USER PASSWORD IS ACCEPTED, CREATE SESSION
         if verify_password(user['password'], result['password']):
             print('Password match!')
@@ -147,8 +147,8 @@ def login():
                 #session['attempts'] = 0
                 session['delay'] = time.time()
                 print('time delay start')
-                return render_template('login.html', exception='You must wait 30 seconds before trying again')
-            return render_template('login.html', exception='Invalid password')
+                return render_template('user/login.html', exception='You must wait 30 seconds before trying again')
+            return render_template('user/login.html', exception='Invalid password')
 
 
 def nameImage(filename, email):
@@ -167,26 +167,13 @@ def graphit():
     # mpld3.show()
     # return
 
-
-@app.route('/test/', methods=['POST', 'GET'])
-def test():
-    # return """Hello World """ + graphit()
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(func=print_date_time, trigger="interval", seconds=10)
-    scheduler.start()
-
-    # Shut down the scheduler when exiting the app
-    atexit.register(lambda: scheduler.shutdown())
-    return render_template('test.html')
-
-
 @app.route('/signup/', methods=['POST', 'GET'])
 def signup():
     if request.method == 'GET':
         if 'email' in session:
             return redirect(url_for('viewTweets'))
         else:
-            return render_template('signup.html')
+            return render_template('user/signup.html')
     if request.method == 'POST':
         print('request.form', request.form)
         print('request.files', request.files)
@@ -198,7 +185,7 @@ def signup():
         exists = mongo.db.users.find_one({'email': result['email']})
         if(exists != None):
             print('email already exists, cannot create')
-            return render_template('signup.html', exception='email is already in use, please login')
+            return render_template('user/signup.html', exception='email is already in use, please login')
         file = ''
         image = ''
         filename = ''
@@ -215,7 +202,7 @@ def signup():
         except:
             print('could not find the file name', sys.exc_info()[0])
             # return redirect(url_for('/signup/'), exception='did not find file')
-            return render_template('signup.html', exception='did not find file')
+            return render_template('user/signup.html', exception='did not find file')
         image = ''
         if file.filename == '':
             print('No selected file')
@@ -251,14 +238,14 @@ def manageprofile():
         user = mongo.db.users.find_one({'email': session['email']})
         if user == None:
             print('Cannot find current user')
-            return render_template('manageprofile.html')
+            return render_template('user/manageprofile.html')
         else:
             try:
                 _src = url_for('file', filename=user['profile_img'])
-                return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src, loggedin=loggedin)
+                return render_template('user/manageprofile.html', name=user['name'], email=user['email'], src=_src, loggedin=loggedin)
             except:
                 print('Error:', sys.exc_info()[0])
-                return render_template('manageprofile.html', name=user['name'], email=user['email'],  loggedin=loggedin)
+                return render_template('user/manageprofile.html', name=user['name'], email=user['email'],  loggedin=loggedin)
     elif request.method == 'POST':
         print('POST: manage profile')
         filename = ''
@@ -288,12 +275,12 @@ def manageprofile():
         user = mongo.db.users.find_one({'email': update['email']})
         if user == None:
             print("Error could not find new user")
-            return render_template('manageprofile.html')
+            return render_template('user/manageprofile.html')
         else:
             print('manage profile, wth info')
             _src = url_for('file', filename=user['profile_img'])
             print(_src)
-            return render_template('manageprofile.html', name=user['name'], email=user['email'], src=_src,  loggedin=loggedin)
+            return render_template('user/manageprofile.html', name=user['name'], email=user['email'], src=_src,  loggedin=loggedin)
     else:
         print("Error:", request.method)
         
@@ -353,19 +340,40 @@ def index():
         return render_template('index.html')
     return render_template('index.html')
 
+@app.route('/contact',methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        mail = Mail(app)
+        name = request.values.get('name')  # Your form's
+        email = request.values.get('email')  # input names
+        message = request.values.get('message')  # input names
+        print('sending email')
+        msg = Message(message,
+                        sender="jakearmendariz99@gmail.com",
+                        recipients=["jakearmendariz99@gmail.com"])
+        msg.subject = name
+        msg.body = email + "\n" + message
+        if not is_spam(name, msg):
+            mail.send(msg)
+    if(session.get('email') != None):
+        user = mongo.db.users.find_one({'email': session['email']})
+        return render_template('contact.html', name=user['name'], email=user['email'])
+    return render_template('contact.html')
+            
+
 
 
 @app.errorhandler(werkzeug.exceptions.BadRequest)
 def bad_request(msg):
     print("400 error:",request)
-    return render_template('400.html')
+    return render_template('error_pages/400.html')
 
 @app.errorhandler(werkzeug.exceptions.NotFound)
 def file_not_found(msg):
     print("404 error:",request)
-    return render_template('400.html')
+    return render_template('error_pages/404.html')
 
 @app.errorhandler(werkzeug.exceptions.InternalServerError)
 def internal_server_error(param):
     print("500 error:", request)
-    return render_template('500.html')
+    return render_template('error_pages/500.html')
