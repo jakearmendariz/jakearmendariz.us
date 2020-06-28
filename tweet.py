@@ -2,7 +2,6 @@ import tweepy
 from config import *
 import re
 from textblob import TextBlob
-import numpy as np
 import time
 from datetime import datetime
 import numpy as np
@@ -143,7 +142,10 @@ class TwitterApi():
             count += 1
             likedSentiment += TextBlob(favorite.text).sentiment.polarity
 
-        likedSentiment /= count
+        if(count > 0):
+            likedSentiment /= count
+        else:
+            likedSentiment = 0
         liked = count
         count = 0
         # PULLS REGULAR TWEETS
@@ -197,7 +199,10 @@ class TwitterApi():
             #print(tweet.created_at.strftime("%B %d, %Y"), tweet.text)
         print('\n\nNumber of Tweets', count)
 
-        tweetSentiment /= count
+        if(count > 0):
+            tweetSentiment /= count
+        else:
+            tweetSentiment = 0
         # Gets the maximum key value
         friends[username] = 0
         bestfriend = max(friends, key=friends.get)
@@ -207,17 +212,9 @@ class TwitterApi():
         user['bestfriend'] = bestfriend
         user['tweet_sentiment'] = round(((tweetSentiment+1)/2)*100)
         user['liked_sentiment'] = round(((likedSentiment+1)/2)*100)
-        sent = user['tweet_sentiment']
-        if sent > 80:
-            user['sentiment'] = 'very positive'
-        elif sent > 60:
-            user['sentiment'] = 'positive '
-        elif sent > 40:
-            user['sentiment'] = 'neutral'
-        elif sent > 20:
-            user['sentiment'] = 'negative'
-        else:
-            user['sentiment'] = 'very negative'
+        
+        user['sentiment'] = TwitterApi.sentiment_to_string(user['tweet_sentiment'])
+        
         user['amount_analyzed'] = liked+count
         user['liked'] = liked
         user['posts'] = count
@@ -281,7 +278,19 @@ class TwitterApi():
         df.plot('dates', 'likes',
                 kind='scatter', title='Like Distribution over time')
         return mpld3.fig_to_html(fig)
-
+    
+    @staticmethod
+    def sentiment_to_string(rating):
+        if rating > 80:
+            return 'very positive'
+        elif rating > 60:
+            return 'positive '
+        elif rating > 40:
+            return 'neutral'
+        elif rating > 20:
+            return 'negative'
+        else:
+            return 'very negative'
 
 API_KEY = 'v9gW9WQIOg50ItkObmNT6fLxK'
 API_SECRET_KEY = 'kUd69URMSmqJhdC2JiDpLKQYvesT0XYEzpYj8LwWaaePz5gCET'

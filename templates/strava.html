@@ -1,338 +1,148 @@
 
 <html>
-  <head>
-    <link
-      href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
-      rel="stylesheet"
-    />
+    <head>
+        <title>Strava API</title>
+      <link
+        href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
+        rel="stylesheet"
+      />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <style>
-      .body {
-        padding: 0vmin;
-        padding-top: 20vmin;
-        float: center;
-        text-align: center;
-        font-family: Ubuntu;
-      }
-      input {
-        font-size: 1vmin;
-        width: 25vmin;
-        height: 3vmin;
-      }
-      label {
-        font-size: 3vmin;
-        font-style: bold;
-      }
-      button {
-        background-color: #000000; /* Green */
-        border: none;
-        color: white;
-        padding: 12px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-      }
+  <link rel="stylesheet" href="../static/css/strava.css" />
+  <link rel="stylesheet" href="../static/css/chatbot.css" />
+  <script>
+      function updateHTML() {
+        var value = document.getElementById("selectbar").value;
+        console.log("update html from select bar");
+        console.log(value);
+        document.getElementById("submit").value = "submit"
+        if (value == "select"){
+          document.getElementById("submit").style.display = "none"
+          document.getElementById("box").style.display = "none"
+          document.getElementById("space").style.display = "none"
 
-      .dropbtn {
-        background-color: rgb(0, 0, 0, 0);
-        color: white;
-        padding: 16px;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-      }
-
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #ffffff;
-        right: 0;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-
-      .dropdown-content a {
-        font-size:14px;
-        text-align:left;
-        color: black;
-        padding: 15px 16px;
-        text-decoration: none;
-        display: block;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #f1f1f1;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      .dropdown:hover .dropbtn {
-        background-color: rgb(0, 0, 0, 0);
-      }
-
-      .login {
-        position: absolute;
-        top: 0.1%;
-        right: 3vw;
-        list-style-type: none;
-        color: black;
-        font-size: 18px;
-        display: flex;
-        list-style: none;
-        float: right;
-        margin-right: 0vw;
-
-        box-sizing: border-box;
-        border-radius: 0vw;
-        margin-top: 2px;
-
-        background-color: rgb(25, 54, 67, 0.6);
-        background-color: rgb(30, 30, 30, 0);
-
-        -webkit-animation: fadein 3s;
-      }
-
-      input {
-        font-size: 15px;
-      }
-
-      a {
-        color: black;
-      }
-      a :visited {
-        color: black;
-        text-decoration: none;
-      }
-      a :hover {
-        color: black;
-        text-decoration: underline;
-      }
-      h1 {
-        font-size:60px;
-        color: #E95E2A;
-      }
-      .content h1{
-        font-size:40px;
-      }
-      h2 {
-        color: black;
-        font-size:40px;
-      }
-      h3 {
-        color: midnightblue;
-        font-size:25px;
-      }
-      label {
-        color: darkslategray;
-      }
-      .submit {
-        display:none;
-      }
-      .input{
-        display:none;
-      }
-      .count{
-        display:none;
-      }
+        }
+        if(value == "Chat"){
+          document.getElementById("box").style.display = "block"
+          document.getElementById("submit").style.display = "none"
+          document.getElementById("space").style.display = "none"
 
 
-      .popup {
-  position: fixed;
-  display: inline-block;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  position:absolute;
-  right:50px;
-  bottom:20px;
-  line-height: 1.6;
-}
-
-/* The actual popup */
-.popup .popuptext {
-  visibility: hidden;
-  width: 250px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 10px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -175px;
-}
-
-/* Popup arrow */
-.popup .popuptext::after {
-  content: "";
-  position: fixed;
-  top: 100%;
-  left: 60%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
-}
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
-}
-
-      
-    </style>
-
-  </head>
-
-  <body onload="selectValue()">
-    <input id = 'selectValue' type = "number" style = "display:none;" value = {{selectValue}}>
-    <a style="text-decoration:none; position:fixed;" href="/projects">&emsp;<u>back</u></a>
-    <div class="body">
-      {% if loggedin %}
-      <div class="login" style = "position:fixed;">
-        <div class="dropdown" style="float:right;">
-          <button class="dropbtn" style="color:black;">Profile</button>
-          <div class="dropdown-content">
-            <a href="/manageprofile">Manage Profile</a>
-            <a href="/twitteranalysis">Twitter Analysis</a>
-            <a href="/logout">Logout</a>
+        }
+        if (value === "Graph") {
+          document.getElementById("box").style.display = "none"
+          document.getElementById("submit").style.display = "inLine"
+          document.getElementById("submit").value = "view"
+          document.getElementById("space").style.display = "inLine"
+        }
+      }
+      function selectValue(){
+        document.getElementById("selectbar").selectedIndex = document.getElementById("selectValue").value;
+        updateHTML()
+      }
+      function myFunction() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+      }
+    </script>
+    </head>
+  
+    <body onload="selectValue()">
+      <input id = 'selectValue' type = "number" style = "display:none;" value = {{selectValue}}>
+      <a style="text-decoration:none; position:fixed; font-family: Ubuntu;" href="/projects">&emsp;<u>back</u></a>
+      <div class="body">
+        {% if loggedin %}
+        <div class="login" style = "position:fixed;">
+          <div class="dropdown" style="float:right;">
+            <button class="dropbtn" style="color:black;">Profile</button>
+            <div class="dropdown-content">
+              <a href="/manageprofile">Manage Profile</a>
+              <a href="/twitteranalysis">Twitter Analysis</a>
+              <a href="/logout">Logout</a>
+            </div>
           </div>
         </div>
-      </div>
-      {% else %}
-      <a href="/login" class="login" style = "position:fixed;">
-        <li>login</li>
-      </a>
-      {% endif %}
-      <h1>Strava API Analysis</h1>
-      <h2>{{full_name}}'s Strava Breakdown</h2>
-
-
-      <div class="popup" onclick="myFunction()" style = "font-size:14px; margin-top:-30px; position:fixed;">What is this?
-        <span class="popuptext" id="myPopup">A small twitter web application that allows users to view anyone's tweets in 'All posts', a analysis of a users twitter in 'twitter wrapped', and text analysis on any person or topic in twitter for an accurate segment of the population.</span>
-      </div>
-      <form action="" method="POST" >
-        <label>Select An Operation</label>
-        <br />
-        <br />
-        <select
-          style=" float:center"
-          name="query"
-          width="150px"
-          height="50"
-          id="selectbar"
-          onchange="updateHTML()"
-          style="
-        font-family: Ubuntu;"
-        >
-          <option value="select">Select an operation</option>
-          <option value="All">All posts</option>
-          <option value="Wrapped">Twitter Wrapped</option>
-          <option value="Sentiment">Topic Sentiment Analysis</option>
-          <option value="Politics">View Politicians Twitter Ratings</option>
-        </select>
-
-        
-        <br /><br />
-        <input
-          name="input"
-          placeholder="Username"
-          width="400"
-          height="80"
-          id="input"
-          style="
-        font-family: Ubuntu;"
-        class = "input"
-        /><br />
-        <input
-          name="count"
-          type="number"
-          class="count"
-          placeholder="Retrieve how many tweets?"
-          width="400"
-          height="80"
-          id="count"
-          style="
-        font-family: Ubuntu;"
-        />
-        <br /><br />
-
-        <button class = "submit" id = "submit">submit</button>
-      </form>
-      <div class = 'content'>
-      {% if all %}
-      <h1>Retrieving {{count}} of {{username}}'s tweets</h1>
-      {% endif %} 
-      {% for tweet, img in tweets %}
-        {% if loop.index%2 == 0 %}
-          <div style = "background-color:rgb(255,255,255)">
         {% else %}
-        <div style = "background-color:rgb(250,250,250)">
+        <a href="/login" class="login" style = "position:fixed;">
+          <li>login</li>
+        </a>
         {% endif %}
-     <div style = "padding:20vmin; padding-top:5vmin; padding-bottom:5vmin;">
-      <h2>@{{username}}: {{ tweet }}</h2>
-      <img src = "{{img}}" / style = "float:center; text-align:center;"> <br /><br />
-     </div>
-    </div>
-      {% endfor %}
-      <h1>{{topic}}{{answer}}</h1>
+        <h1>Strava API Analysis</h1>
+        <h2>{{full_name}}'s Strava Breakdown</h2>
+  
+  
+        <div class="popup" onclick="myFunction()" style = "font-size:14px; margin-top:-30px; position:fixed;">What is this?
+          <span class="popuptext" id="myPopup">A small twitter web application that allows users to view anyone's tweets in 'All posts', a analysis of a users twitter in 'twitter wrapped', and text analysis on any person or topic in twitter for an accurate segment of the population.</span>
+        </div>
+        <form action="" method="POST" >
+          <label>Select An Operation</label>
+          <br />
+          <br />
+          <select
+            style=" float:center"
+            name="query"
+            width="150px"
+            height="50"
+            id="selectbar"
+            onchange="updateHTML()"
+            style="
+          font-family: Ubuntu;"
+          >
+            <option value="select">Select an operation</option>
+            <option value="Chat">Strava QA Chatbot</option>
+            <option value="Graph">View Activity Graphs</option>
+          </select>
+        
+        <div id = "space">
+        <br><br>
+         </div>
+          <button class = "submit" id = "submit">submit</button>
+        
+        </form>
+        <div class = 'content'>
+       
+        <div class="boxed" id = "box" display="none">
+          <div>
+              <div id="chatbox">
+                  <p class="botText">
+                  <span>Hi! I am your personal strava chatbot. For list of commands type ! cmd list</span>
+                  </p>
+              </div>
+              <div id="userInput">
+                  <input id="textInput" type="text" name="msg" placeholder="Message" />
+              </div>
+          </div>
+          <script>
+          function getBotResponse() {
+            var rawText = $("#textInput").val();
+            var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+            $("#textInput").val("");
+            $("#chatbox").append(userHtml);
+            document.getElementById("userInput").scrollIntoView({ block: "start", behavior: "smooth" });
+            $.get("/get", { msg: rawText }).done(function (data) {
+                var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+                $("#chatbox").append(botHtml);
+                document
+                .getElementById("userInput")
+                .scrollIntoView({ block: "start", behavior: "smooth" });
+            });
+            }
 
-      {% if wrapped %}
-      <h1>{{name}}'s Twitter Wrapped</h1>
-      <img src="{{profile_img}}" style="width: 10vw;" />
-      <h2>{{description}}</h2>
-      <h3>followers: {{followers}} following: {{friends}}</h3>
-      <h3>Created Account on {{date}}</h3>
-      <h4>
-        Most Popular Tweet: {{pop_likes}} likes and {{pop_retweets}} retweets
-      </h4>
-      <h3>{{popular_text}}</h3>
-      {% if renderImage %}
-      <img src="{{popular_img}}" style="width: 20vw;" />
-      {% endif %}
-      <h2>{{name}} twitter best friend is {{bestfriend}}</h2>
-      <h3>
-        After a sentiment analysis on {{name}} tweets, {{name}}'s tweets are generally {{sentiment}}.
-      </h3>
-      <h3>
-        {{name}} tweets have a an {{tweet_sentiment}}% positive sentiment rating, and they
-        like tweets with a {{liked_sentiment}}% positive sentiment rating
-      </h3>
-      {{graph|safe}}
-      {% endif %}
-
-      {% if politics %}
-      {{graph|safe}}
-      {% endif %}
-    </div>
-    </div>
-  </body>
-</html>
+            $("#textInput").keypress(function (e) {
+                if (e.which == 13) {
+                    getBotResponse();
+                }
+            });
+          </script>
+      </div>
+        
+  
+        {% if graphing %}
+        {{graph|safe}}
+        {{graph2|safe}}
+        {% endif %}
+      </div>
+      </div>
+    </body>
+  </html>
+  

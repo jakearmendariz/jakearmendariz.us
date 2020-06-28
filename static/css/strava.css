@@ -1,0 +1,199 @@
+.body {
+    padding: 0vmin;
+    padding-top: 20vmin;
+    float: center;
+    text-align: center;
+    font-family: Ubuntu;
+  }
+  input {
+    font-size: 1vmin;
+    width: 25vmin;
+    height: 3vmin;
+  }
+  label {
+    font-size: 3vmin;
+    font-style: bold;
+  }
+  button {
+    background-color: #000000; /* Green */
+    border: none;
+    color: white;
+    padding: 12px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .dropbtn {
+    background-color: rgb(0, 0, 0, 0);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    right: 0;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    font-size:14px;
+    text-align:left;
+    color: black;
+    padding: 15px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: rgb(0, 0, 0, 0);
+  }
+
+  .login {
+    position: absolute;
+    top: 0.1%;
+    right: 3vw;
+    list-style-type: none;
+    color: black;
+    font-size: 18px;
+    display: flex;
+    list-style: none;
+    float: right;
+    margin-right: 0vw;
+
+    box-sizing: border-box;
+    border-radius: 0vw;
+    margin-top: 2px;
+
+    background-color: rgb(25, 54, 67, 0.6);
+    background-color: rgb(30, 30, 30, 0);
+
+    -webkit-animation: fadein 3s;
+  }
+
+  input {
+    font-size: 15px;
+  }
+
+  a {
+    color: black;
+  }
+  a :visited {
+    color: black;
+    text-decoration: none;
+  }
+  a :hover {
+    color: black;
+    text-decoration: underline;
+  }
+  h1 {
+    font-size:60px;
+    color: #E95E2A;
+  }
+  .content h1{
+    font-size:40px;
+  }
+  h2 {
+    color: black;
+    font-size:40px;
+  }
+  h3 {
+    color: midnightblue;
+    font-size:25px;
+  }
+  label {
+    color: darkslategray;
+  }
+  .submit {
+    display:none;
+  }
+  .input{
+    display:none;
+  }
+  .count{
+    display:none;
+  }
+
+
+  .popup {
+position: fixed;
+display: inline-block;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+position:absolute;
+right:50px;
+bottom:20px;
+line-height: 1.6;
+}
+
+/* The actual popup */
+.popup .popuptext {
+visibility: hidden;
+width: 250px;
+background-color: #555;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 10px;
+position: absolute;
+z-index: 1;
+bottom: 125%;
+left: 50%;
+margin-left: -175px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+content: "";
+position: fixed;
+top: 100%;
+left: 60%;
+margin-left: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+visibility: visible;
+-webkit-animation: fadeIn 1s;
+animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+from {opacity: 0;} 
+to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+from {opacity: 0;}
+to {opacity:1 ;}
+}

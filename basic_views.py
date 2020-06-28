@@ -319,9 +319,9 @@ def viewTweets():
                                    bestfriend=userdict['bestfriend'], pop_likes=userdict['pop_likes'], pop_retweets=userdict[
                                        'pop_retweets'], renderImage=renderImage, selectValue=2,
                                    graph=userdict['graph'], sentiment=userdict['sentiment'])
-        elif(query == 'Politics'):
+        elif(query == 'Graph'):
             # Politician.updateGraph()
-            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), politics=True, selectValue=4)
+            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), graphing=True, selectValue=4)
         # return render_template('tweet.html', answer=approval)   datetime.strptime(userdict['created_at'], "%M %d, %Y")
     return render_template('mytweets.html', loggedin=isloggedin, selectValue=0)
 
@@ -377,3 +377,4 @@ def file_not_found(msg):
 def internal_server_error(param):
     print("500 error:", request)
     return render_template('error_pages/500.html')
+
