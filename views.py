@@ -46,40 +46,41 @@ def strava_connect():
 
 
 @app.route('/strava/', methods = ['GET, POST'])
-def displayStrava():
+def display_strava():
     print("displayStrava")
     if('access_token' in session):
-        strava = Strava(session['access_token'])
-        print("athlete", strava.getFullName())
-        name = strava.getFullName()
+        try:
+            strava = Strava(session['access_token'])
+        except: #access_token was expired or broken. Restart initialization
+            del session['access_token']
+            redirect(url_for('strava_connect'))
+        print("athlete", strava.get_name())
+        name = strava.get_name()
         return render_template('strava.html', full_name = name)
     
     return render_template('strava_connect.html', url = get_auth_url())
 
+def strava_authorization(code):
+    client = Client()
+    access_dict = client.exchange_code_for_token(client_id=STRAVA_CLIENT_ID,
+                                            client_secret=STRAVA_CLIENT_SECRET,
+                                            code=code)
+    print("acces_token", access_dict['access_token'])
+    client = Client(access_token = access_dict['access_token'])
+    session['access_token'] = access_dict['access_token']
+    strava = Strava(access_dict['access_token'])
+    name = strava.get_name()
+    return display_strava()
 
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
-    # print("render_static",request.full_path, " page_name" + page_name)
     if("strava" in request.full_path ):
-        print("strava in render_static")
+        #If code is in the url then it was a authorization attempt. Else, user should have loggedin already
         code = request.args.get('code')
         if(code == None):
-            return displayStrava()
-        client = Client()
-        access_dict = client.exchange_code_for_token(client_id=STRAVA_CLIENT_ID,
-                                              client_secret=STRAVA_CLIENT_SECRET,
-                                              code=code)
-        print("got the real access_token!!!", access_dict['access_token'])
-        
-        client = Client(access_token = access_dict['access_token'])
-        session['access_token'] = access_dict['access_token']
-        strava = Strava(access_dict['access_token'])
-        print("athlete", strava.getFullName())
-        name = strava.getFullName()
-        return displayStrava()
-
-        
+            return display_strava()
+        return strava_authorization(code)
     if page_name == 'contact':
         if request.method == 'POST':
             mail = Mail(app)
