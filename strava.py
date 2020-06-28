@@ -2,7 +2,7 @@ from stravalib import Client
 from config import *
 
 class Strava():
-    def __init__(self, access_token='63a4ca6ee769c485b550437d2a3d7a25802fd592'):
+    def __init__(self, access_token):
        self.client = Client (access_token = access_token)
        self.athlete = self.client.get_athlete()
        
@@ -24,6 +24,6 @@ class Strava():
 # print(client.())
 
 
-
-# strava = Strava('8c6dcda89f6a3e12acafeeae4dc6a8220ae08aa1')
+# strava = Strava('4ff2e7879b14c4b0607595809cac9dd505c17d9c')
+# print(strava.getFullName())
 
