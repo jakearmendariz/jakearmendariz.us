@@ -72,7 +72,6 @@ def strava_authorization(code):
     print("acces_token", access_dict['access_token'])
     client = Client(access_token = access_dict['access_token'])
     session['access_token'] = access_dict['access_token']
-    print(session['access_token'])
     return display_strava()
 
 

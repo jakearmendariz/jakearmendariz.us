@@ -21,6 +21,9 @@ class Strava():
     def get_activites(self, count = 10):
         print(self.client.get_activites(limit=count))
         
+    def get_activity_dict(self, id):
+        return self.client.get_activity(id).to_dict()
+        
     def get_name(self):
         return self.athlete.firstname + " " + self.athlete.lastname
     
