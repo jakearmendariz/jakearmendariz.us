@@ -213,6 +213,12 @@ def save_politician_ratings():
     pass
 
 
+def delete_excess_files():
+    for file in os.listdir('templates/strava_user_files/'):
+        os.remove(os.path.join('templates/strava_user_files/', file))
+    pass
+
+
 # Politician.updateGraph()
 # Politician.zeroGraph()
 # Politician.graph_politicians()

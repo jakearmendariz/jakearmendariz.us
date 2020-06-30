@@ -74,6 +74,11 @@ def strava_authorization(code):
     session['access_token'] = access_dict['access_token']
     return display_strava()
 
+@app.route('/strava_user_files/<string:hash>/', methods=['GET', 'POST'])
+def render_data(hash):
+    print("rendering strava_user_file")
+    return render_template('/strava_user_files/%s.html' % hash)
+
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
@@ -87,3 +92,6 @@ def render_static(page_name):
             return redirect(get_auth_url())
         return strava_authorization(code)
     return render_template('%s.html' % page_name)
+
+
+

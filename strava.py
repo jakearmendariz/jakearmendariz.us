@@ -17,6 +17,8 @@ class Strava():
        self.client = Client (access_token = access_token)
        self.athlete = self.client.get_athlete()
        
+    def get_id(self):
+        return self.athlete.id
         
     def get_activites(self, count = 10):
         print(self.client.get_activites(limit=count))
@@ -70,6 +72,17 @@ class Strava():
             distances.append(self.to_miles(activity))
         return np.array(dates), np.array(distances)
         
+    def get_activities(self, before_date = "2021-06-29T00:00:00Z"):
+        activities = self.client.get_activities(before = before_date,  limit=750)
+        arr = []
+        for activity in activities:
+            mydict = activity.to_dict()
+            mydict['id'] = activity.id
+            mydict['distance'] = round(self.to_miles(mydict), 2)
+            mydict['hours'] = int(mydict['elapsed_time'][0:1])
+            arr.append(mydict)
+        return arr
+    
     def turn_dates_into_numbers(self, dates):
         return np.arange(len(dates))
     

@@ -34,10 +34,15 @@ scheduler.add_job(func=save_politician_ratings,
 # 5p,
 scheduler.add_job(func=save_politician_ratings,
                   trigger="cron", hour=0, minute=0, second=0)
+
+scheduler.add_job(func=delete_excess_files,
+                  trigger="cron", hour=0, minute=0, second=0)
+
 scheduler.start()
 
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
+
 
 @app.before_request
 def make_session_permanent():
@@ -226,8 +231,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 
 
 @app.route('/manageprofile/', methods=['GET', 'PUT', 'POST'])
