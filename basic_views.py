@@ -37,6 +37,9 @@ scheduler.add_job(func=save_politician_ratings,
 
 scheduler.add_job(func=delete_excess_files,
                   trigger="cron", hour=0, minute=0, second=0)
+# pm
+scheduler.add_job(func=delete_excess_files,
+                  trigger="cron", hour=19, minute=0, second=0)
 
 scheduler.start()
 
@@ -323,6 +326,11 @@ def viewTweets():
                                        'pop_retweets'], renderImage=renderImage, selectValue=2,
                                    graph=userdict['graph'], sentiment=userdict['sentiment'])
         elif(query == 'Graph'):
+            print("GRAPHING")
+            # Politician.updateGraph()
+            return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), graphing=True, selectValue=4)
+        elif(query == 'Politics'):
+            print("GRAPHING")
             # Politician.updateGraph()
             return render_template('mytweets.html', loggedin=isloggedin, graph=Politician.graph_politicians(), graphing=True, selectValue=4)
         # return render_template('tweet.html', answer=approval)   datetime.strptime(userdict['created_at'], "%M %d, %Y")

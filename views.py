@@ -23,12 +23,19 @@ import werkzeug
 import urllib3
 from urllib.parse import urlencode #Allows me to encode url for strava oatuh
 from stravalib import Client
+from chatbot import *
 
 
 #For sessions
 app.secret_key = APP_SECRET_KEY
 
 chatbot = None
+
+activities = None
+
+# dictionary contains key:value between the [       strava_id     :       activity_dict     ]
+#                                               (stored in session)
+user_activities = {}
 
 def get_auth_url():
     client = Client()
@@ -55,6 +62,7 @@ def display_strava():
             return redirect(get_auth_url())
         print("athlete", strava.get_name())
         name = strava.get_name()
+        session['strava_name'] = name
         global chatbot
         chatbot = Chatbot(strava)
         # graph = strava.graph_activity_distribution
@@ -72,6 +80,7 @@ def strava_authorization(code):
     print("acces_token", access_dict['access_token'])
     client = Client(access_token = access_dict['access_token'])
     session['access_token'] = access_dict['access_token']
+    session['strava_id'] = client.get_athlete().id
     return display_strava()
 
 @app.route('/strava_user_files/<string:hash>/', methods=['GET', 'POST'])
@@ -79,19 +88,51 @@ def render_data(hash):
     print("rendering strava_user_file")
     return render_template('/strava_user_files/%s.html' % hash)
 
+@app.route('/strava-activities', methods = ['GET, POST'])
+@app.route('/strava_activities', methods = ['GET, POST'])
+def get_activities():
+    if('access_token' in session):
+        try:
+            strava = Strava(session['access_token'])
+        except: #access_token was expired or broken. Restart initialization
+            del session['access_token']
+            return redirect(url_for(get_auth_url(), next= request.url))
+    else:
+        return redirect(url_for(get_auth_url(), next= request.url))
+    global user_activities
+    if session['strava_id'] not in user_activities:
+        activities = ActivityList()
+        activities.load_list()
+        user_activities[session['strava_id']] = activities
+    activities =  user_activities[session['strava_id']]
+    form = request.form.to_dict()
+    print(form)
+    if(len(form) > 0):
+        static_list = activities.create_filtered_list(form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
+    else:
+        static_list = activities.create_filtered_list()
+    print("Got activities, rendering in html")
+    
+    if 'strava_name' not in session:
+        strava = Strava(session['access_token'])
+        session['strava_name'] = strava.get_name()
+    if 'query' not  in form:
+        form['query'] = 'All'
+    return render_template('strava_activites.html', activities = static_list, form=form, name = session['strava_name'])
+
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
-    if("strava" in request.full_path ):
+    if("strava" in request.full_path):
         print("static strava")
         #If code is in the url then it was a authorization attempt. Else, user should have loggedin already
         code = request.args.get('code')
         if 'access_token' in session:
+            if('strava-activities' in request.full_path):
+                return get_activities()
             return display_strava()
         elif(code == None):
             return redirect(get_auth_url())
         return strava_authorization(code)
     return render_template('%s.html' % page_name)
-
-
 

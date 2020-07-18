@@ -1,0 +1,57 @@
+<head>
+    <title>My Activities</title>
+    <script src="../static/js/strava_table.js"></script>
+    <link rel="stylesheet" href="../static/css/activity_list.css" /> 
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"rel="stylesheet"/>
+    <script>
+        function selectValue(){
+            document.getElementById("selectbar").value = document.getElementById("selectValue").value
+        }
+    </script>
+</head>
+<body onload="selectValue()">
+    <h1>{{ name }}'s Strava Activites</h1>
+    <input id = 'selectValue' style = "display:none;" value = {{ form['query'] }}>
+    <button>Refresh</button>
+    <form style="text-align: center;" method="POST">
+        <select
+            style=" float:center"
+            name="query"
+            width="150px"
+            height="50"
+            id="selectbar"
+            style="
+          font-family: Ubuntu;"
+          >
+            <option value="All">All</option>
+            <option value="Runs">Runs</option>
+            <option value="Rides">Rides</option>
+            <option value="Swims">Swims</option>
+        </select>&emsp;&emsp;
+        Distance:<input placeholder="From" name="DistanceFrom" value = {{ form['DistanceFrom'] }}><input placeholder="To" name="DistanceTo"  value = {{ form['DistanceTo'] }}>&emsp;&emsp;
+        Pace:<input placeholder="From" name="PaceFrom"  value = {{ form['PaceFrom'] }}><input placeholder="To" name="PaceTo"  value = {{ form['PaceTo'] }}>&emsp;&emsp;
+        Date Range:<input placeholder="From" name="TimeFrom"  value = {{ form['TimeFrom'] }}><input placeholder="To" name="TimeTo"  value = {{ form['TimeTo'] }}>&emsp;&emsp;
+        <Button>Submit</Button>
+    </form>
+    <br>
+    <table  id = "table">
+        <tr>
+            <th onclick="quicksort(0)">Activity-id</th>
+            <th onclick="quicksort(1)">Date</th>
+            <th onclick="quicksort(2)">Name & Link to acitivty</th>
+            <th onclick="quicksort(3)">Pace</th>
+            <th onclick="quicksort(4)">Distance</th>
+            <th onclick="quicksort(5)">Moving Time</tr>
+        </tr>
+        {% for activity in activities %}
+            <tr>
+                <td>{{activity['id']}}</td>
+                <td>{{activity['date']}}</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">{{activity['name']}}</a></td>
+                <td>{{activity['pace_str']}}</td>
+                <td>{{activity['distance']}}</td>
+                <td>{{activity['moving_time']}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>

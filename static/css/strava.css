@@ -5,6 +5,9 @@
     text-align: center;
     font-family: Ubuntu;
   }
+  span {
+    font-style: bold;
+  }
   input {
     font-size: 1vmin;
     width: 25vmin;

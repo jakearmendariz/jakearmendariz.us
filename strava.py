@@ -1,6 +1,5 @@
 from stravalib import Client
 from config import *
-
 from datetime import datetime
 import numpy as np
 import pandas as pd
@@ -20,72 +19,76 @@ class Strava():
     def get_id(self):
         return self.athlete.id
         
-    def get_activites(self, count = 10):
-        print(self.client.get_activites(limit=count))
-        
     def get_activity_dict(self, id):
         return self.client.get_activity(id).to_dict()
         
     def get_name(self):
         return self.athlete.firstname + " " + self.athlete.lastname
     
-    def to_miles(self, activity):
-        return activity['distance']/1609.34
+    def to_miles(self, distance):
+        return distance/1609.34
     
-    def graph_activity_distribution(self, line = None):
-        fig, ax = self.init_graph()
-        if line != None and line == "smooth":
-            self.get_activity_smooth_line(ax=ax)
-            return mpld3.fig_to_html(fig)
-        else:
-            line = self.get_activity_line()
-            line.plot(linewidth=2.5)
-            return mpld3.fig_to_html(fig)
-    
-    def init_graph(self):
-        plt.switch_backend('Agg')
-        plt.ylabel('miles')
-        plt.xlabel('time')
-        plt.title('Distance over time')
-        fig, ax = plt.subplots(figsize=(8, 4))
-        return fig, ax
-        
-    def get_activity_line(self):
-        dates, distances = self.get_dates_and_distances()
-        return pd.Series(data=np.array(distances), index=np.array(dates))
-
-    
-    def get_activity_smooth_line(self, fig = None, ax = ax):
-        dates, distances = self.get_dates_and_distances()
-        x = self.turn_dates_into_numbers(dates)
-        x_new = np.linspace(x[0], x[-1],2000)
-        f = interp1d(x, distances, kind='quadratic')
-        y_smooth=f(x_new)
-        ax.plot (x_new,y_smooth, label="pace")
-    
-    def get_dates_and_distances(self, before_date = "2020-06-29T00:00:00Z"):
-        activities = self.client.get_activities(before = before_date,  limit=750)
-        distances, dates = [], []
-        for activity in activities:
-            activity = activity.to_dict()
-            dates.append(activity['start_date_local'])
-            distances.append(self.to_miles(activity))
-        return np.array(dates), np.array(distances)
         
     def get_activities(self, before_date = "2021-06-29T00:00:00Z"):
-        activities = self.client.get_activities(before = before_date,  limit=750)
+        activities = self.client.get_activities(before = before_date, after = "2017-01-01T00:00:00Z", limit=1200)
         arr = []
         for activity in activities:
-            mydict = activity.to_dict()
-            mydict['id'] = activity.id
-            mydict['distance'] = round(self.to_miles(mydict), 2)
-            mydict['hours'] = int(mydict['elapsed_time'][0:1])
-            arr.append(mydict)
+            arr.append(self.activity_to_dict(activity))
         return arr
     
-    def turn_dates_into_numbers(self, dates):
-        return np.arange(len(dates))
+    # Condenses the array, removes the hundreds of unnecessary parameters
+    def activity_to_dict(self, activity):
+        activity_dict = activity.to_dict()
+        result = {}
+        result['id'] = activity.id
+        result['name'] = activity_dict['name']
+        result['distance'] = round(self.to_miles(activity_dict['distance']), 2)
+        result['hours'] = int(activity_dict['moving_time'][0:1])
+        result['date'] = activity_dict['start_date'][:10]
+        arr = result['date'].split('-')
+        result['date_value'] = int(arr[0])*365 + (int(arr[1])-1) * 30.5 + int(arr[2])
+        result['moving_time'] = activity_dict['moving_time']
+        result['elapsed_time'] = activity_dict['elapsed_time']
+        result['type'] = activity_dict['type']
+        return result
+        
+    def add_pace(self, activity_list):
+        for activity in activity_list:
+            if(activity['type'] == 'Run'):
+                activity['pace'] = self.get_pace(activity['distance'], activity['moving_time'])
+                activity['pace_str'] = self.minutes_to_str(activity['pace']) + ' /mile'
+            else:
+                activity['pace'] = self.get_mph(activity['distance'], activity['moving_time'])
+                activity['pace_str'] = str(activity['pace'])  + ' mph'
+        return activity_list
     
-    #Turns dates and activites into miles/week
-    def miles_per_week(self):
-        pass
+    def get_mph(self, distance, time):
+        if not isinstance(time, float) and not isinstance(time, float):
+            time = self.to_hours(time)
+        if(distance == 0):
+            return 0
+        return round(float(distance)/time, 2)
+    
+    def get_pace(self, distance, time):
+        if not isinstance(time, int) and not isinstance(time, float):
+            time = self.to_minutes(time)
+        return float(time)/distance
+    
+    def minutes_to_str(self, minutes):
+        seconds = str(round((minutes%1)*60))
+        if(len(seconds) == 1 and minutes%1 < 0.16):
+            seconds = '0' + seconds
+        elif(len(seconds) == 1):
+            seconds = seconds + '0'
+        
+        return str(int(minutes)) + ':' + seconds
+    
+    def to_minutes(self, time):
+        arr = [int(i) for i in time.split(':') if i.isdigit()]
+        return arr[0]*60 + arr[1]
+    
+    def to_hours(self, time):
+        arr = [float(i) for i in time.split(':') if i.isdigit()]
+        return arr[0] + arr[1]/60
+        
+    

@@ -8,7 +8,10 @@ import matplotlib.pyplot as plt
 import mpld3
 import numpy as np
 import pandas as pd
+from scipy.interpolate import interp1d
+from matplotlib.pyplot import figure
 
+fig, ax = plt.subplots()
 
 class User():
     data = {}
@@ -185,6 +188,7 @@ class Politician():
     def graph_politicians():
         plt.switch_backend('Agg')
         fig = plt.figure(figsize=(10, 7))
+        # figure(figsize=(10,7))
         for person in Politician.people:
             index = person.index(' ')
             last = person[index+1:]
@@ -196,14 +200,22 @@ class Politician():
                 dates.append(poll[1])
             polls = np.asarray(polls)
             dates = np.asarray(dates)
-            #polls = np.array(poll[0] for poll in polls)
-            #dates = np.array(poll[1] for poll in dates)
+           
             line = pd.Series(data=polls, index=dates)
             line.plot(label=person, legend=True, linewidth=4.0)
+            # Politician.smooth_line(person, dates, polls)
         plt.ylabel('polling')
         plt.xlabel('date')
         plt.title("Twitter Approval Rating Over Time")
         return mpld3.fig_to_html(fig)
+    
+    @staticmethod
+    def smooth_line(person, x, y):
+        x_range = np.arange(len(x))
+        x_new = np.linspace(x_range[0], x_range[-1],2000)
+        f = interp1d(x_range, y, kind='quadratic')
+        y_smooth=f(x_new)
+        ax.plot (x_new,y_smooth, label=person)
 
 # Calls once a day to record politicans ratings. Cannot record with a static graph
 
@@ -214,6 +226,7 @@ def save_politician_ratings():
 
 
 def delete_excess_files():
+    print("removing excess files")
     for file in os.listdir('templates/strava_user_files/'):
         os.remove(os.path.join('templates/strava_user_files/', file))
     pass

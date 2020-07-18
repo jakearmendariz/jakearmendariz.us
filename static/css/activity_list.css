@@ -1,0 +1,33 @@
+body {
+    font-family: Ubuntu;
+}
+
+h1{
+    color: #E95E2A
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  /* position:absolute;
+  top:8%; */
+}
+
+form {
+  margin-bottom:0;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+  color:#E95E2A
+}
+
