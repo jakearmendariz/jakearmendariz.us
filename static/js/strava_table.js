@@ -1,8 +1,9 @@
 const DISTANCE = 4
 const PACE = 3
 const TIME = 5
+
 function timeToSeconds(arr){
-    return arr[0] * 3600 + arr[1] + 60 + arr[2]
+    return arr[0] * 3600 + arr[1] * 60 + arr[2]
 }
 function sortTable(n) {
   console.log("sort table")
@@ -80,12 +81,22 @@ function sortTable(n) {
   }
 }
 
-
+function clearIcons(){
+    for(let i = 0; i < 12; i++){
+        let id = 'a' + i
+        document.getElementById(id).style.display = "none"
+    }
+    for(let i = 0; i < 6; i++){
+        let id = 'b' + i
+        document.getElementById(id).style.backgroundColor = "#fff"
+    }
+}
 
 
 let dir = 0
 function quicksort(n) {
     console.log("quicksort")
+    clearIcons()
     var table, rows, i, x, y;
     table = document.getElementById("table");
     rows = table.rows
@@ -93,20 +104,26 @@ function quicksort(n) {
     let sortedArr = []
     for (i = 1; i < rows.length; i++) {
         sortedArr.push([i, convert(rows[i], n), rows[i]])
-        // console.log(i + ":"+ sortedArr[i-1][1])
     }
+    let id = "a"
+    let b = "b" + n
+    document.getElementById(b).style.backgroundColor = "#eee"
     if(dir == 0){
+        id += 2*n + 1
+        console.log(id)
+        // document.getElementById(id).style.display = "block"
         quickSort(sortedArr, 0, sortedArr.length-1)
         dir = 1
     }else{
+        id += 2*n
+        console.log(id)
+        // document.getElementById(id).style.display = "block"
         quickSortDesc(sortedArr, 0, sortedArr.length-1)
         dir = 0
     }
 
-    // rows[1].parentNode.insertBefore(sortedArr[4][2], rows[1]);
     for (i = 1; i < rows.length; i++) {
         rows[i].parentNode.insertBefore(sortedArr[i-1][2], rows[i]);
-        // console.log(i + ":"+ sortedArr[i-1][1])
     }
 }
 
@@ -114,8 +131,6 @@ function quickSort(arr, low, high)
 {
     if (low < high)
     {
-        /* pi is partitioning index, arr[pi] is now
-           at right place */
         let pi = partition(arr, low, high);
 
         quickSort(arr, low, pi - 1);  // Before pi
@@ -127,8 +142,6 @@ function partition (arr, low, high)
 {
     // pivot (Element to be placed at right position)
     let pivot = arr[high][1];
-    // console.log("low:" + low + " high:" + high)
-    // console.log("pivot:" + pivot)
  
     let i = (low - 1)  // Index of smaller element
 
@@ -138,22 +151,15 @@ function partition (arr, low, high)
         if (arr[j][1] < pivot)
         {
             i++;    // increment index of smaller element
-            // console.log("i:" + i + " j: " + j)
-            // console.log("swapping:" + arr[i][1] + " with " + arr[j][1])
             if(i != j)
                 swap(arr, i ,j);
-            // console.log("complete:" + arr[i][1] + " with " + arr[j][1])
         }
     }
     i += 1
-    // console.log("i:" + i + " high: " + high)
     if(i < 0){
-        // console.log('i < 0, returning')
         return
     }
-    // console.log("swapping:" + arr[i][1] + " with " + arr[high][1])
     swap(arr, i, high)
-    // console.log("complete:" + arr[i][1] + " with " + arr[high][1])
     return i
 }
 
@@ -175,8 +181,6 @@ function partitionDesc (arr, low, high)
 {
     // pivot (Element to be placed at right position)
     let pivot = arr[high][1];
-    // console.log("low:" + low + " high:" + high)
-    // console.log("pivot:" + pivot)
  
     let i = (low - 1)  // Index of smaller element
 
@@ -186,26 +190,17 @@ function partitionDesc (arr, low, high)
         if (arr[j][1] > pivot)
         {
             i++;    // increment index of smaller element
-            // console.log("i:" + i + " j: " + j)
-            // console.log("swapping:" + arr[i][1] + " with " + arr[j][1])
             if(i != j)
                 swap(arr, i ,j);
-            // console.log("complete:" + arr[i][1] + " with " + arr[j][1])
         }
     }
     i += 1
-    // console.log("i:" + i + " high: " + high)
     if(i < 0){
-        // console.log('i < 0, returning')
         return
     }
-    // console.log("swapping:" + arr[i][1] + " with " + arr[high][1])
     swap(arr, i, high)
-    // console.log("complete:" + arr[i][1] + " with " + arr[high][1])
     return i
 }
-
-  
 
 function convert(element, n){
     let tag = element.getElementsByTagName("TD")[n];

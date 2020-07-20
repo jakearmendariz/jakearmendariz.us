@@ -8,11 +8,15 @@
             document.getElementById("selectbar").value = document.getElementById("selectValue").value
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body onload="selectValue()">
     <h1>{{ name }}'s Strava Activites</h1>
     <input id = 'selectValue' style = "display:none;" value = {{ form['query'] }}>
-    <button>Refresh</button>
+    <form method="POST">
+        <input style="display:none" name="refreshpage">
+        <button>Refresh</button>
+    </form>
     <form style="text-align: center;" method="POST">
         <select
             style=" float:center"
@@ -36,12 +40,12 @@
     <br>
     <table  id = "table">
         <tr>
-            <th onclick="quicksort(0)">Activity-id</th>
-            <th onclick="quicksort(1)">Date</th>
-            <th onclick="quicksort(2)">Name & Link to acitivty</th>
-            <th onclick="quicksort(3)">Pace</th>
-            <th onclick="quicksort(4)">Distance</th>
-            <th onclick="quicksort(5)">Moving Time</tr>
+            <th id = "b0" onclick="quicksort(0)">Activity-id<i id = "a0" class="fa fa-sort-down" style="display:none"></i><i id = "a1" class="fa fa-sort-up" style="display:none"></i></th>
+            <th id = "b1" onclick="quicksort(1)">Date<i id = "a2" class="fa fa-sort-down" style="display:none"></i><i id = "a3" class="fa fa-sort-up" style="display:none"></i></th>
+            <th id = "b2" onclick="quicksort(2)">Name & Link to acitivty<i id = "a4" class="fa fa-sort-down" style="display:none"></i><i id = "a5" class="fa fa-sort-up" style="display:none"></i></th>
+            <th id = "b3" onclick="quicksort(3)">Pace<i id = "a6" class="fa fa-sort-down" style="display:none"></i><i id = "a7" class="fa fa-sort-up" style="display:none"></i></th>
+            <th id = "b4" onclick="quicksort(4)">Distance<i id = "a8" class="fa fa-sort-down" style="display:none"></i><i id = "a9" class="fa fa-sort-up" style="display:none"></i></th>
+            <th id = "b5" onclick="quicksort(5)">Moving Time<i id = "a10" class="fa fa-sort-down" style="display:none"></i><i id = "a11" class="fa fa-sort-up" style="display:none"></i></tr>
         </tr>
         {% for activity in activities %}
             <tr>

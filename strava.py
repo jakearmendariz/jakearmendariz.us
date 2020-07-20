@@ -60,6 +60,7 @@ class Strava():
             else:
                 activity['pace'] = self.get_mph(activity['distance'], activity['moving_time'])
                 activity['pace_str'] = str(activity['pace'])  + ' mph'
+            activity['work'] = self.get_mph(activity['distance'], activity['moving_time']) * activity['distance']
         return activity_list
     
     def get_mph(self, distance, time):

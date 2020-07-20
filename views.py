@@ -93,7 +93,8 @@ def render_data(hash):
 def get_activities():
     if('access_token' in session):
         try:
-            strava = Strava(session['access_token'])
+            client = Client(access_token =session['access_token'])
+            client.get_athlete()
         except: #access_token was expired or broken. Restart initialization
             del session['access_token']
             return redirect(url_for(get_auth_url(), next= request.url))
@@ -107,10 +108,15 @@ def get_activities():
     activities =  user_activities[session['strava_id']]
     form = request.form.to_dict()
     print(form)
-    if(len(form) > 0):
+    if(len(form) > 1):
         static_list = activities.create_filtered_list(form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
+    elif(len(form) == 1):
+        print("refresh list")
+        activities.load_list()
+        user_activities[session['strava_id']] = activities
+        static_list = activities.get_full_list()
     else:
-        static_list = activities.create_filtered_list()
+        static_list = activities.get_full_list()
     print("Got activities, rendering in html")
     
     if 'strava_name' not in session:

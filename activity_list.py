@@ -93,6 +93,8 @@ class ActivityList():
         
         return self.activity_filter(self.activity_list, activity_type, distanceFrom, distanceTo, paceFrom, paceTo, timeFrom, timeTo)
     
+    def get_full_list(self):
+        return self.activity_list
     def activity_filter(self, activity_list, activity_type, distanceFrom, distanceTo, paceFrom, paceTo, timeFrom, timeTo):
         filtered_list = []
         for activity in activity_list:

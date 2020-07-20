@@ -31,7 +31,6 @@ Create a config.py file, add a an email password, twitterAPI credentials, and a 
 I think this could work as a basic backend template for flask if you delete tweet.py, its very basic backend.
 
 # TODO
-- Decouple the classes, get a specific order and make this shit neat and clean
-- Add input bar to activity page
+- On myactivities page, when you click name, its sorting by dates. Not sure why, something silly I think
 - Finalize the types of inputs, averages and totals
 - Add graphing feature
