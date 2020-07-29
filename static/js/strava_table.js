@@ -1,6 +1,7 @@
 const DISTANCE = 4
 const PACE = 3
 const TIME = 5
+const ELEVATION = 6
 
 function timeToSeconds(arr){
     return arr[0] * 3600 + arr[1] * 60 + arr[2]
@@ -84,9 +85,9 @@ function sortTable(n) {
 function clearIcons(){
     for(let i = 0; i < 12; i++){
         let id = 'a' + i
-        document.getElementById(id).style.display = "none"
+        // document.getElementById(id).style.display = "none"
     }
-    for(let i = 0; i < 6; i++){
+    for(let i = 0; i < 7; i++){
         let id = 'b' + i
         document.getElementById(id).style.backgroundColor = "#fff"
     }
@@ -95,7 +96,7 @@ function clearIcons(){
 
 let dir = 0
 function quicksort(n) {
-    console.log("quicksort")
+    console.log("quicksort:" + n)
     clearIcons()
     var table, rows, i, x, y;
     table = document.getElementById("table");
@@ -213,6 +214,9 @@ function convert(element, n){
     else if(n==TIME){
         let arr = str.match(/\d+/g).map(Number);
         return timeToSeconds(arr)
+    }else if(n==ELEVATION){
+        console.log(str)
+        return parseFloat(str.replace(",", ""))
     }
     return str
 }

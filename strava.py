@@ -49,8 +49,13 @@ class Strava():
         result['date_value'] = int(arr[0])*365 + (int(arr[1])-1) * 30.5 + int(arr[2])
         result['moving_time'] = activity_dict['moving_time']
         result['elapsed_time'] = activity_dict['elapsed_time']
+        result['total_elevation_gain'] = self.elavation_to_str(round(activity_dict['total_elevation_gain']*3.280839895))
         result['type'] = activity_dict['type']
         return result
+    
+    def elavation_to_str(self, elevation):
+        return "{:,}".format(elevation)
+            
         
     def add_pace(self, activity_list):
         for activity in activity_list:
@@ -60,7 +65,7 @@ class Strava():
             else:
                 activity['pace'] = self.get_mph(activity['distance'], activity['moving_time'])
                 activity['pace_str'] = str(activity['pace'])  + ' mph'
-            activity['work'] = self.get_mph(activity['distance'], activity['moving_time']) * activity['distance']
+            # activity['pace_str'] = self.get_mph(activity['distance'], activity['moving_time']) * activity['distance']
         return activity_list
     
     def get_mph(self, distance, time):
@@ -86,10 +91,9 @@ class Strava():
     
     def to_minutes(self, time):
         arr = [int(i) for i in time.split(':') if i.isdigit()]
-        return arr[0]*60 + arr[1]
+        return arr[0]*60 + arr[1] + float(arr[2])/60
     
     def to_hours(self, time):
         arr = [float(i) for i in time.split(':') if i.isdigit()]
-        return arr[0] + arr[1]/60
+        return arr[0] + arr[1]/60 + arr[2]/3600
         
-    

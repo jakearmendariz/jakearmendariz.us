@@ -6,6 +6,13 @@
     <script>
         function selectValue(){
             document.getElementById("selectbar").value = document.getElementById("selectValue").value
+            let table = document.getElementById("table")
+            let rows = table.rows;
+            for(let i = 1; i < rows.length; i++){
+                console.log("setting value:" + i)
+                let value = rows[i].getElementsByTagName("TD")[0]
+                value.innerHTML = i
+            }
         }
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -40,21 +47,23 @@
     <br>
     <table  id = "table">
         <tr>
-            <th id = "b0" onclick="quicksort(0)">Activity-id<i id = "a0" class="fa fa-sort-down" style="display:none"></i><i id = "a1" class="fa fa-sort-up" style="display:none"></i></th>
-            <th id = "b1" onclick="quicksort(1)">Date<i id = "a2" class="fa fa-sort-down" style="display:none"></i><i id = "a3" class="fa fa-sort-up" style="display:none"></i></th>
-            <th id = "b2" onclick="quicksort(2)">Name & Link to acitivty<i id = "a4" class="fa fa-sort-down" style="display:none"></i><i id = "a5" class="fa fa-sort-up" style="display:none"></i></th>
-            <th id = "b3" onclick="quicksort(3)">Pace<i id = "a6" class="fa fa-sort-down" style="display:none"></i><i id = "a7" class="fa fa-sort-up" style="display:none"></i></th>
-            <th id = "b4" onclick="quicksort(4)">Distance<i id = "a8" class="fa fa-sort-down" style="display:none"></i><i id = "a9" class="fa fa-sort-up" style="display:none"></i></th>
-            <th id = "b5" onclick="quicksort(5)">Moving Time<i id = "a10" class="fa fa-sort-down" style="display:none"></i><i id = "a11" class="fa fa-sort-up" style="display:none"></i></tr>
+            <th style="text-align:center" id = "b0" width="6%" onclick="quicksort(0)">Idx</th>
+            <th id = "b1" width="11%" onclick="quicksort(1)">Date</th>
+            <th id = "b2" width="40%" onclick="quicksort(2)">Name & Link to Activity</th>
+            <th id = "b3" width="11%" onclick="quicksort(3)">Pace</th>
+            <th id = "b4" width="11%" onclick="quicksort(4)">Distance</th>
+            <th id = "b5" width="10%" onclick="quicksort(5)">Moving Time</th>
+            <th id = "b6" width="10%" onclick="quicksort(6)">Elevation Gain</th></tr>
         </tr>
         {% for activity in activities %}
             <tr>
-                <td>{{activity['id']}}</td>
+                <td style="text-align:center"></td>
                 <td>{{activity['date']}}</td>
                 <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">{{activity['name']}}</a></td>
                 <td>{{activity['pace_str']}}</td>
                 <td>{{activity['distance']}}</td>
                 <td>{{activity['moving_time']}}</td>
+                <td>{{activity['total_elevation_gain']}}</td>
             </tr>
         {% endfor %}
     </table>

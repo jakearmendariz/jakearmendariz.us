@@ -1,0 +1,52 @@
+body {
+    font-family: Ubuntu;
+}
+
+h1{
+    color: #E95E2A
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  /* position:absolute;
+  top:8%; */
+}
+
+/* input, label, form {
+  color:#E95E2A;
+} */
+
+form {
+  margin-bottom:0;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+    background-color: #fdfdfd;
+    color:black;
+    font-weight: bold;
+    font-size:16px;
+    font-weight:600;
+    color:#E95E2A
+}
+
+tr:nth-child(even) {
+  background-color: #f0f0f0;
+  /* color:#E95E2A */
+}
+
+tr:nth-child(odd) {
+    background-color: #fdfdfd;
+    color:#E95E2A;
+    color:black
+  }
+

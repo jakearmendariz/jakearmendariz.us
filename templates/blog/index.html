@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+	<title>Jake Armendariz Blog</title>
+	<link
+      href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog Template">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
+	<link rel="icon" type="x-icon" href="../static/images/icon2D.ico" />
+    
+    <!-- FontAwesome JS-->
+    <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+    
+    <!-- Theme CSS -->  
+    <link id="theme-style" rel="stylesheet" href="../../static/assets/css/theme-1.css">
+	<link rel="stylesheet" href="../../static/css/navbar.css" />
+</head> 
+<!-- <div class="navbar">
+	<a id = "a" href="/">
+	  <li id = "id" >Home</li>
+	</a>
+	<a  id = "a" href="../static/ArmendarizResume.pdf" target="_blank">
+	  <li id = "id">Resume</li>
+	</a>
+	<a  id = "a" href="projects">
+	  <li id = "id">Projects</li>
+	</a>
+
+	<a id = "a"  href="contact">
+	  <li id = "id">Contact</li>
+	</a> -->
+<body>
+	<style>
+		.navbar:hover {
+			color:#0d4771;
+		}
+		.navbar a:hover {
+			color:#0d4771;
+		}
+	</style>
+
+	<div id = "navbar" class="navbar" style = "position: fixed;
+    top: 0.1%;
+    right: 3vw;
+    list-style-type: none;
+    color: white;
+    display: flex;
+    list-style: none;
+    float: right;
+	margin-right: 0vw;
+	font-size:16.5px;
+  
+    box-sizing: border-box;
+    border-radius: 0vw;
+    margin-top: 2px;
+  
+    background-color: rgb(25, 54, 67, 0.6);
+    background-color: rgb(30, 30, 30, 0);
+  
+    -webkit-animation: fadein 3s;">
+		<a id = "a" href="/" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+    padding-top: 1px;
+    padding-bottom: 14px; ">Home</li>
+		</a>
+		<a  id = "a" href="../../static/ArmendarizResume.pdf" target="_blank" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top: 1px;
+		  padding-bottom: 14px; ">Resume</li>
+		</a>
+		<a  id = "a" href="/projects" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top:1px;
+		  padding-bottom: 14px;">Projects</li>
+		</a>
+		<a  id = "a" href="/blog" style="text-decoration: none; color: black;">
+			<li id = "id" style="padding: 15px;
+			padding-top: 1px;
+			padding-bottom: 14px;">Blog</li>
+		  </a>
+	
+		<a id = "a"  href="/contact" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top: 1px;
+		  padding-bottom: 14px;">Contact</li>
+		</a>
+	</div>
+	<style>
+		body {
+			/* font-family: Ubuntu; */
+		}
+		a {
+			color:#0d4771
+		}
+		a:hover{
+			color:orange
+		}
+		li:hover{
+			color:orange;
+			fill:orange
+		}
+		i:hover{
+			color:orange;
+			fill:orange
+		}
+		.icon:hover {
+			color: orange;
+			fill:orange
+		}
+		button {
+			background-color:#0d4771;
+			border-color:#0d4771;
+		}
+		
+	</style>
+    <!-- style="background-Color: #0d4771" -->
+    <header class="header text-center" style="background-Color: #0d4771">	    
+	    <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Jakes's Blog</a></h1>
+        
+	    <nav class="navbar navbar-expand-lg navbar-dark" >
+           
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div id="navigation" class="collapse navbar-collapse flex-column" >
+				<div class="profile-section pt-3 pt-lg-0">
+				    <img class="profile-image mb-3 rounded-circle mx-auto" src="../../static/assets/images/profile.png" alt="image" >			
+					
+					<div class="bio mb-3">Hi, welcome to my blog. I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div><!--//bio-->
+					<ul class="social-list list-inline py-3 mx-auto">
+			            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in fa-fw" style = "color:#0d4771;fill:orange"></i></a></li>
+			            <li class="list-inline-item"><a href="#"><i class="fab fa-github-alt fa-fw" style = "color:#0d4771;fill:orange"></i></a></li>
+			            <li class="list-inline-item"><a href="#"><i class="fab fa-stack-overflow fa-fw" style = "color:#0d4771;fill:orange"></i></a></li>
+			        </ul><!--//social-list-->
+			        <hr> 
+				</div><!--//profile-section-->
+				
+				<ul class="navbar-nav flex-column text-left">
+					<li class="nav-item active">
+					    <a class="nav-link" href="index.html"><i class="fas fa-home fa-fw mr-2"></i>Blog Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+					    <a class="nav-link" href="blog-post.html"><i class="fas fa-bookmark fa-fw mr-2"></i>Blog Post</a>
+					</li>
+					<li class="nav-item">
+					    <a class="nav-link" href="about.html"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
+					</li>
+				</ul>
+				
+				<div class="my-2 my-md-3">
+				    <a class="btn btn-primary" href="/contact" target="_blank">Get in Touch</a>
+				</div>
+			</div>
+		</nav>
+    </header>
+    
+    <div class="main-wrapper">
+	    <section class="cta-section theme-bg-light py-5" >
+		    <div class="container text-center">
+			    <h2 class="heading">Jake Armendariz - Blog</h2>
+				<div class="intro">Posting about problems and ideas that I find interesting</div>
+			    <form class="signup-form form-inline justify-content-center pt-3">
+                    <div class="form-group">
+                        <label class="sr-only" for="semail">Your email</label>
+                        <input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background-Color: #0d4771; border-color: #0d4771;">Subscribe</button>
+                </form>
+		    </div><!--//container-->
+		</section>
+		
+	    <section class="blog-list px-3 py-5 p-md-5">
+		    <div class="container">
+				{% for post in posts %}
+			    <div class="item mb-5">
+				    <div class="media">
+						{% if 'image' in post %}
+						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post['image']}}" alt="image" style="width:100px; height:100px; object-fit: cover;">
+						{% else %}
+							<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/NGC_4414_%28NASA-med%29.jpg" alt="image" style="width:100px; height:100px; object-fit: cover;">	
+						{% endif %}
+					    <div class="media-body">
+						    <h3 class="title mb-1"><a href="/blog/post/{{post['id']}}">{{post['title']}}</a></h3>
+						    <div class="meta mb-1"><span class="date">{{post['date']}}</span><span class="time">{{post['reading_time']}} min read</span></div>
+						    <div class="intro">{{post['description']}}</div>
+						    <a class="more-link" href="/blog/post/{{post['id']}}">Read more &rarr;</a>
+					    </div><!--//media-body-->
+				    </div><!--//media-->
+				</div><!--//item-->
+				{% endfor %}
+			 
+			    <!-- <nav class="blog-nav nav nav-justified my-5">
+				  <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="#"  style="background-Color: #0d4771">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
+				  <a class="nav-link-next nav-item nav-link rounded" href="blog-list.html"  style="background-Color: #0d4771">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+				</nav> -->
+				
+		    </div>
+	    </section>
+	    
+	    <!-- <footer class="footer text-center py-2 theme-bg-dark">
+		   
+	        
+               <small class="copyright">Designed with <i class="fas fa-heart" style="color: #fb866a;"></i> by <a href="http://themes.3rdwavemedia.com" target="_blank">Xiaoying Riley</a> for developers</small> 
+		   
+		</footer>
+		-->
+    
+	</div>
+    
+
+
+    
+       
+    <!-- Javascript -->          
+    <script src="../../static/assets/plugins/jquery-3.3.1.min.js"></script>
+    <script src="../../static/assets/plugins/popper.min.js"></script> 
+    <script src="../../static/assets/plugins/bootstrap/js/bootstrap.min.js"></script> 
+
+    <!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
+    <script src="../../static/assets/js/demo/style-switcher.js"></script>     
+    
+
+</body>
+</html> 
+

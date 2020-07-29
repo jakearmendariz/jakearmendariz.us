@@ -1,0 +1,43 @@
+<style>
+    body {
+        float:center;
+        text-align:center;
+        margin-top:10%;
+    }
+</style>
+<body>
+<h1>Add a new blog post</h1>
+{% if editing %}
+<form method = 'POST'>
+    <label>ID of post</label><br>
+    <input width="100" name = "id" size="50" value ={{post['id']}} ><br><br>
+    <label>Title of post</label><br>
+    <input width="100" name = "title" size="50" value ="{{post['title']}}" ><br><br>
+    <label>Image url for post</label><br>
+    <input name = "image" size="50" value ={{post['image'] }} ><br><br>
+    <label>Estimated reading time (in minutes)</label><br>
+    <input name = "reading_time" size="50" value = {{ post['reading_time'] }} ><br><br>
+    <label>Description of post</label><br>
+    <textarea cols="70" name = "description" width= 100% >{{ post['description'] }}</textarea><br>
+    <label>Post Body</label><br>
+    <textarea rows="30" cols="100" name = "body" width= 100% > {{ post['body'] }}  </textarea><br>
+    <button type = "submit">post</button>
+</form>
+{% else %}
+<form method = 'POST'>
+    <label>Title of post</label><br>
+    <input width="100" name = "title" size="50" ><br><br>
+    <label>Image url for post</label><br>
+    <input name = "image" size="50" ><br><br>
+    <label>Estimated reading time (in minutes)</label><br>
+    <input name = "reading-time" size="50" ><br><br>
+    <label>Description of post</label><br>
+    <textarea cols="70" name = "description" width= 100% ></textarea><br>
+    <label>Post Body</label><br>
+    <textarea rows="30" cols="100" name = "body" width= 100% > </textarea><br>
+    <button type = "submit">post</button>
+</form>
+
+{% endif %}
+
+</body>

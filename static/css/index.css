@@ -72,7 +72,7 @@ a:active {
 .back {
   position: relative;
   width: 100%;
-  width: 1680px;
+  /* width: 1680px; */
   max-height: 105%;
   opacity: 0.8;
 }

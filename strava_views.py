@@ -1,27 +1,9 @@
-from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
 from app import app, mongo
 from models import *
 from strava import *
 from config import *
 from chatbot import *
-from werkzeug.utils import secure_filename
-from flask_mail import Message, Mail
-import os
-import urllib.request
-import sys
-from pymongo import MongoClient
-import gridfs
 from util import *
-import time
-from http import cookies
-from datetime import timedelta, datetime
-import matplotlib.pyplot as plt
-import mpld3
-import atexit
-import requests
-import werkzeug
-import urllib3
-from urllib.parse import urlencode #Allows me to encode url for strava oatuh
 from stravalib import Client
 from chatbot import *
 

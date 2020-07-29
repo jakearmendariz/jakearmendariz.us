@@ -3,7 +3,10 @@ body {
 }
 
 h1{
-    color: #E95E2A
+    color: #E95E2A;
+    font-weight:300;
+    font-family:Ubuntu;
+
 }
 a {
     text-decoration: none;
@@ -27,7 +30,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #f0f0f0;
   color:#E95E2A
 }
 

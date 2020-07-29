@@ -1,0 +1,375 @@
+<head>
+    <title>My Activities</title>
+    <script src="../static/js/strava_table.js"></script>
+    <link rel="stylesheet" href="../static/css/test.css" /> 
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <script>
+        function selectValue(){
+            document.getElementById("selectbar").value = document.getElementById("selectValue").value
+            let table = document.getElementById("table")
+            let rows = table.rows;
+            for(let i = 1; i < rows.length; i++){
+                console.log("setting value:" + i)
+                let value = rows[i].getElementsByTagName("TD")[0]
+                value.innerHTML = i
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body onload="selectValue()">
+    <h1>{{ name }}'s Strava Activites</h1>
+    <input id = 'selectValue' style = "display:none;" value = {{ form['query'] }}>
+    <form method="POST">
+        <input style="display:none" name="refreshpage">
+        <button>Refresh</button>
+    </form>
+    <form style="text-align: center;" method="POST">
+        <select
+            style=" float:center"
+            name="query"
+            width="150px"
+            height="50"
+            id="selectbar"
+            style="
+          font-family: Ubuntu;"
+          >
+            <option value="All">All</option>
+            <option value="Runs">Runs</option>
+            <option value="Rides">Rides</option>
+            <option value="Swims">Swims</option>
+        </select>&emsp;&emsp;
+        Distance:<input placeholder="From" name="DistanceFrom" value = {{ form['DistanceFrom'] }}><input placeholder="To" name="DistanceTo"  value = {{ form['DistanceTo'] }}>&emsp;&emsp;
+        Pace:<input placeholder="From" name="PaceFrom"  value = {{ form['PaceFrom'] }}><input placeholder="To" name="PaceTo"  value = {{ form['PaceTo'] }}>&emsp;&emsp;
+        Date Range:<input placeholder="From" name="TimeFrom"  value = {{ form['TimeFrom'] }}><input placeholder="To" name="TimeTo"  value = {{ form['TimeTo'] }}>&emsp;&emsp;
+        <Button>Submit</Button>
+    </form>
+    <br>
+    <table  id = "table">
+        <tr>
+            <th style="text-align:center" id = "b0" width="6%" onclick="quicksort(0)">Idx</th>
+            <th id = "b1" width="10%" onclick="quicksort(1)">Date</th>
+            <th id = "b2" width="35%" onclick="quicksort(2)">Name & Link to Activity</th>
+            <th id = "b3" width="13%" onclick="quicksort(3)">Pace</th>
+            <th id = "b4" width="13%" onclick="quicksort(4)">Distance</th>
+            <th id = "b5" width="11%" onclick="quicksort(5)">Moving Time</th>
+            <th id = "b6" width="11%" onclick="quicksort(6)">Elevation Gain</th></tr>
+        </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+            <tr>
+                <td style="text-align:center">1</td>
+                <td>2020-07-20</td>
+                <td><a href="https://www.strava.com/activities/{{activity['id']}}" target="blank">Afternoon Run</a></td>
+                <td>8:24/mile</td>
+                <td>3.15</td>
+                <td>0:22:18</td>
+                <td>217</td>
+            </tr>
+    </table>
+</body>
