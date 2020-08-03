@@ -1,7 +1,7 @@
 from app import app, mongo
-from tweet import *
-from config import *
-from util import *
+from src.tweet import *
+from src.config import *
+from src.util import *
 
 
 @app.route('/twitteranalysis/', methods=['POST', 'GET'])

@@ -1,11 +1,10 @@
 from app import app, mongo
-from models import *
-from strava import *
-from config import *
-from chatbot import *
-from util import *
+from src.models import *
+from src.strava.strava import *
+from src.config import *
+from src.strava.chatbot import *
+from src.util import *
 from stravalib import Client
-from chatbot import *
 
 
 #For sessions
@@ -18,6 +17,8 @@ activities = None
 # dictionary contains key:value between the [       strava_id     :       activity_dict     ]
 #                                               (stored in session)
 user_activities = {}
+
+my_activities = None
 
 def get_auth_url():
     client = Client()
@@ -63,7 +64,7 @@ def strava_authorization(code):
     client = Client(access_token = access_dict['access_token'])
     session['access_token'] = access_dict['access_token']
     session['strava_id'] = client.get_athlete().id
-    return display_strava()
+    return get_activities()
 
 @app.route('/strava_user_files/<string:hash>/', methods=['GET', 'POST'])
 def render_data(hash):
@@ -87,6 +88,10 @@ def get_activities():
         activities = ActivityList()
         activities.load_list()
         user_activities[session['strava_id']] = activities
+        if 'admin' in session:
+            print("SAVING ADMIN LIST FOR GUEST VIEWER!!!!")
+            global my_activities
+            my_activities = activities
     activities =  user_activities[session['strava_id']]
     form = request.form.to_dict()
     print(form)
@@ -108,6 +113,17 @@ def get_activities():
         form['query'] = 'All'
     return render_template('strava_activites.html', activities = static_list, form=form, name = session['strava_name'])
 
+@app.route('/jakes-activities', methods = ['GET, POST'])
+def get_my_activities():
+    global my_activities
+    activities =  my_activities
+    form = request.form.to_dict()
+    print(form)
+    if(len(form) > 1):
+        static_list = activities.create_filtered_list(form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
+    else:
+        static_list = activities.get_full_list()
+    return render_template('strava_activites.html', activities = static_list, form=form, name = "Jake Armendariz")
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
@@ -118,9 +134,11 @@ def render_static(page_name):
         if 'access_token' in session:
             if('strava-activities' in request.full_path):
                 return get_activities()
-            return display_strava()
+            return get_activities()
         elif(code == None):
             return redirect(get_auth_url())
         return strava_authorization(code)
+    if("jakes-activities" in request.full_path):
+        return get_my_activities()
     return render_template('%s.html' % page_name)
 

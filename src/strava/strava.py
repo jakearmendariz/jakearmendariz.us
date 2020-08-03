@@ -1,6 +1,5 @@
 from stravalib import Client
-from config import *
-from datetime import datetime
+from src.config import *
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt

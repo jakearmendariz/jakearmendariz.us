@@ -1,10 +1,10 @@
 
 from app import app, mongo
-from models import *
-from tweet import *
-from strava import *
-from config import *
-from util import *
+from src.models import *
+from src.tweet import *
+from src.strava import *
+from src.config import *
+from src.util import *
 
 
 @app.before_request
@@ -73,7 +73,7 @@ def login():
     if request.method == 'GET':
         if session.get('email') != None:
             print("user already logged in, redirect")
-            return redirect(url_for('viewTweets'))
+            return render_template('projects.html')
         else:
             return render_template('user/login.html')
     if request.method == 'POST':
@@ -97,9 +97,12 @@ def login():
             session['email'] = result['email']
             if session['email'] == 'jakearmendariz99@gmail.com':
                 session['admin'] = True
+                print(session['email'] + ' [admin] logged in')
+            else:
+                print(session['email'] + ' [regular user] logged in')
             # resp = make_response(render_template(
             #   "mytweets.html", loggedin=True))
-            resp = make_response(redirect(url_for('viewTweets')))
+            resp = make_response(redirect(url_for('projects')))
             resp.set_cookie('email', result['email'], secure=True)
             return resp
             # return redirect(url_for('viewTweets'))
@@ -117,6 +120,10 @@ def login():
                 print('time delay start')
                 return render_template('user/login.html', exception='You must wait 30 seconds before trying again')
             return render_template('user/login.html', exception='Invalid password')
+
+@app.route('/projects/', methods=['POST', 'GET'])
+def projects():
+    return render_template("projects.html")
 
 
 def nameImage(filename, email):

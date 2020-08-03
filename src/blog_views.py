@@ -1,7 +1,7 @@
 # chat_views
 from app import app, mongo
-from config import *
-from basic_views import *
+from src.config import *
+from src.basic_views import *
             
 @app.route('/blog/post/<string:id>',methods=['GET'])
 def blog_post(id):
@@ -48,13 +48,18 @@ def newBlog():
         post['title'] = request.form['title']
         post['image'] = request.form['image']
         post['body'] = request.form['body']
+        print("1")
         post['reading_time'] = request.form['reading_time']
+        print("2")
         post['id'] = str(''.join((random.choice(string.digits) for i in range(8))))
         post['date'] = datetime.now().strftime("%m/%d/%Y")
         post['description'] =  request.form['description']
+        print("3")
         post['time'] = time.time()
         print('created post', post['title'])
+        print("4")
         mongo.db.blog.insert_one(post)
+        print("5")
     return redirect(url_for('blog_post', id=post['id']))
 
 @app.route('/blog/new-post',methods=['GET'])
@@ -66,6 +71,7 @@ def accessNewBlog():
 @app.route('/blog/index',methods=['GET'])
 def blog_list():
     posts = cursorToArray(mongo.db.blog.find())
+    posts.reverse()
     return render_template('/blog/index.html', posts = posts)
 
 def cursorToArray(cursor):

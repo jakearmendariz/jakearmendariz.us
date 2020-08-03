@@ -20,33 +20,18 @@
     
     <!-- Theme CSS -->  
     <link id="theme-style" rel="stylesheet" href="../../static/assets/css/theme-1.css">
-	<link rel="stylesheet" href="../../static/css/navbar.css" />
 </head> 
-<!-- <div class="navbar">
-	<a id = "a" href="/">
-	  <li id = "id" >Home</li>
-	</a>
-	<a  id = "a" href="../static/ArmendarizResume.pdf" target="_blank">
-	  <li id = "id">Resume</li>
-	</a>
-	<a  id = "a" href="projects">
-	  <li id = "id">Projects</li>
-	</a>
-
-	<a id = "a"  href="contact">
-	  <li id = "id">Contact</li>
-	</a> -->
 <body>
 	<style>
-		.navbar:hover {
+		#my-navbar:hover {
 			color:#0d4771;
 		}
-		.navbar a:hover {
+		#my-navbar a:hover {
 			color:#0d4771;
 		}
 	</style>
 
-	<div id = "navbar" class="navbar" style = "position: fixed;
+	<div id = "my-navbar" class="navbar" style = "position: fixed;
     top: 0.1%;
     right: 3vw;
     list-style-type: none;
@@ -122,7 +107,7 @@
 	</style>
     <!-- style="background-Color: #0d4771" -->
     <header class="header text-center" style="background-Color: #0d4771">	    
-	    <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Jakes's Blog</a></h1>
+	    <!-- <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hello</a></h1> -->
         
 	    <nav class="navbar navbar-expand-lg navbar-dark" >
            
@@ -133,8 +118,8 @@
 			<div id="navigation" class="collapse navbar-collapse flex-column" >
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="../../static/assets/images/profile.png" alt="image" >			
-					
-					<div class="bio mb-3">Hi, welcome to my blog. I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div><!--//bio-->
+					<h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hi</a></h1>
+					<div class="bio mb-3">I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div><!--//bio-->
 					<ul class="social-list list-inline py-3 mx-auto">
 			            <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin-in fa-fw" style = "color:#0d4771;fill:orange"></i></a></li>
 			            <li class="list-inline-item"><a href="#"><i class="fab fa-github-alt fa-fw" style = "color:#0d4771;fill:orange"></i></a></li>
@@ -144,14 +129,11 @@
 				</div><!--//profile-section-->
 				
 				<ul class="navbar-nav flex-column text-left">
-					<li class="nav-item active">
-					    <a class="nav-link" href="index.html"><i class="fas fa-home fa-fw mr-2"></i>Blog Home <span class="sr-only">(current)</span></a>
+					<li class="nav-item">
+					    <a class="nav-link" href="/blog/"><i class="fas fa-home fa-fw mr-2"></i>Blog Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-					    <a class="nav-link" href="blog-post.html"><i class="fas fa-bookmark fa-fw mr-2"></i>Blog Post</a>
-					</li>
-					<li class="nav-item">
-					    <a class="nav-link" href="about.html"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
+					    <a class="nav-link" href="/blog/post/66987222"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
 					</li>
 				</ul>
 				
@@ -167,13 +149,13 @@
 		    <div class="container text-center">
 			    <h2 class="heading">Jake Armendariz - Blog</h2>
 				<div class="intro">Posting about problems and ideas that I find interesting</div>
-			    <form class="signup-form form-inline justify-content-center pt-3">
+			    <!-- <form class="signup-form form-inline justify-content-center pt-3">
                     <div class="form-group">
                         <label class="sr-only" for="semail">Your email</label>
                         <input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
                     </div>
                     <button type="submit" class="btn btn-primary" style="background-Color: #0d4771; border-color: #0d4771;">Subscribe</button>
-                </form>
+                </form> -->
 		    </div><!--//container-->
 		</section>
 		
@@ -183,7 +165,7 @@
 			    <div class="item mb-5">
 				    <div class="media">
 						{% if 'image' in post %}
-						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post['image']}}" alt="image" style="width:100px; height:100px; object-fit: cover;">
+						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post['image']}}" alt="image" style="width:150px; height:100px; object-fit: cover;">
 						{% else %}
 							<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="https://upload.wikimedia.org/wikipedia/commons/c/c3/NGC_4414_%28NASA-med%29.jpg" alt="image" style="width:100px; height:100px; object-fit: cover;">	
 						{% endif %}

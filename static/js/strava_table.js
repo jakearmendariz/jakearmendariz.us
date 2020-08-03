@@ -3,6 +3,17 @@ const PACE = 3
 const TIME = 5
 const ELEVATION = 6
 
+function selectValue(){
+    document.getElementById("selectbar").value = document.getElementById("selectValue").value
+    let table = document.getElementById("table")
+    let rows = table.rows;
+    for(let i = 1; i < rows.length; i++){
+        console.log("setting value:" + i)
+        let value = rows[i].getElementsByTagName("TD")[0]
+        value.innerHTML = i
+    }
+}
+
 function timeToSeconds(arr){
     return arr[0] * 3600 + arr[1] * 60 + arr[2]
 }
@@ -13,23 +24,18 @@ function sortTable(n) {
   switching = true;
   //Set the sorting direction to ascending:
   dir = "desc"; 
-  /*Make a loop that will continue until
-  no switching has been done:*/
+
   while (switching) {
-    //start by saying: no switching is done:
     switching = false;
     rows = table.rows;
-    /*Loop through all table rows (except the
-    first, which contains table headers):*/
+
     for (i = 1; i < (rows.length - 1); i++) {
       //start by saying there should be no switching:
       shouldSwitch = false;
-      /*Get the two elements you want to compare,
-      one from current row and one from the next:*/
+
       x = rows[i].getElementsByTagName("TD")[n];
       y = rows[i + 1].getElementsByTagName("TD")[n];
-      /*check if the two rows should switch place,
-      based on the direction, asc or desc:*/
+
       let xValue, yValue;
       let xStr = x.innerHTML.toLowerCase()
       let yStr = y.innerHTML.toLowerCase()
@@ -79,7 +85,10 @@ function sortTable(n) {
         switching = true;
       }
     }
+    console.log("loop");
   }
+  console.log("SelectValue");
+  selectValue();
 }
 
 function clearIcons(){
@@ -126,6 +135,9 @@ function quicksort(n) {
     for (i = 1; i < rows.length; i++) {
         rows[i].parentNode.insertBefore(sortedArr[i-1][2], rows[i]);
     }
+    console.log("SelectValue");
+    selectValue();
+    
 }
 
 function quickSort(arr, low, high)

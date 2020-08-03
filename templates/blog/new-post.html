@@ -16,9 +16,9 @@
     <label>Image url for post</label><br>
     <input name = "image" size="50" value ={{post['image'] }} ><br><br>
     <label>Estimated reading time (in minutes)</label><br>
-    <input name = "reading_time" size="50" value = {{ post['reading_time'] }} ><br><br>
+    <input name = "reading_time" size="50" value = "{{post['reading_time'] }}" ><br><br>
     <label>Description of post</label><br>
-    <textarea cols="70" name = "description" width= 100% >{{ post['description'] }}</textarea><br>
+    <textarea cols="70" name = "description" width= 100% >{{post['description'] }}</textarea><br>
     <label>Post Body</label><br>
     <textarea rows="30" cols="100" name = "body" width= 100% > {{ post['body'] }}  </textarea><br>
     <button type = "submit">post</button>
@@ -30,7 +30,7 @@
     <label>Image url for post</label><br>
     <input name = "image" size="50" ><br><br>
     <label>Estimated reading time (in minutes)</label><br>
-    <input name = "reading-time" size="50" ><br><br>
+    <input name = "reading_time" size="50" ><br><br>
     <label>Description of post</label><br>
     <textarea cols="70" name = "description" width= 100% ></textarea><br>
     <label>Post Body</label><br>

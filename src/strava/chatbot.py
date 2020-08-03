@@ -1,8 +1,8 @@
-from strava import *
+from src.strava.strava import *
 import webbrowser
 import os
-from cmd_str import *
-from activity_list import *
+from src.strava.cmd_str import *
+from src.strava.activity_list import *
 
 class Chatbot():
     def __init__(self, strava):

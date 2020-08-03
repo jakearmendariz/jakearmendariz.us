@@ -1,28 +1,50 @@
 
-  .navbar .li {
-    padding: 17px;
-    padding-top: 10px;
-    padding-bottom: 14px;
-  }
-  
-  .navbar .a:link {
-    text-decoration: none;
-    color: black;
-  }
-  
-  .navbar .a:visited {
-    text-decoration: none;
-    color: black;
-  }
-  
-  .navbar .a:hover {
-    text-decoration: none;
-    color: gray;
-    color: rgb(13, 71, 113);
-  }
-  
-  .navbar .a:active {
-    text-decoration: none;
-    color: black;
-  }
-  
+.navbar {
+  position: fixed;
+  top: 0.1%;
+  right: 3vw;
+  list-style-type: none;
+  color: whitesmoke;
+  color: black;
+  font-size: 18px;
+  display: flex;
+  list-style: none;
+  float: right;
+  margin-right: 0vw;
+
+  box-sizing: border-box;
+  border-radius: 1vw;
+  margin-top: 1px;
+
+  background-color: rgb(25, 54, 67, 0.6);
+  background-color: rgb(30, 30, 30, 0);
+}
+
+/**
+  This is for my navagation bar
+  */
+li {
+  padding: 17px;
+  padding-top: 10px;
+  padding-bottom: 14px;
+}
+
+a:link {
+  text-decoration: none;
+  color: whitesmoke;
+  color: black;
+}
+
+a:visited {
+  text-decoration: none;
+  color: whitesmoke;
+  color: black;
+}
+
+.navbar a:hover {
+  text-decoration: none;
+  color: gray;
+  color: rgb(13, 71, 113);
+}
+
+

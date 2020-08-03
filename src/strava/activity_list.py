@@ -1,5 +1,5 @@
-from cmd_str import *
-from strava import *
+from src.strava.cmd_str import *
+from src.strava.strava import *
 from flask import  session
 
 class ActivityList():

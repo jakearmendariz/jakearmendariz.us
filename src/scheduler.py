@@ -3,8 +3,8 @@ scheduler.py
 
 Handles functions that run on a hourly or daily schedule
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-from config import *
-from models import *
+from src.config import *
+from src.models import *
 
 # Check models, this will save the politicians score twice a day at 12pm and 5pm. Then it will store in database
 scheduler = BackgroundScheduler({'apscheduler.timezone': 'UTC'})

@@ -414,8 +414,9 @@ drawEndingScreen = function() {
     );
     document.getElementById("highscore").value = counter;
     document.getElementById("record").value = counter;
-    document.getElementById("save").style.display = "block";
-
+    if(document.getElementById("save") != null){
+      document.getElementById("save").style.display = "block";
+    }
     /*
     document.getElementById("lightspeed").submit();
 
@@ -431,7 +432,10 @@ drawEndingScreen = function() {
     );
     text("World Record: " + record, width / 2, Math.round(0.4 * height));
     document.getElementById("highscore").value = counter;
-    document.getElementById("save").style.display = "block";
+    if(document.getElementById("save") != null){
+      console.log("Save is not null")
+      document.getElementById("save").style.display = "block";
+    }
     /*
     document.getElementById("lightspeed").submit();
 

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import mpld3
 import pandas as pd
 import numpy as np
-from config import *
+from sr.config import *
 
 
 import time

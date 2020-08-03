@@ -1,8 +1,8 @@
 from app import mongo
 from hashlib import sha224
-from util import *
+from src.util import *
 from flask_pymongo import pymongo
-from tweet import *
+from src.tweet import *
 from datetime import datetime
 import matplotlib.pyplot as plt
 import mpld3

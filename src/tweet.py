@@ -1,5 +1,5 @@
 import tweepy
-from config import *
+from src.config import *
 import re
 from textblob import TextBlob
 import time

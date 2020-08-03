@@ -4,20 +4,29 @@
     <link rel="stylesheet" href="../static/css/activity_list.css" /> 
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"rel="stylesheet"/>
     <script>
-        function selectValue(){
-            document.getElementById("selectbar").value = document.getElementById("selectValue").value
-            let table = document.getElementById("table")
-            let rows = table.rows;
-            for(let i = 1; i < rows.length; i++){
-                console.log("setting value:" + i)
-                let value = rows[i].getElementsByTagName("TD")[0]
-                value.innerHTML = i
-            }
-        }
+        
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/navbar.css" />
 </head>
 <body onload="selectValue()">
+    <div class="navbar">
+        <a href="/">
+          <li>Home</li>
+        </a>
+        <a href="../static/ArmendarizResume.pdf" target="_blank">
+          <li>Resume</li>
+        </a>
+        <a href="/projects">
+          <li>Projects</li>
+        </a>
+        <a href="/blog">
+          <li>Blog</li>
+        </a>
+        <a href="/contact">
+          <li>Contact</li>
+        </a>
+    </div>
     <h1>{{ name }}'s Strava Activites</h1>
     <input id = 'selectValue' style = "display:none;" value = {{ form['query'] }}>
     <form method="POST">
