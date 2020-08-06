@@ -23,7 +23,7 @@ my_activities = None
 def get_auth_url():
     client = Client()
     url = client.authorization_url(client_id=STRAVA_CLIENT_ID, scope = ['profile:read_all' , 'activity:read_all', 'read_all'],
-    redirect_uri='https://localhost:5000/strava/')
+    redirect_uri='https://jakearmendariz.com/strava/')
     return url
 
 @app.route("/get")
@@ -128,13 +128,14 @@ def get_my_activities():
         static_list = ActivityList.static_filter(db_activities, form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
     else:
         # Refresh
-        if(session['strava_id'] == 41359451): #If Jake is the one hitting refresh
-            print("Jake is updating activities")
-            activities = ActivityList()
-            activities.load_list()
-            db_strava['activity'] = activities.get_full_list()
-            mongo.db.strava.update_one(
-            {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
+        if 'strava_id' in session:
+            if(session['strava_id'] == 41359451): #If Jake is the one hitting refresh
+                print("Jake is updating activities")
+                activities = ActivityList()
+                activities.load_list()
+                db_strava['activity'] = activities.get_full_list()
+                mongo.db.strava.update_one(
+                {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
         static_list = db_strava['activity']
     return render_template('strava_activites.html', activities = static_list, form=form, name = "Jake Armendariz")
 
