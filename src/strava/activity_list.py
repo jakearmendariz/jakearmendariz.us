@@ -39,6 +39,70 @@ class ActivityList():
         strava = Strava(session['access_token'])
         self.activity_list = strava.get_activities()
         self.activity_list = strava.add_pace(self.activity_list)
+        
+    @staticmethod
+    def static_filter(activity_list, activity_type='All', distanceFrom = 0, distanceTo = 10000, paceFrom = 0, paceTo = 1000, timeFrom = 0, timeTo=100000):
+        if (distanceFrom != ''):
+            distanceFrom = int(distanceFrom)
+        else:
+            distanceFrom = 0
+        if (distanceTo != ''):
+            distanceTo = int(distanceTo)
+        else:
+            distanceTo = 10000
+        
+        if (paceFrom != ''):
+            paceFrom = int(paceFrom)
+        else:
+            paceFrom = 0
+        if (paceTo != ''):
+            paceTo = int(paceTo)
+        else:
+            paceTo = 1000
+        
+        print('timeFrom', timeFrom)
+        print('timeTo', timeTo)
+        if (timeFrom ==''):
+            timeFrom = 0
+        elif(not isinstance(timeFrom, int)):
+            print(timeFrom)
+            arr = timeFrom.split('-')
+            timeFrom = int(arr[0])*365
+            if(len(arr) > 1):
+                timeFrom += int(arr[1]) * 30
+            elif(len(arr) > 2):
+                timeFrom += int(arr[2])
+        
+            
+        if (timeTo ==''):
+            timeTo = 1000000
+        elif(not isinstance(timeTo, int)):
+            print(timeTo)
+            arr = timeTo.split('-')
+            timeTo = int(arr[0])*365
+            if(len(arr) > 1):
+                timeTo += (int(arr[1])-1) * 30
+            elif(len(arr) > 2):
+                timeTo += int(arr[2])
+            
+        if activity_type == "Runs":
+            activity_type = 'Run'
+        if activity_type == "Rides":
+            activity_type = 'Ride'
+        if activity_type == "Swims":
+            activity_type = 'Swim'
+            
+        filtered_list = []
+        for activity in activity_list:
+            if(activity_type != 'All'):
+                if(activity_type != activity['type']):
+                    continue
+            if activity['distance'] > distanceFrom and  activity['distance'] < distanceTo:
+                if activity['pace'] > paceFrom and  activity['pace'] < paceTo:
+                    if activity['date_value'] > timeFrom and activity['date_value'] < timeTo:
+                        filtered_list.append(activity)
+        return filtered_list
+        
     
     def create_filtered_list(self,activity_type='All', distanceFrom = 0, distanceTo = 10000, paceFrom = 0, paceTo = 1000, timeFrom = 0, timeTo=100000):
         if (distanceFrom != ''):

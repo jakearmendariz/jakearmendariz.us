@@ -39,8 +39,8 @@ class TwitterApi():
             average += self.binaryClassifier(TextBlob(text).sentiment.polarity)
             # average += (TextBlob(text).sentiment.polarity)
             #print(text, TextBlob(text).sentiment.polarity)
-
-        average = average/len(public_tweets)
+        if(len(public_tweets) > 0):
+            average = average/len(public_tweets)
         average *= 100
         # print('\n', average, '% approval rating')
         return round(average)
@@ -239,6 +239,7 @@ class TwitterApi():
                 text = popular_tweet[0].full_text
             except:
                 text = popular_tweet[0].text
+            index = len(text)
             if 'https://t.co' in text:
                 index = text.index('https://t.co')
                 if "media" in popular_tweet[0].entities:
