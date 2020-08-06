@@ -146,7 +146,7 @@ def graphit():
 def signup():
     if request.method == 'GET':
         if 'email' in session:
-            return redirect(url_for('viewTweets'))
+            return redirect(url_for('projects'))
         else:
             return render_template('user/signup.html')
     if request.method == 'POST':
@@ -185,7 +185,7 @@ def signup():
         user.dbInsert()
         print("User insert successful!")
         session['email'] = result['email']
-        return redirect(url_for('viewTweets'))
+        return redirect(url_for('projects'))
     pass
 
 
@@ -266,9 +266,9 @@ def contact():
         message = request.values.get('message')  # input names
         print('sending email')
         msg = Message(message,
-                        sender="jakearmendariz99@gmail.com",
+                        sender="jarmendariz.mail@gmail.com",
                         recipients=["jakearmendariz99@gmail.com"])
-        msg.subject = name
+        msg.subject = "New Message from: " + name
         msg.body = email + "\n" + message
         if not is_spam(name, msg):
             mail.send(msg)
