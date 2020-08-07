@@ -122,19 +122,24 @@ def get_my_activities():
     print("Got jakes activities from database")
     
     print(form)
-    if(len(form) > 1):
-        if 'query' not in form:
-            form['query'] = 'All'
-        static_list = ActivityList.static_filter(db_activities, form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
+    if(request.method == 'POST'):
+        if(len(form) > 1):
+            if 'query' not in form:
+                form['query'] = 'All'
+            static_list = ActivityList.static_filter(db_activities, form['query'], form['DistanceFrom'], form['DistanceTo'], form['PaceFrom'], form['PaceTo'],form['TimeFrom'], form['TimeTo'])
+        else:
+            # Refresh
+            if 'strava_id' in session:
+                if(session['strava_id'] == 41359451): #If Jake is the one hitting refresh
+                    if 'access_token' in session:
+                        print("Jake is updating activities")
+                        activities = ActivityList()
+                        activities.load_list()
+                        db_strava['activity'] = activities.get_full_list()
+                        mongo.db.strava.update_one(
+                        {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
+            static_list = db_strava['activity']
     else:
-        # Refresh
-        if(session['strava_id'] == 41359451): #If Jake is the one hitting refresh
-            print("Jake is updating activities")
-            activities = ActivityList()
-            activities.load_list()
-            db_strava['activity'] = activities.get_full_list()
-            mongo.db.strava.update_one(
-            {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
         static_list = db_strava['activity']
     return render_template('strava_activites.html', activities = static_list, form=form, name = "Jake Armendariz")
 
