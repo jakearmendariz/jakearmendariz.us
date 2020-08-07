@@ -140,18 +140,6 @@ def get_my_activities():
                         {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
             static_list = db_strava['activity']
     else:
-<<<<<<< HEAD
-=======
-        # Refresh
-        if 'strava_id' in session:
-            if(session['strava_id'] == 41359451): #If Jake is the one hitting refresh
-                print("Jake is updating activities")
-                activities = ActivityList()
-                activities.load_list()
-                db_strava['activity'] = activities.get_full_list()
-                mongo.db.strava.update_one(
-                {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
->>>>>>> 32ba8c0acb2eb3d378452d3ecb7ed91337aae586
         static_list = db_strava['activity']
     return render_template('strava_activites.html', activities = static_list, form=form, name = "Jake Armendariz")
 
