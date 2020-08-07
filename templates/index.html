@@ -56,6 +56,11 @@
           var img = document.getElementById("background");
           img.src = images[which];
           img.title = images[which];
+
+          if(window.innerHeight > window.innerWidth){
+            console.log("skinny screen:" + window.innerHeight + " | " + window.innerWidth)
+            img.style.height="100%"
+          }
         // }
       };
     </script>
