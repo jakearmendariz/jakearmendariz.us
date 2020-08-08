@@ -23,7 +23,7 @@ my_activities = None
 def get_auth_url():
     client = Client()
     url = client.authorization_url(client_id=STRAVA_CLIENT_ID, scope = ['profile:read_all' , 'activity:read_all', 'read_all'],
-    redirect_uri='https://jakearmendariz.com/strava/')
+    redirect_uri='https://localhost:5000/strava/')
     return url
 
 @app.route("/get")
@@ -80,9 +80,9 @@ def get_activities():
             client.get_athlete()
         except: #access_token was expired or broken. Restart initialization
             del session['access_token']
-            return redirect(url_for(get_auth_url(), next= request.url))
+            return redirect(get_auth_url())
     else:
-        return redirect(url_for(get_auth_url(), next= request.url))
+        return redirect(get_auth_url())
     global user_activities
     if session['strava_id'] not in user_activities:
         activities = ActivityList()

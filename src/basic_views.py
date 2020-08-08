@@ -283,6 +283,10 @@ def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/healthcheck')
+def healthcheck():
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
 @app.route('/index')
 @app.route('/')
 def index():
