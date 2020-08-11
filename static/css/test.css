@@ -3,7 +3,8 @@ body {
 }
 
 h1{
-    color: #E95E2A
+    color: #E95E2A;
+    color: rgb(13, 71, 113);
 }
 a {
     text-decoration: none;
@@ -36,11 +37,12 @@ th {
     font-weight: bold;
     font-size:16px;
     font-weight:600;
-    color:#E95E2A
+    /* color:#E95E2A */
+    color: rgb(13, 71, 113);
 }
 
 tr:nth-child(even) {
-  background-color: #f0f0f0;
+  background-color: #f3f3f3;
   /* color:#E95E2A */
 }
 

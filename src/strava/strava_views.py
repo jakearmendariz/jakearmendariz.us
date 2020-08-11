@@ -137,7 +137,7 @@ def get_my_activities():
                         activities.load_list()
                         db_strava['activity'] = activities.get_full_list()
                         mongo.db.strava.update_one(
-                        {'email': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
+                        {'user': 'jakearmendariz99@gmail.com'}, {"$set": db_strava})
             static_list = db_strava['activity']
     else:
         static_list = db_strava['activity']

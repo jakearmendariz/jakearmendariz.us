@@ -114,8 +114,6 @@ class Score():
 
     @staticmethod
     def worldRecord():
-        # record = mongo.db.scores.find().sort(
-        #   {"score": -1}, pymongo.DESCENDING)
         record = mongo.db.scores.find_one(sort=[("score", pymongo.ASCENDING)])
         return record['score']
 

@@ -1,3 +1,9 @@
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+strava.py
+
+Gets information from the stravalib api, builds the table, with only necessary data
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 from stravalib import Client
 from src.config import *
 from src.strava.convert import *
@@ -7,7 +13,6 @@ import matplotlib.pyplot as plt
 import mpld3
 import re
 from scipy.interpolate import interp1d
-
 fig, ax = plt.subplots()
 
 
