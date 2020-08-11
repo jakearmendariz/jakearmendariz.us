@@ -23,7 +23,7 @@ my_activities = None
 def get_auth_url():
     client = Client()
     url = client.authorization_url(client_id=STRAVA_CLIENT_ID, scope = ['profile:read_all' , 'activity:read_all', 'read_all'],
-    redirect_uri='https://localhost:5000/strava/')
+    redirect_uri=STRAVA_REDIRECT_URI)
     return url
 
 @app.route("/get")
