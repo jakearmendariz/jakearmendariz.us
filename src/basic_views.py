@@ -5,13 +5,14 @@ from src.tweet import *
 from src.strava import *
 from src.config import *
 from src.util import *
-
+from src.scheduler import *
 
 @app.before_request
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(days=30)
 
+politician_schedule()
 
 def is_spam(name, msg):
     banned = ['sex', 'drugs', 'money', 'USD', '$',
