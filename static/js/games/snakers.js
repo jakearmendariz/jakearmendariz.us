@@ -129,28 +129,6 @@ function draw() {
         }
         text("High score = " + a + "", .5 * width, .66 * height);
         text("Press any button to restart", .5 * width, .8 * height);
-
-
-        /*
-                // writeFile function is defined. 
-                const fs = require('fs')
-
-                // Data which will write in a file. 
-                let data = st;
-
-                // Write data in 'Snakers.txt' . 
-                fs.writeFile('Snakers.txt', data, (err) => {
-
-                    // In case of a error throw err. 
-                    if (err) throw err;
-                })
-
-                fs.readFile('Snakers.txt', (err, data) => {
-                    if (err) throw err;
-
-                    console.log(data.toString());
-                })
-        */
     }
 }
 
@@ -200,13 +178,13 @@ function keyPressed() {
     if (!gameStarted) {
         if (keyCode == 49) {
             difficulty = 1;
-            frameRate(15);
+            frameRate(9);
         } else if (keyCode == 51) {
             difficulty = 3;
-            frameRate(17);
+            frameRate(11);
         } else {
             difficulty = 2;
-            frameRate(20);
+            frameRate(13);
         }
         gameStarted = true;
     }
@@ -282,7 +260,6 @@ var down = function () {
     s.dir(0, 1);
     direction = 1;
 }
-
 
 var left = function () {
     s.dir(-1, 0);
@@ -363,8 +340,7 @@ function Snake() {
     this.show = function () {
         fill(255);
         noStroke();
-        //ellipse(this.x + unit / 2, this.y + unit / 2, unit, unit);
-        rect(this.x, this.y, unit, unit);
+        rect(this.x, this.y, unit-1, unit-1);
     };
 
     this.dir = function (x, y) {
@@ -401,7 +377,12 @@ death = function () {
 
 //Prints entire snake
 showSnake = function () {
-    //console.log(body.length);
+    fill(255, 255, 255)
+    // if (direction == 3){
+    //     ellipse(body[0].x+unit/2, body[0].y, unit)}
+    // else if(direction == 2){
+    //     ellipse(body[0].x + unit/2, body[0].y+unit/2, unit)
+    // }
     for (var i = 0; i < body.length; i++) {
         body[i].show();
     }

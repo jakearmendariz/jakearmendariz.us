@@ -1,6 +1,5 @@
 /**
  * @author Jake Armendariz
- * THis file is literally so I don't fuck up the game by changing too many things wbile trying to clean code
  * */
 //Instance variables
 var startTime = 0;

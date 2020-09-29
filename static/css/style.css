@@ -2,7 +2,10 @@ html,
 body {
   background-color: rgb(25, 54, 67);
   background-color: rgb(30, 30, 30);
+  background-color: rgb(255, 255, 255);
+
   color: rgb(220);
+  color: rgb(30, 30, 30);
   border: 0;
   padding: 0;
   margin: 0;
@@ -71,7 +74,7 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   position: absolute;
-  top: 0;
+  top: .5%;
   left: 25%;
 }
 
