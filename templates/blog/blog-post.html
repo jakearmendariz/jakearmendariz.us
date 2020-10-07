@@ -2,10 +2,10 @@
 <html lang="en"> 
 <head>
 	<title>{{post['title']}}</title> 
-	<!-- <link
+	<link
       href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
       rel="stylesheet"
-    />    -->
+    />   
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,9 +57,65 @@
 			margin-bottom:30px;
 		}
 	</style>
-    <header class="header text-center" style="background-Color: #0d4771">	    
-	     <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hello</a></h1> 
-        
+	<style>
+		#my-navbar:hover {
+			color:#0d4771;
+		}
+		#my-navbar a:hover {
+			color:#0d4771;
+		}
+	</style>
+
+	<div id = "my-navbar" class="navbar" style = "position: fixed;
+    top: 0.1%;
+    right: 3vw;
+    list-style-type: none;
+    color: white;
+    display: flex;
+    list-style: none;
+    float: right;
+	margin-right: 0vw;
+	font-size:16.5px;
+	font-family:Ubuntu;
+  
+    box-sizing: border-box;
+    border-radius: 0vw;
+    margin-top: 2px;
+  
+    background-color: rgb(25, 54, 67, 0.6);
+    background-color: rgb(30, 30, 30, 0);
+  
+	-webkit-animation: fadein 3s;
+	z-index: 999;">
+		<a id = "a" href="/" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+    padding-top: 1px;
+	padding-bottom: 14px; 
+	z-index: 999;">Home</li>
+		</a>
+		<a  id = "a" href="../../static/ArmendarizResume.pdf" target="_blank" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top: 1px;
+		  padding-bottom: 14px; ">Resume</li>
+		</a>
+		<a  id = "a" href="/projects" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top:1px;
+		  padding-bottom: 14px;">Projects</li>
+		</a>
+		<a  id = "a" href="/blog" style="text-decoration: none; color: black;">
+			<li id = "id" style="padding: 15px;
+			padding-top: 1px;
+			padding-bottom: 14px;">Blog</li>
+		  </a>
+	
+		<a id = "a"  href="/contact" style="text-decoration: none; color: black;">
+		  <li id = "id" style="padding: 15px;
+		  padding-top: 1px;
+		  padding-bottom: 14px;">Contact</li>
+		</a>
+	</div>
+    <header class="header text-center" style="background-Color: #0d4771">	            
 	    <nav class="navbar navbar-expand-lg navbar-dark" >
            
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +125,7 @@
 			<div id="navigation" class="collapse navbar-collapse flex-column" >
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="../../static/assets/images/profile.png" alt="image" >			
-					
+					<h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hi</a></h1>
 					<div class="bio mb-3">I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div>
 					<ul class="social-list list-inline py-3 mx-auto">
 			            <li class="list-inline-item"><a href="https://www.linkedin.com/in/jake-armendariz/"><i class="fab fa-linkedin-in fa-fw" style = "color:#0d4771;fill:#0d4771"></i> </i></a></li>
@@ -92,19 +148,40 @@
 				
 				<div class="my-2 my-md-3">
 					
-				    <a class="btn btn-primary" href="https://themes.3rdwavemedia.com/" target="_blank">Get in Touch</a>
+				    <a class="btn btn-primary" href="/contact" target="_blank">Get in Touch</a>
 				    
 				</div>
 			</div>
 		</nav>
-    </header>
+	</header>
+	
+	<!-- <style>
+		@media all and (min-width:960px) {
+			.main-wrapper {
+				margin-left:-30%; 
+				width:140%
+			}
+
+			article {
+				width:140%;
+			}
+			.blog-post-header {
+				margin-left:-55%; width:130%;
+			}
+
+			.blog-post-body {
+				margin-left:-55%; 
+				width:130%
+			}
+		}
+	</style> -->
     
     <div class="main-wrapper">
 	    
 	    <article class="blog-post px-3 py-5 p-md-5">
 		    <div class="container">
 			    <header class="blog-post-header">
-				    <h1>{{post['title']}}</h2>
+				    <h1>{{post['title']}}</h1>
 				    <div class="meta mb-3"><span class="date">{{post['date']}}</span><span class="time">{{post['reading_time']}} min read</span></div>
 				</header>
 				<figure class="blog-banner">
@@ -123,12 +200,11 @@
 		</article>
 		
 	    
-	    <footer class="footer text-center py-2 theme-bg-dark">
+	    <!-- <footer class="footer text-center py-2 theme-bg-dark">
 		   
-	        <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
                 <small class="copyright"><a href="http://themes.3rdwavemedia.com" target="_blank" style="text-decoration:none">Styles Credit</a><a href="/contact"> & Code and article written by Jake Armendariz</a></small>
 		   
-	    </footer>
+	    </footer> -->
     
     </div><!--//main-wrapper-->
     <!-- Javascript -->          

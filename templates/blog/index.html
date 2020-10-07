@@ -2,11 +2,10 @@
 <html lang="en"> 
 <head>
 	<title>Jake Armendariz Blog</title>
-	<!-- <link
-	  href="https://fonts.googleapis.com/css?family=Ubuntu
-	  &display=swap"
+	<link
+      href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap"
       rel="stylesheet"
-    /> -->
+    />   
     
     <!-- Meta -->
     <meta charset="utf-8">
@@ -42,6 +41,7 @@
     float: right;
 	margin-right: 0vw;
 	font-size:16.5px;
+	font-family:Ubuntu;
   
     box-sizing: border-box;
     border-radius: 0vw;
@@ -108,9 +108,7 @@
 		}
 		
 	</style>
-    <!-- style="background-Color: #0d4771" -->
     <header class="header text-center" style="background-Color: #0d4771">	    
-	    <!-- <h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hello</a></h1> -->
         
 	    <nav class="navbar navbar-expand-lg navbar-dark" >
            
@@ -122,15 +120,15 @@
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="../../static/assets/images/profile.png" alt="image" >			
 					<h1 class="blog-name pt-lg-4 mb-0"><a href="index.html">Hi</a></h1>
-					<div class="bio mb-3">I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div><!--//bio-->
+					<div class="bio mb-3">I have ideas sometimes, and I know how to program stuff, so I thought it would be cool to post about it on my own platform.</div>
 					<ul class="social-list list-inline py-3 mx-auto">
 			            <li class="list-inline-item"><a href="https://www.linkedin.com/in/jake-armendariz/"><i class="fab fa-linkedin-in fa-fw" style = "color:#0d4771;fill:#0d4771"></i> </i></a></li>
 			            <li class="list-inline-item"><a href="https://github.com/jakearmendariz"><i class="fab fa-github-alt fa-fw"style = "color:#0d4771;fill:#0d4771"></i></i></a></li>
 						<li class="list-inline-item"><a href="https://stackoverflow.com/users/10804139/jake-armendariz"><i class="fab fa-stack-overflow fa-fw" style = "color:#0d4771;fill:#0d4771"></i></i></a></li>
 						<li class="list-inline-item"><a href="https://www.strava.com/athletes/41359451"><i class="fab fa-strava fa-fw" style = "color:#0d4771;fill:#0d4771"></i></i></a></li>
-			        </ul><!--//social-list-->
+			        </ul>
 			        <hr> 
-				</div><!--//profile-section-->
+				</div>
 				
 				<ul class="navbar-nav flex-column text-left">
 					<li class="nav-item">
@@ -146,10 +144,35 @@
 				</div>
 			</div>
 		</nav>
-    </header>
+	</header>
+	
+	<!-- <style>
+		@media all and (min-width:960px) {
+			.main-wrapper {
+				margin-left:-30%; 
+				width:140%
+			}
+			.heading {
+				font-size:75px; 
+				margin-left:-10%; 
+				width:120%
+			}
+
+			.cta-section {
+				margin-left:10%;
+			}
+
+			.grid-container {
+				margin-left:-10%;
+				width:100%;
+				display:grid;
+				grid-template-columns: 80% 80%;
+			}
+		}
+	</style> -->
     
-    <div class="main-wrapper">
-	    <section class="cta-section theme-bg-light py-5" >
+    <div class="main-wrapper"style="">
+	    <section class="cta-section theme-bg-light py-5"style="">
 		    <div class="container text-center">
 			    <h2 class="heading">Jake Armendariz - Blog</h2>
 				<div class="intro">Posting about problems and ideas that I find interesting</div>
@@ -165,8 +188,9 @@
 		
 	    <section class="blog-list px-3 py-5 p-md-5">
 		    <div class="container">
+			<div class="grid-container">
 				{% for post in posts %}
-			    <div class="item mb-5">
+				<div class="item mb-5">
 				    <div class="media">
 						{% if 'image' in post %}
 						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post['image']}}" alt="image" style="width:150px; height:100px; object-fit: cover;">
@@ -177,7 +201,7 @@
 						    <h3 class="title mb-1"><a href="/blog/post/{{post['id']}}">{{post['title']}}</a></h3>
 						    <div class="meta mb-1"><span class="date">{{post['date']}}</span><span class="time">{{post['reading_time']}} min read</span></div>
 						    <div class="intro">{{post['description']}}</div>
-						    <a class="more-link" href="/blog/post/{{post['id']}}">Read more &rarr;</a>
+						    <!-- <a class="more-link" href="/blog/post/{{post['id']}}">Read more &rarr;</a> -->
 					    </div><!--//media-body-->
 				    </div><!--//media-->
 				</div><!--//item-->
@@ -187,9 +211,10 @@
 				  <a class="nav-link-prev nav-item nav-link d-none rounded-left" href="#"  style="background-Color: #0d4771">Previous<i class="arrow-prev fas fa-long-arrow-alt-left"></i></a>
 				  <a class="nav-link-next nav-item nav-link rounded" href="blog-list.html"  style="background-Color: #0d4771">Next<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
 				</nav> -->
-				
+			</div>
 		    </div>
-	    </section>
+		</section>
+		
 	    
 	    <!-- <footer class="footer text-center py-2 theme-bg-dark">
 		   
@@ -200,10 +225,6 @@
 		-->
     
 	</div>
-    
-
-
-    
        
     <!-- Javascript -->          
     <script src="../../static/assets/plugins/jquery-3.3.1.min.js"></script>
