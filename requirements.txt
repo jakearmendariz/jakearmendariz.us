@@ -5,3 +5,13 @@ werkzeug
 urllib3
 datetime
 requests
+flask-pymongo
+matplotlib
+mpld3
+apscheduler
+dnspython
+tweepy
+TextBlob
+pandas
+scipy
+stravalib
