@@ -19,6 +19,7 @@ from src.basic_views import *
 from src.blog_views import *
 from src.tweet_views import *
 
-
 if __name__ == '__main__':
-    app.run(use_reloader=False, sl_context=('cert.pem', 'key.pem'))
+    # app.run(use_reloader=False, sl_context=('cert.pem', 'key.pem'))
+    app.run(use_reloader=True)
+

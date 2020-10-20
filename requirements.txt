@@ -1,0 +1,7 @@
+Flask==1.0.2
+flask_mail
+pymongo
+werkzeug
+urllib3
+datetime
+requests
