@@ -1,7 +1,7 @@
 #!/bin/bash
-app="portfolio"
+app="flask"
 docker build -t ${app} .
-docker run -p 8081:80 \
+docker run -p 5000:80 \
   --name=${app} \
   -v "$PWD:/app" ${app}
 wait
