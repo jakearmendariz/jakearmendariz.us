@@ -8,8 +8,10 @@ HTTP:  ! flask run
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 from flask import Flask
 from flask_pymongo import PyMongo
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_pyfile('src/config.py')
 mongo = PyMongo(app)
 
@@ -21,4 +23,4 @@ from src.tweet_views import *
 
 
 if __name__ == '__main__':
-    app.run(use_reloader=False, sl_context=('cert.pem', 'key.pem'))
+    app.run(host='127.0.0.1', use_reloader=False, ssl_context=('cert.pem', 'key.pem'))

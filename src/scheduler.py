@@ -3,6 +3,7 @@ scheduler.py
 
 Handles functions that run on a hourly or daily schedule
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+"""
 from src.config import *
 from src.models import *
 
@@ -27,3 +28,5 @@ def politician_schedule():
 
     # Shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())
+
+"""
