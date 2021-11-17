@@ -7,6 +7,10 @@ Handles functions that run on a hourly or daily schedule
 from src.config import *
 from src.models import *
 
+def save_politician_ratings():
+    Politician.updateGraph()
+    pass
+
 # Check models, this will save the politicians score twice a day at 12pm and 5pm. Then it will store in database
 def politician_schedule():
     print("Schedule jobs to save politician stuff")
