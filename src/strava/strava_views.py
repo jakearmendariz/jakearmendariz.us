@@ -143,9 +143,19 @@ def get_my_activities():
         static_list = db_strava['activity']
     return render_template('strava_activites.html', activities = static_list, form=form, name = "Jake Armendariz")
 
+@app.route('/api/strava/jakes-activities', methods = ['GET'])
+def api_get_my_activities():
+    print("GET JAKES_ACTIVITIES!!!!")
+    db_strava = mongo.db.strava.find_one({'user':'jakearmendariz99@gmail.com'})
+    db_activities = db_strava['activity']
+    print("Got jakes activities from database")
+    return json.dumps(db_activities)
+
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
     if("strava" in request.full_path):
+        if("jakes-activities" in request.full_path):
+            return api_get_my_activities()
         print("static strava")
         #If code is in the url then it was a authorization attempt. Else, user should have loggedin already
         code = request.args.get('code')
