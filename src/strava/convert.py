@@ -24,7 +24,11 @@ class Convert():
             time = Convert.to_hours(time)
         if(time == 0):
             return 0
-        return round(float(distance)/time, 2)
+        return round(float(distance)/Convert.seconds_to_hours(time), 2)
+    
+    @staticmethod
+    def seconds_to_hours(seconds: int) -> float:
+        return float(seconds)/3600.0
     
     @staticmethod
     def get_pace(distance, time):
@@ -32,7 +36,7 @@ class Convert():
             time = Convert.to_minutes(time)
         if(distance == 0):
             return 0
-        return float(time)/distance
+        return float(float(time)/60.0)/distance
     
     @staticmethod
     def is_time_str(time):

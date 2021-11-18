@@ -44,7 +44,7 @@ class Strava():
         result['id'] = activity.id
         result['name'] = activity_dict['name']
         result['distance'] = round(Convert.to_miles(activity_dict['distance']), 2)
-        result['hours'] = int(activity_dict['moving_time'][0:1])
+        result['seconds'] = int(activity_dict['moving_time'])
         result['date'] = activity_dict['start_date'][:10]
         arr = result['date'].split('-')
         result['date_value'] = int(arr[0])*365 + (int(arr[1])-1) * 30.5 + int(arr[2])

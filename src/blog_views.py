@@ -2,7 +2,7 @@
 from app import app, mongo
 from src.config import *
 from src.basic_views import *
-            
+
 @app.route('/blog/post/<string:id>',methods=['GET'])
 def blog_post(id):
     post = mongo.db.blog.find_one_or_404({'id':id})
