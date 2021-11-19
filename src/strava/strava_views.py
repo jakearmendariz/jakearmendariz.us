@@ -5,7 +5,7 @@ from src.config import *
 from src.strava.chatbot import *
 from src.util import *
 from stravalib import Client
-
+import json
 
 #For sessions
 app.secret_key = APP_SECRET_KEY

@@ -6,7 +6,8 @@ from src.strava import *
 from src.config import *
 from src.util import *
 #from src.scheduler import *
-
+import subprocess
+import json
 @app.before_request
 def make_session_permanent():
     session.permanent = True
@@ -277,6 +278,12 @@ def contact():
         user = mongo.db.users.find_one({'email': session['email']})
         return render_template('contact.html', name=user['name'], email=user['email'])
     return render_template('contact.html')
+
+@app.route('/api/robin', methods=['GET'])
+def robin():
+    out = subprocess.run(("python3 src/robin.py"), shell=True, capture_output=True, text=True).stdout
+    value = json.loads(str(out))
+    return json.dumps(value)
 
 
 @app.route('/logout')
